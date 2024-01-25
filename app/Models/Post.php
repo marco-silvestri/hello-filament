@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -13,9 +14,9 @@ class Post extends Model
 
     protected $guarded = ['id'];
 
-    public function author(): HasOne
+    public function author(): BelongsTo
     {
-        return $this->hasOne(User::class, 'id', 'author_id');
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
     public function tags(): BelongsToMany

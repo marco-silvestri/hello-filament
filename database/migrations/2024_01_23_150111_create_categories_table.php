@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('legacy_id');
             $table->text('name');
-            $table->text('description');
             $table->text('slug');
             $table->timestamps();
         });

@@ -1,0 +1,413 @@
+{
+"wp_categories": [
+	{
+		"id" : 1,
+		"name" : "Senza categoria",
+		"slug" : "senza-categoria"
+	},
+	{
+		"id" : 4,
+		"name" : "Pro Audio",
+		"slug" : "pro-audio"
+	},
+	{
+		"id" : 6,
+		"name" : "News",
+		"slug" : "news-2"
+	},
+	{
+		"id" : 8,
+		"name" : "Freeware",
+		"slug" : "freeware"
+	},
+	{
+		"id" : 9,
+		"name" : "Real Life",
+		"slug" : "real-life"
+	},
+	{
+		"id" : 60,
+		"name" : "Music Tech",
+		"slug" : "music-tech"
+	},
+	{
+		"id" : 61,
+		"name" : "Guitar Bass",
+		"slug" : "guitar-bass"
+	},
+	{
+		"id" : 62,
+		"name" : "Canali",
+		"slug" : "canali"
+	},
+	{
+		"id" : 64,
+		"name" : "Software",
+		"slug" : "software"
+	},
+	{
+		"id" : 65,
+		"name" : "Hardware",
+		"slug" : "hardware"
+	},
+	{
+		"id" : 66,
+		"name" : "Eventi",
+		"slug" : "eventi"
+	},
+	{
+		"id" : 67,
+		"name" : "Sound Engine",
+		"slug" : "sound-engine"
+	},
+	{
+		"id" : 68,
+		"name" : "Studi",
+		"slug" : "studi"
+	},
+	{
+		"id" : 69,
+		"name" : "Post Pro",
+		"slug" : "post-pro"
+	},
+	{
+		"id" : 70,
+		"name" : "Libri",
+		"slug" : "libri"
+	},
+	{
+		"id" : 71,
+		"name" : "Hardware",
+		"slug" : "hardware-sound-engine"
+	},
+	{
+		"id" : 72,
+		"name" : "Software",
+		"slug" : "software-sound-engine"
+	},
+	{
+		"id" : 73,
+		"name" : "Tutorial",
+		"slug" : "tutorial"
+	},
+	{
+		"id" : 74,
+		"name" : "Vintage",
+		"slug" : "vintage"
+	},
+	{
+		"id" : 75,
+		"name" : "App",
+		"slug" : "app"
+	},
+	{
+		"id" : 76,
+		"name" : "Interviste",
+		"slug" : "interviste"
+	},
+	{
+		"id" : 77,
+		"name" : "tecnologia",
+		"slug" : "tecnologia"
+	},
+	{
+		"id" : 78,
+		"name" : "Plug-in",
+		"slug" : "plug-in"
+	},
+	{
+		"id" : 79,
+		"name" : "Synth",
+		"slug" : "synth"
+	},
+	{
+		"id" : 80,
+		"name" : "Sample",
+		"slug" : "sample"
+	},
+	{
+		"id" : 81,
+		"name" : "Guitar",
+		"slug" : "guitar"
+	},
+	{
+		"id" : 82,
+		"name" : "App",
+		"slug" : "app-freeware"
+	},
+	{
+		"id" : 83,
+		"name" : "Blogger",
+		"slug" : "blogger"
+	},
+	{
+		"id" : 84,
+		"name" : "Interviste",
+		"slug" : "interviste-real-life"
+	},
+	{
+		"id" : 85,
+		"name" : "Eventi",
+		"slug" : "eventi-real-life"
+	},
+	{
+		"id" : 86,
+		"name" : "Tavole rotonde",
+		"slug" : "tavole-rotonde"
+	},
+	{
+		"id" : 87,
+		"name" : "Webinar",
+		"slug" : "webinar"
+	},
+	{
+		"id" : 88,
+		"name" : "Galleries",
+		"slug" : "galleries"
+	},
+	{
+		"id" : 89,
+		"name" : "Officina del suono",
+		"slug" : "officina-del-suono"
+	},
+	{
+		"id" : 90,
+		"name" : "Formazione",
+		"slug" : "formazione"
+	},
+	{
+		"id" : 91,
+		"name" : "Cerca",
+		"slug" : "cerca"
+	},
+	{
+		"id" : 92,
+		"name" : "Recensioni",
+		"slug" : "recensioni"
+	},
+	{
+		"id" : 93,
+		"name" : "Hardware",
+		"slug" : "hardware-post-pro"
+	},
+	{
+		"id" : 94,
+		"name" : "Software",
+		"slug" : "software-post-pro"
+	},
+	{
+		"id" : 95,
+		"name" : "Game",
+		"slug" : "game"
+	},
+	{
+		"id" : 96,
+		"name" : "Movie",
+		"slug" : "movie"
+	},
+	{
+		"id" : 97,
+		"name" : "Tutorial",
+		"slug" : "tutorial-post-pro"
+	},
+	{
+		"id" : 98,
+		"name" : "Interviste",
+		"slug" : "interviste-post-pro"
+	},
+	{
+		"id" : 99,
+		"name" : "Synth",
+		"slug" : "synth-music-tech"
+	},
+	{
+		"id" : 100,
+		"name" : "Dj Producer",
+		"slug" : "dj-producer"
+	},
+	{
+		"id" : 101,
+		"name" : "Controller",
+		"slug" : "controller"
+	},
+	{
+		"id" : 102,
+		"name" : "Drum Perc",
+		"slug" : "drum-perc"
+	},
+	{
+		"id" : 103,
+		"name" : "Sound Designe",
+		"slug" : "sound-designe"
+	},
+	{
+		"id" : 104,
+		"name" : "Libri",
+		"slug" : "libri-music-tech"
+	},
+	{
+		"id" : 105,
+		"name" : "Hardware",
+		"slug" : "hardware-synth-music-tech"
+	},
+	{
+		"id" : 106,
+		"name" : "Software",
+		"slug" : "software-synth-music-tech"
+	},
+	{
+		"id" : 107,
+		"name" : "Tutorial",
+		"slug" : "tutorial-synth-music-tech"
+	},
+	{
+		"id" : 108,
+		"name" : "App",
+		"slug" : "app-synth-music-tech"
+	},
+	{
+		"id" : 109,
+		"name" : "Hardware",
+		"slug" : "hardware-dj-producer"
+	},
+	{
+		"id" : 110,
+		"name" : "Software",
+		"slug" : "software-dj-producer"
+	},
+	{
+		"id" : 111,
+		"name" : "Tutorial",
+		"slug" : "tutorial-dj-producer"
+	},
+	{
+		"id" : 112,
+		"name" : "App",
+		"slug" : "app-dj-producer"
+	},
+	{
+		"id" : 113,
+		"name" : "Keyboard",
+		"slug" : "keyboard"
+	},
+	{
+		"id" : 114,
+		"name" : "Consolle",
+		"slug" : "consolle"
+	},
+	{
+		"id" : 115,
+		"name" : "Controller",
+		"slug" : "controller-controller"
+	},
+	{
+		"id" : 116,
+		"name" : "Tutorial",
+		"slug" : "tutorial-controller"
+	},
+	{
+		"id" : 117,
+		"name" : "Software",
+		"slug" : "software-sound-designe"
+	},
+	{
+		"id" : 118,
+		"name" : "Interviste",
+		"slug" : "interviste-sound-designe"
+	},
+	{
+		"id" : 119,
+		"name" : "Hardware",
+		"slug" : "hardware-guitar-bass"
+	},
+	{
+		"id" : 120,
+		"name" : "Software",
+		"slug" : "software-guitar-bass"
+	},
+	{
+		"id" : 121,
+		"name" : "App",
+		"slug" : "app-guitar-bass"
+	},
+	{
+		"id" : 122,
+		"name" : "Tutorial",
+		"slug" : "tutorial-guitar-bass"
+	},
+	{
+		"id" : 123,
+		"name" : "Software",
+		"slug" : "software-drum-perc"
+	},
+	{
+		"id" : 124,
+		"name" : "Controller",
+		"slug" : "controller-drum-perc"
+	},
+	{
+		"id" : 125,
+		"name" : "Consolle",
+		"slug" : "consolle-drum-perc"
+	},
+	{
+		"id" : 126,
+		"name" : "Tutorial",
+		"slug" : "tutorial-drum-perc"
+	},
+	{
+		"id" : 908,
+		"name" : "Attualità",
+		"slug" : "attualita"
+	},
+	{
+		"id" : 997,
+		"name" : "Offerte",
+		"slug" : "offerte"
+	},
+	{
+		"id" : 4928,
+		"name" : "In Ear Monitor",
+		"slug" : "in-ear-monitor"
+	},
+	{
+		"id" : 6007,
+		"name" : "blog",
+		"slug" : "blog"
+	},
+	{
+		"id" : 9038,
+		"name" : "Monitor Controller",
+		"slug" : "monitor-controller"
+	},
+	{
+		"id" : 9042,
+		"name" : "controller passivo per monitor",
+		"slug" : "controller-passivo-per-monitor"
+	},
+	{
+		"id" : 9094,
+		"name" : "Pro light",
+		"slug" : "pro-light"
+	},
+	{
+		"id" : 9145,
+		"name" : "consulenze",
+		"slug" : "consulenze"
+	},
+	{
+		"id" : 9165,
+		"name" : "microfoni",
+		"slug" : "microfoni"
+	},
+	{
+		"id" : 9224,
+		"name" : "test",
+		"slug" : "test"
+	},
+	{
+		"id" : 10393,
+		"name" : "BLACK FRIDAY Offerte",
+		"slug" : "black-friday-offerte"
+	}
+]}
