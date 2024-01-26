@@ -72,18 +72,15 @@ class ImportEntityLocal extends Command
         $rawUserMeta = $rawUserMeta->filter(function($meta){
             return $meta->meta_value != null;
         });
-        $bar = $this->output->createProgressBar(count($rawPosts));
-        $bar->start();
-        $rawPosts->map(function($rawPost)
-            use($rawUsers, $rawCategories, $rawTags, $rawTaxonomy, $rawUserMeta, &$bar)
-            {
-            try{
-                DB::transaction(function () use($rawPost, $rawUsers, $rawCategories, $rawTags, $rawTaxonomy, $rawUserMeta){
-                    $legacyUser = $rawUsers->where('ID', $rawPost->post_author)->values()[0];
-                    $legacyTaxonomy = $rawTaxonomy->where('object_id', $rawPost->ID)->pluck('term_taxonomy_id')->toArray();
-                    $legacyCategories = $rawCategories->whereIn('id', $legacyTaxonomy)->values();
-                    $legacyTags = $rawTags->whereIn('id', $legacyTaxonomy)->values();
-                    $legacyUserMeta = $rawUserMeta->where('user_id', $rawPost->post_author)->pluck('meta_value')->flatten()->toArray();
+
+        $this->info("Importing users");
+        $usersBar = $this->output->createProgressBar(count($rawUsers));
+        $usersBar->setFormat('very_verbose');
+        $usersBar->start();
+        $rawUsers->map(function($rawUser)
+            use($rawUserMeta, &$usersBar){
+                try{
+                    $legacyUserMeta = $rawUserMeta->where('user_id', $rawUser->ID)->pluck('meta_value')->flatten()->toArray();
 
                     if(count($legacyUserMeta) > 0)
                     {
@@ -91,6 +88,40 @@ class ImportEntityLocal extends Command
                     }else{
                         $legacyUserMeta = null;
                     }
+
+                    $user = User::create([
+                        'legacy_id' => $rawUser->ID,
+                        'password' => Hash::make(uniqid()),
+                        'email' => $rawUser->user_email,
+                        'name' => $rawUser->user_login,
+                        'slug' => $rawUser->user_nicename,
+                        'url' => $rawUser->user_url,
+                        'description' => $legacyUserMeta,
+                        'created_at' => $rawUser->user_registered,
+                    ]);
+                }catch(Exception $e)
+                {
+                    $this->error("Cannot import user {$rawUser->ID}");
+                    Log::error("Cannot import user {$rawUser->ID}", ['error' => $e]);
+                }
+                $usersBar->advance();
+        });
+        $usersBar->finish();
+
+        $this->info("Importing posts and their meta");
+        $bar = $this->output->createProgressBar(count($rawPosts));
+        $bar->setFormat('very_verbose');
+        $bar->start();
+        $rawPosts->map(function($rawPost)
+            use($rawCategories, $rawTags, &$rawTaxonomy, &$bar)
+            {
+            try{
+                DB::transaction(function () use($rawPost, $rawCategories, $rawTags, &$rawTaxonomy){
+                    $legacyTaxonomy = $rawTaxonomy->where('object_id', $rawPost->ID);
+                    $rawTaxonomy = $rawTaxonomy->forget($legacyTaxonomy->keys());
+                    $legacyTaxonomy = $legacyTaxonomy->pluck('term_taxonomy_id')->toArray();
+                    $legacyCategories = $rawCategories->whereIn('id', $legacyTaxonomy)->values();
+                    $legacyTags = $rawTags->whereIn('id', $legacyTaxonomy)->values();
 
                     $categories = array_values($legacyCategories->map(function($legacyCategory){
                         $category = Category::firstOrCreate([
@@ -114,18 +145,9 @@ class ImportEntityLocal extends Command
                         return $tag->id;
                     })->toArray());
 
-                    $user = User::firstOrCreate([
-                        'legacy_id' => $legacyUser->ID,
-                    ], [
-                        'password' => Hash::make(uniqid()),
-                        'email' => $legacyUser->user_email,
-                        'name' => $legacyUser->user_login,
-                        'slug' => $legacyUser->user_nicename,
-                        'url' => $legacyUser->user_url,
-                        'description' => $legacyUserMeta,
-                        'display_name' => $legacyUser->display_name,
-                        'created_at' => $legacyUser->user_registered,
-                    ]);
+                    $user = User::query()
+                        ->where('legacy_id', $rawPost->post_author)
+                        ->first();
 
                     $post = Post::firstOrCreate([
                         'legacy_id' => $rawPost->ID,
