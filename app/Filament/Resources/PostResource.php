@@ -8,8 +8,15 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\PostResource\Pages;
 
 class PostResource extends Resource
@@ -22,14 +29,21 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('author_id')
+                Select::make('author_id')
                     ->relationship('author', 'name')
                     ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('legacy_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('title')
+                Select::make('categories')
+                    ->relationship(name: 'categories', titleAttribute: 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+                Select::make('tags')
+                    ->relationship(name: 'tags', titleAttribute: 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+                Textarea::make('title')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
@@ -37,15 +51,15 @@ class PostResource extends Resource
                     //->required()
                     //->maxLength(16777215)
                     //->columnSpanFull(),
-                Forms\Components\Textarea::make('excerpt')
+                Textarea::make('excerpt')
                     ->required()
                     ->maxLength(16777215)
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('slug')
+                Textarea::make('slug')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('status')
+                Textarea::make('status')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -63,6 +77,10 @@ class PostResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('slug'),
+                TextColumn::make('tags.name')
+                    ->badge(),
+                TextColumn::make('categories.name')
+                    ->badge(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -73,15 +91,22 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('tags')
+                    ->relationship('tags', 'name')
+                    ->multiple()
+                    ->preload(),
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'name')
+                    ->multiple()
+                    ->preload()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

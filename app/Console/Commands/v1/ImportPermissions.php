@@ -53,14 +53,14 @@ class ImportPermissions extends Command
         $bar->setFormat('debug');
         $bar->start();
 
-        $rawPermissions->map(function($x) use(&$bar){
+        $rawPermissions->map(function($rawPermission) use(&$bar){
 
-            $user = User::where('legacy_id', $x->ID)
+            $user = User::where('legacy_id', $rawPermission->ID)
                 ->first();
 
             if($user)
             {
-                $rawRoles = array_keys(unserialize($x->permissions));
+                $rawRoles = array_keys(unserialize($rawPermission->permissions));
                 $roles = [];
 
                 foreach($rawRoles as $rawRole)
