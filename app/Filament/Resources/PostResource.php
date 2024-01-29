@@ -10,11 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PostResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PostResource\RelationManagers;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class PostResource extends Resource
 {
