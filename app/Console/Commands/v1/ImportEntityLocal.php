@@ -8,14 +8,15 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Profile;
+use App\Traits\HasWpData;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 
 class ImportEntityLocal extends Command
 {
+    use HasWpData;
     /**
      * The name and signature of the console command.
      *
@@ -189,12 +190,5 @@ class ImportEntityLocal extends Command
         return Command::SUCCESS;
     }
 
-    protected function collectWpJson($source, $key):Collection
-    {
-        $rawJson = file_get_contents($source);
-        $rawJson = preg_replace('/[[:cntrl:]]/', '', $rawJson);
-        $collectedJSon = collect(json_decode($rawJson)->{$key});
 
-        return $collectedJSon;
-    }
 }
