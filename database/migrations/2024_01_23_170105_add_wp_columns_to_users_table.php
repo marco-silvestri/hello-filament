@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('legacy_id')->after('id');
-            $table->text('description')->after('email')->nullable();
             $table->text('slug')->after('name');
-            $table->text('url')->before('avatar')->nullable();
-            $table->text('avatar')->before('created_at')->nullable();
-            //$table->text('display_name')->after('slug')->nullable();
         });
     }
 
@@ -27,8 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //$table->dropColumn(['legacy_id','description','slug','url','avatar','display_name']);
-            $table->dropColumn(['legacy_id','description','slug','url','avatar']);
+            $table->dropColumn(['legacy_id','slug']);
         });
     }
 };

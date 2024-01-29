@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Profile;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -75,7 +76,7 @@ class ImportEntityLocal extends Command
 
         $this->info("Importing users");
         $usersBar = $this->output->createProgressBar(count($rawUsers));
-        $usersBar->setFormat('very_verbose');
+        $usersBar->setFormat('debug');
         $usersBar->start();
         $rawUsers->map(function($rawUser)
             use($rawUserMeta, &$usersBar){
@@ -89,16 +90,27 @@ class ImportEntityLocal extends Command
                         $legacyUserMeta = null;
                     }
 
-                    $user = User::create([
-                        'legacy_id' => $rawUser->ID,
+                    $url = $rawUser->user_url === "" ? null : $rawUser->user_url;
+
+                    $user = User::firstOrCreate([
+                        'legacy_id' => $rawUser->ID
+                    ],[
                         'password' => Hash::make(uniqid()),
                         'email' => $rawUser->user_email,
                         'name' => $rawUser->user_login,
                         'slug' => $rawUser->user_nicename,
-                        'url' => $rawUser->user_url,
-                        'description' => $legacyUserMeta,
                         'created_at' => $rawUser->user_registered,
                     ]);
+
+                    if($url || $legacyUserMeta)
+                    {
+                        Profile::create([
+                            'user_id' => $user->id,
+                            'url' => $url,
+                            'description' => $legacyUserMeta,
+                        ]);
+                    }
+
                 }catch(Exception $e)
                 {
                     $this->error("Cannot import user {$rawUser->ID}");
