@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources;
 
+use stdClass;
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -10,6 +12,7 @@ use Filament\Resources\Resource;
 use Spatie\Permission\Models\Role;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\RoleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,7 +38,7 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('user_count')
+                TextColumn::make('users_count')
                     ->counts('users')
                     ->sortable()
             ])
