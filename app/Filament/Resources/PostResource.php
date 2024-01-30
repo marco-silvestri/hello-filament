@@ -46,20 +46,20 @@ class PostResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                // TiptapEditor::make('content')
-                //     ->columnSpanFull(),
-                //     //->required()
-                //     //->maxLength(16777215)
-                //     //->columnSpanFull(),
-                TinyEditor::make('content')
-                    ->fileAttachmentsDisk('public')
-                    ->fileAttachmentsVisibility('public')
-                    ->fileAttachmentsDirectory('uploads')
-                    ->profile('full')
-                    ->rtl() // Set RTL or use ->direction('auto|rtl|ltr')
-                    ->columnSpan('full')
-                    ->required()
-                    ->toolbarSticky(true),
+                TiptapEditor::make('content')
+                    ->columnSpanFull(),
+                    //->required()
+                    //->maxLength(16777215)
+                    //->columnSpanFull(),
+                // TinyEditor::make('content')
+                //     ->fileAttachmentsDisk('public')
+                //     ->fileAttachmentsVisibility('public')
+                //     ->fileAttachmentsDirectory('uploads')
+                //     ->profile('full')
+                //     ->rtl() // Set RTL or use ->direction('auto|rtl|ltr')
+                //     ->columnSpan('full')
+                //     ->required()
+                //     ->toolbarSticky(true),
                 Textarea::make('excerpt')
                     ->required()
                     ->maxLength(16777215)
