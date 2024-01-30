@@ -2,3 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 @import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@import '<path-to-node-modules>/cropperjs/dist/cropper.css';
+@import '<path-to-vendor>/awcodes/filament-curator/resources/css/plugin.css';
