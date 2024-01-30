@@ -18,6 +18,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\PostResource\Pages;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 
 class PostResource extends Resource
 {
@@ -36,22 +37,29 @@ class PostResource extends Resource
                 Select::make('categories')
                     ->relationship(name: 'categories', titleAttribute: 'name')
                     ->multiple()
-                    ->searchable()
-                    ->preload(),
+                    ->searchable(),
                 Select::make('tags')
                     ->relationship(name: 'tags', titleAttribute: 'name')
                     ->multiple()
-                    ->searchable()
-                    ->preload(),
+                    ->searchable(),
                 Textarea::make('title')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                TiptapEditor::make('content')
-                    ->columnSpanFull(),
-                    //->required()
-                    //->maxLength(16777215)
-                    //->columnSpanFull(),
+                // TiptapEditor::make('content')
+                //     ->columnSpanFull(),
+                //     //->required()
+                //     //->maxLength(16777215)
+                //     //->columnSpanFull(),
+                TinyEditor::make('content')
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsVisibility('public')
+                    ->fileAttachmentsDirectory('uploads')
+                    ->profile('full')
+                    ->rtl() // Set RTL or use ->direction('auto|rtl|ltr')
+                    ->columnSpan('full')
+                    ->required()
+                    ->toolbarSticky(true),
                 Textarea::make('excerpt')
                     ->required()
                     ->maxLength(16777215)
