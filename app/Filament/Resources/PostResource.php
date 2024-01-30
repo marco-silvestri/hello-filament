@@ -47,7 +47,8 @@ class PostResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                TiptapEditor::make('content'),
+                TiptapEditor::make('content')
+                    ->columnSpanFull(),
                     //->required()
                     //->maxLength(16777215)
                     //->columnSpanFull(),
