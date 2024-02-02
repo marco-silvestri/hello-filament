@@ -2,19 +2,11 @@
 
 namespace App\Console\Commands\v1;
 
-use Exception;
-use App\Models\Tag;
-use App\Models\Post;
 use App\Models\User;
-use App\Models\Profile;
-use App\Models\Category;
-use App\Traits\HasWpData;
+use App\Traits\Cms\HasWpData;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Hash;
+
 
 class ImportPermissions extends Command
 {
