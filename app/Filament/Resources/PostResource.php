@@ -90,6 +90,8 @@ class PostResource extends Resource
                     ->badge(),
                 TextColumn::make('categories.name')
                     ->badge(),
+                TextColumn::make('visits_count')
+                    ->counts('visits'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
