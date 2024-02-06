@@ -24,6 +24,8 @@ class RoleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Settings';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,7 +39,8 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                ->searchable(),
                 TextColumn::make('users_count')
                     ->counts('users')
                     ->sortable()

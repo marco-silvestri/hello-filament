@@ -17,6 +17,8 @@ use App\Filament\Resources\TagResource\Pages;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TagResource\RelationManagers;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 
 class TagResource extends Resource
 {
@@ -24,13 +26,12 @@ class TagResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Contents';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('legacy_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\Textarea::make('name')
                     ->required()
                     ->maxLength(65535)
@@ -48,11 +49,14 @@ class TagResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('name')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('posts_count')
                     ->counts('posts')
+                    ->url(fn (Tag $tag): string => PostResource::getUrl('index', ['tableFilters' => ['tags' => ['values' => [$tag->id]]]])) 
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -63,8 +67,11 @@ class TagResource extends Resource
                 //
             ])
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),    
+                ])
             ])
             ->bulkActions([
                 BulkActionGroup::make([

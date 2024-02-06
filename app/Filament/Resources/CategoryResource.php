@@ -17,6 +17,9 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\Filter;
 
 class CategoryResource extends Resource
 {
@@ -24,13 +27,12 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Contents';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('legacy_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\Textarea::make('name')
                     ->required()
                     ->maxLength(65535)
@@ -48,23 +50,28 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('name')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('posts_count')
                     ->counts('posts')
-                    ->sortable(),
+                    ->sortable()
+                    ->url(fn (Category $category): string => PostResource::getUrl('index', ['tableFilters' => ['categories' => ['values' => [$category->id]]]])) 
+                    ->openUrlInNewTab(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 BulkActionGroup::make([

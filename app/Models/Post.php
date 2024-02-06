@@ -16,6 +16,10 @@ class Post extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'json_content' => 'array'
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');

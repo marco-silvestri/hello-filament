@@ -7,9 +7,15 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,25 +27,31 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Settings';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id')
+                TextInput::make('id')
                     ->disabled()
                     ->numeric(),
-                Forms\Components\TextInput::make('name')
+                Select::make('roles')
+                    ->relationship(name: 'roles', titleAttribute: 'name')
+                    ->multiple()
+                    ->searchable(),
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('slug')
+                Textarea::make('slug')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->password()
                     ->required()
                     ->maxLength(255),
@@ -71,14 +83,17 @@ class UserResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('roles')
-                ->relationship('roles','name')
-                ->multiple()
-                ->searchable()
-                ->preload()
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('legacy_id')->after('id');
-            $table->text('slug')->after('name');
+            $table->unsignedInteger('legacy_id')->after('id')->nullable();
+            $table->text('slug')->after('name')->unique();
         });
     }
 

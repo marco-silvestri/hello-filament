@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\PostResource\Widgets\PostsOverview;
+use App\Filament\Resources\UserResource\Widgets\UsersOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -39,6 +41,8 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                PostsOverview::class,
+                UsersOverview::class
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -58,7 +62,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Media')
                     ->pluralLabel('Media')
                     ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup('Content')
+                    ->navigationGroup('Contents')
                     ->navigationSort(3)
                     ->navigationCountBadge()
                     //->resource(\App\Filament\Resources\CustomMediaResource::class)
