@@ -17,8 +17,12 @@ use App\Filament\Resources\TagResource\Pages;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TagResource\RelationManagers;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Set;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Support\Str;
 
 class TagResource extends Resource
 {
@@ -35,11 +39,20 @@ class TagResource extends Resource
                 Forms\Components\Textarea::make('name')
                     ->required()
                     ->maxLength(65535)
+                    ->live(debounce: 500)
+                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                        $set('slug.name', Str::of($state)->slug());
+                    })
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('slug')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make()
+                    ->relationship('slug')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('slug')
+                            ->required()
+                            ->readonly()
+                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                    ]),
             ]);
     }
 
@@ -56,7 +69,7 @@ class TagResource extends Resource
                     ->searchable(),
                 TextColumn::make('posts_count')
                     ->counts('posts')
-                    ->url(fn (Tag $tag): string => PostResource::getUrl('index', ['tableFilters' => ['tags' => ['values' => [$tag->id]]]])) 
+                    ->url(fn (Tag $tag): string => PostResource::getUrl('index', ['tableFilters' => ['tags' => ['values' => [$tag->id]]]]))
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -70,7 +83,7 @@ class TagResource extends Resource
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
-                    DeleteAction::make(),    
+                    DeleteAction::make(),
                 ])
             ])
             ->bulkActions([

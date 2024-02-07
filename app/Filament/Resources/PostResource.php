@@ -56,14 +56,18 @@ class PostResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->live(debounce: 500)
                             ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
-                                $set('slug', Str::of($state)->slug());
+                                $set('slug.name', Str::of($state)->slug());
                             })
                             ->maxLength(255),
-                        Textarea::make('slug')
+                        Section::make()
+                        ->relationship('slug')
+                        ->schema([
+                            TextInput::make('name')
+                            ->label('slug')
                             ->required()
                             ->readonly()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(65535),
+                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                        ]),
                         Builder::make('json_content')
                             ->label('Content')
                             ->columnSpanFull()
@@ -162,7 +166,7 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('slug'),
+                TextColumn::make('slug.name'),
                 TextColumn::make('tags.name')
                     ->badge(),
                 TextColumn::make('categories.name')
@@ -194,7 +198,6 @@ class PostResource extends Resource
                     EditAction::make(),
                     DeleteAction::make(),
                     Action::make('Post preview')
-                        ->action(fn (Post $record) => $record->advance())
                         ->modalContent(fn (Post $record): View => view(
                             'filament.pages.actions.post-preview',
                             ['record' => $record],

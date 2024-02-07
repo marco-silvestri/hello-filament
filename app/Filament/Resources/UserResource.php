@@ -6,10 +6,12 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
@@ -20,6 +22,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class UserResource extends Resource
 {
@@ -42,11 +45,20 @@ class UserResource extends Resource
                     ->searchable(),
                 TextInput::make('name')
                     ->required()
+                    ->live(debounce: 500)
+                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                        $set('slug.name', Str::of($state)->slug());
+                    })
                     ->maxLength(255),
-                Textarea::make('slug')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make()
+                    ->relationship('slug')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('slug')
+                            ->required()
+                            ->readonly()
+                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                    ]),
                 TextInput::make('email')
                     ->email()
                     ->required()

@@ -17,9 +17,13 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Set;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -35,12 +39,21 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\Textarea::make('name')
                     ->required()
+                    ->live(debounce: 500)
+                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                        $set('slug.name', Str::of($state)->slug());
+                    })
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('slug')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make()
+                    ->relationship('slug')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('slug')
+                            ->required()
+                            ->readonly()
+                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                    ]),
             ]);
     }
 
@@ -58,7 +71,7 @@ class CategoryResource extends Resource
                 TextColumn::make('posts_count')
                     ->counts('posts')
                     ->sortable()
-                    ->url(fn (Category $category): string => PostResource::getUrl('index', ['tableFilters' => ['categories' => ['values' => [$category->id]]]])) 
+                    ->url(fn (Category $category): string => PostResource::getUrl('index', ['tableFilters' => ['categories' => ['values' => [$category->id]]]]))
                     ->openUrlInNewTab(),
                 TextColumn::make('created_at')
                     ->dateTime()

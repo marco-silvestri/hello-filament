@@ -1,7 +1,7 @@
 <?php
 
 use App\Utility\GliderCustomFallback as UtilityGliderCustomFallback;
-use GliderCustomFallback;
+
 return [
     'accepted_file_types' => [
         'image/jpeg',
