@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Cms\HookEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->text('name');
             $table->mediumText('payload');
             $table->text('description')->nullable();
-            $table->enum('hook',['head', 'body', 'footer']);
+            $table->enum('hook', HookEnum::getValues());
             $table->tinyInteger('priority')->default(10);
             $table->boolean('status');
             $table->timestamps();

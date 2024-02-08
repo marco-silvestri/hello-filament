@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Enums\HookEnum;
+use App\Enums\Cms\HookEnum;
 use App\Services\SnippetService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;

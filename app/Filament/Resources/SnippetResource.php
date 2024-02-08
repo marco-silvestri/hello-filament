@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Enums\HookEnum;
+use App\Enums\Cms\HookEnum;
 use App\Models\Snippet;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
@@ -43,9 +43,9 @@ class SnippetResource extends Resource
                     ->required(),
                 Select::make('hook')
                     ->options([
-                        HookEnum::HEAD->value() => HookEnum::HEAD->label(),
-                        HookEnum::BODY->value() => HookEnum::BODY->label(),
-                        HookEnum::FOOTER->value() => HookEnum::FOOTER->label(),
+                        HookEnum::HEAD->value => HookEnum::HEAD->getLabel(),
+                        HookEnum::BODY->value => HookEnum::BODY->getLabel(),
+                        HookEnum::FOOTER->value => HookEnum::FOOTER->getLabel(),
                     ])
                     ->native(false)
                     ->required(),

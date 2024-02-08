@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\SnippetResource\Pages;
 
-use App\Enums\HookEnum;
 use Filament\Actions;
+use App\Enums\Cms\HookEnum;
 use App\Traits\Cms\HasCaching;
 use App\Services\SnippetService;
 use Illuminate\Support\Facades\Cache;
@@ -29,9 +29,9 @@ class EditSnippet extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
+        SnippetService::flushSnippetsCache($record->hook);
         $record->update($data);
-
-        SnippetService::refreshSnippetsCache(HookEnum::getByValue($record->hook));
+        SnippetService::fillSnippetsCache(HookEnum::from($data['hook']));
 
         return $record;
     }

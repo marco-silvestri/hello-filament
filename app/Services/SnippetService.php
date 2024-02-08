@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\HookEnum;
+use App\Enums\Cms\HookEnum;
 use App\Models\Snippet;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +13,7 @@ class SnippetService
     {
         return Snippet::query()
             ->select('payload')
-            ->where('hook', $hook->value())
+            ->where('hook', $hook->value)
             ->where('status', true)
             ->orderBy('priority')
             ->get();
@@ -25,7 +25,7 @@ class SnippetService
             $cache = [];
             foreach (HookEnum::cases() as $case) {
                 $cache[] = Cache::remember(
-                    "snippets-{$case->value()}", 1800,
+                    "snippets-{$case->value}", 1800,
                     fn () => self::getSnippetsByHook($case)
                 );
             }
@@ -33,7 +33,7 @@ class SnippetService
             return $cache;
         } else {
             return Cache::remember(
-                "snippets-{$hook->value()}", 1800,
+                "snippets-{$hook->value}", 1800,
                 fn () => self::getSnippetsByHook($hook)
             );
         }
@@ -43,22 +43,16 @@ class SnippetService
     {
         if (!$hook) {
             foreach (HookEnum::cases() as $case) {
-                Cache::forget("snippets-{$case->value()}");
+                Cache::forget("snippets-{$case->value}");
             }
         } else {
-            Cache::forget("snippets-{$hook->value()}");
+            Cache::forget("snippets-{$hook->value}");
         }
-    }
-
-    public static function refreshSnippetsCache(HookEnum $hook):void
-    {
-        self::flushSnippetsCache($hook);
-        self::fillSnippetsCache($hook);
     }
 
     public static function getStringedSnippets(HookEnum $hook):?string
     {
-        $snippets = Cache::get("snippets-{$hook->value()}");
+        $snippets = Cache::get("snippets-{$hook->value}");
 
         if($snippets)
         {
