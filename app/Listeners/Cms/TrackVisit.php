@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Events\Cms\LandingOnContent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 
 class TrackVisit implements ShouldQueue
 {
@@ -29,14 +30,16 @@ class TrackVisit implements ShouldQueue
         try{
             $slug = $event->slug;
 
-            $post = Post::where('slug',$slug)->first();
+            $post = Post::whereHas('slug', function (Builder $query )  use ($slug)  {
+                $query->where('name', $slug);
+            })->first();
             $post->visits()->create([
                 'user_id' => $event->userId,
             ]);
 
         }catch(Exception $e)
         {
-            Log::error("Cannot track visit: $event" . PHP_EOL . "Because {$e->getMessage()}");
+            Log::error("Cannot track visit: $event->slug" . PHP_EOL . "Because {$e->getMessage()}");
         }
 
     }

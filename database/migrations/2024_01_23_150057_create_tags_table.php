@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('legacy_id')->nullable();
             $table->text('name');
-            $table->text('slug')->unique();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
