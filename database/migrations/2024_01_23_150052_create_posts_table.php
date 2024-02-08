@@ -18,7 +18,7 @@ return new class extends Migration
             $table->mediumText('content');
             $table->json('json_content')->nullable();
             $table->mediumText('excerpt');
-            $table->text('slug')->unique();
+            $table->string('slug')->unique();
             $table->text('status');
             $table->unsignedBigInteger('author_id');
             $table->timestamps();

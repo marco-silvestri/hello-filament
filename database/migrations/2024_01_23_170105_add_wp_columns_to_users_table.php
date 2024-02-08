@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('legacy_id')->after('id')->nullable();
-            $table->text('slug')->after('name')->unique();
+            $table->string('slug')->after('name')->unique();
         });
     }
 

@@ -4,6 +4,7 @@ use App\Http\Middleware\Cms\TrackVisits;
 use App\Models\Post;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Builder;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,10 @@ Route::get('/{slug}', function(string $slug){
     $post = Cache::remember("post-$slug", 60 * 60 * 8, function ()
     use ($slug)
     {
-        return Post::where('slug', $slug)
-            ->select('title', 'content')
-            ->first();
-    });
+        return Post::whereHas('slug', function (Builder $query )  use ($slug)  {
+            $query->where('name', $slug);
+        })->first();
+});
 
     return view('public')
         ->with('post', $post);

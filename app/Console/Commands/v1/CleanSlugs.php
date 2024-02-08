@@ -96,11 +96,11 @@ class CleanSlugs extends Command
 
             DB::commit();
             $this->info('The command was successful!');
-            return true;
+            return Command::SUCCESS;
         } catch (\Exception $ex) {
             DB::rollBack();
             $this->error($ex->getMessage());
-            return false;
+            return Command::FAILURE;
         }
     }
 }
