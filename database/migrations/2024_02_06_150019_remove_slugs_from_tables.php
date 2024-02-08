@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Command\Command;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
 
         $res = Artisan::call('app:clean-slugs');
 
-        if ($res) {
+        if ($res === Command::SUCCESS) {
             Schema::table('categories', function (Blueprint $table) {
                 $table->dropColumn('slug');
             });
