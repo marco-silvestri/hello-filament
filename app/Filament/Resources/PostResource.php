@@ -105,6 +105,10 @@ class PostResource extends Resource
                                 Block::make('image')
                                     ->icon('heroicon-o-photo')
                                     ->schema([
+                                        TextInput::make('width')
+                                        ->numeric(),
+                                        TextInput::make('height')
+                                        ->numeric(),
                                         CuratorPicker::make('image')
                                     ]),
                                 Block::make('related_posts')

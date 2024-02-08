@@ -2,6 +2,7 @@
     <x-curator-glider
         class="object-cover w-auto"
         :media="$block['data']['image']"
-        width="500"
+        width="{{$block['data']['width'] ?? 500}}"
+        height="{{$block['data']['height'] ?? 'auto'}}"
     />
 </div>
