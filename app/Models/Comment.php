@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Cms\CommentStatusEnum;
 use App\Traits\Cms\HasAuthor;
+use App\Traits\Cms\HasHierarchy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use HasFactory, SoftDeletes, HasAuthor;
+    use HasFactory, SoftDeletes, HasAuthor, HasHierarchy;
 
     protected $guarded = ['id'];
 
@@ -24,15 +25,5 @@ class Comment extends Model
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
-    }
-
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Comment::class);
-    }
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(Comment::class, 'parent_id', 'id');
     }
 }

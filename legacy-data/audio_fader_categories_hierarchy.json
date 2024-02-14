@@ -1,0 +1,495 @@
+{
+"categories_hierarchy": [
+	{
+		"category_id" : 1,
+		"category_name" : "Senza categoria",
+		"category_slug" : "senza-categoria",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 4,
+		"category_name" : "Pro Audio",
+		"category_slug" : "pro-audio",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 6,
+		"category_name" : "News",
+		"category_slug" : "news-2",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 8,
+		"category_name" : "Freeware",
+		"category_slug" : "freeware",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 9,
+		"category_name" : "Real Life",
+		"category_slug" : "real-life",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 60,
+		"category_name" : "Music Tech",
+		"category_slug" : "music-tech",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 61,
+		"category_name" : "Guitar Bass",
+		"category_slug" : "guitar-bass",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 62,
+		"category_name" : "Canali",
+		"category_slug" : "canali",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 64,
+		"category_name" : "Software",
+		"category_slug" : "software",
+		"parent_category_id" : 6
+	},
+	{
+		"category_id" : 65,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware",
+		"parent_category_id" : 6
+	},
+	{
+		"category_id" : 66,
+		"category_name" : "Eventi",
+		"category_slug" : "eventi",
+		"parent_category_id" : 6
+	},
+	{
+		"category_id" : 67,
+		"category_name" : "Sound Engine",
+		"category_slug" : "sound-engine",
+		"parent_category_id" : 4
+	},
+	{
+		"category_id" : 68,
+		"category_name" : "Studi",
+		"category_slug" : "studi",
+		"parent_category_id" : 4
+	},
+	{
+		"category_id" : 69,
+		"category_name" : "Post Pro",
+		"category_slug" : "post-pro",
+		"parent_category_id" : 4
+	},
+	{
+		"category_id" : 70,
+		"category_name" : "Libri",
+		"category_slug" : "libri",
+		"parent_category_id" : 4
+	},
+	{
+		"category_id" : 71,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware-sound-engine",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 72,
+		"category_name" : "Software",
+		"category_slug" : "software-sound-engine",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 73,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 74,
+		"category_name" : "Vintage",
+		"category_slug" : "vintage",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 75,
+		"category_name" : "App",
+		"category_slug" : "app",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 76,
+		"category_name" : "Interviste",
+		"category_slug" : "interviste",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 77,
+		"category_name" : "tecnologia",
+		"category_slug" : "tecnologia",
+		"parent_category_id" : 67
+	},
+	{
+		"category_id" : 78,
+		"category_name" : "Plug-in",
+		"category_slug" : "plug-in",
+		"parent_category_id" : 8
+	},
+	{
+		"category_id" : 79,
+		"category_name" : "Synth",
+		"category_slug" : "synth",
+		"parent_category_id" : 8
+	},
+	{
+		"category_id" : 80,
+		"category_name" : "Sample",
+		"category_slug" : "sample",
+		"parent_category_id" : 8
+	},
+	{
+		"category_id" : 81,
+		"category_name" : "Guitar",
+		"category_slug" : "guitar",
+		"parent_category_id" : 8
+	},
+	{
+		"category_id" : 82,
+		"category_name" : "App",
+		"category_slug" : "app-freeware",
+		"parent_category_id" : 8
+	},
+	{
+		"category_id" : 83,
+		"category_name" : "Blogger",
+		"category_slug" : "blogger",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 84,
+		"category_name" : "Interviste",
+		"category_slug" : "interviste-real-life",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 85,
+		"category_name" : "Eventi",
+		"category_slug" : "eventi-real-life",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 86,
+		"category_name" : "Tavole rotonde",
+		"category_slug" : "tavole-rotonde",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 87,
+		"category_name" : "Webinar",
+		"category_slug" : "webinar",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 88,
+		"category_name" : "Galleries",
+		"category_slug" : "galleries",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 89,
+		"category_name" : "Officina del suono",
+		"category_slug" : "officina-del-suono",
+		"parent_category_id" : 9
+	},
+	{
+		"category_id" : 90,
+		"category_name" : "Formazione",
+		"category_slug" : "formazione",
+		"parent_category_id" : 4
+	},
+	{
+		"category_id" : 91,
+		"category_name" : "Cerca",
+		"category_slug" : "cerca",
+		"parent_category_id" : 68
+	},
+	{
+		"category_id" : 92,
+		"category_name" : "Recensioni",
+		"category_slug" : "recensioni",
+		"parent_category_id" : 68
+	},
+	{
+		"category_id" : 93,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware-post-pro",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 94,
+		"category_name" : "Software",
+		"category_slug" : "software-post-pro",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 95,
+		"category_name" : "Game",
+		"category_slug" : "game",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 96,
+		"category_name" : "Movie",
+		"category_slug" : "movie",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 97,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-post-pro",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 98,
+		"category_name" : "Interviste",
+		"category_slug" : "interviste-post-pro",
+		"parent_category_id" : 69
+	},
+	{
+		"category_id" : 99,
+		"category_name" : "Synth",
+		"category_slug" : "synth-music-tech",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 100,
+		"category_name" : "Dj Producer",
+		"category_slug" : "dj-producer",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 101,
+		"category_name" : "Controller",
+		"category_slug" : "controller",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 102,
+		"category_name" : "Drum Perc",
+		"category_slug" : "drum-perc",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 103,
+		"category_name" : "Sound Designe",
+		"category_slug" : "sound-designe",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 104,
+		"category_name" : "Libri",
+		"category_slug" : "libri-music-tech",
+		"parent_category_id" : 60
+	},
+	{
+		"category_id" : 105,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware-synth-music-tech",
+		"parent_category_id" : 99
+	},
+	{
+		"category_id" : 106,
+		"category_name" : "Software",
+		"category_slug" : "software-synth-music-tech",
+		"parent_category_id" : 99
+	},
+	{
+		"category_id" : 107,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-synth-music-tech",
+		"parent_category_id" : 99
+	},
+	{
+		"category_id" : 108,
+		"category_name" : "App",
+		"category_slug" : "app-synth-music-tech",
+		"parent_category_id" : 99
+	},
+	{
+		"category_id" : 109,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware-dj-producer",
+		"parent_category_id" : 100
+	},
+	{
+		"category_id" : 110,
+		"category_name" : "Software",
+		"category_slug" : "software-dj-producer",
+		"parent_category_id" : 100
+	},
+	{
+		"category_id" : 111,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-dj-producer",
+		"parent_category_id" : 100
+	},
+	{
+		"category_id" : 112,
+		"category_name" : "App",
+		"category_slug" : "app-dj-producer",
+		"parent_category_id" : 100
+	},
+	{
+		"category_id" : 113,
+		"category_name" : "Keyboard",
+		"category_slug" : "keyboard",
+		"parent_category_id" : 101
+	},
+	{
+		"category_id" : 114,
+		"category_name" : "Consolle",
+		"category_slug" : "consolle",
+		"parent_category_id" : 101
+	},
+	{
+		"category_id" : 115,
+		"category_name" : "Controller",
+		"category_slug" : "controller-controller",
+		"parent_category_id" : 101
+	},
+	{
+		"category_id" : 116,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-controller",
+		"parent_category_id" : 101
+	},
+	{
+		"category_id" : 117,
+		"category_name" : "Software",
+		"category_slug" : "software-sound-designe",
+		"parent_category_id" : 103
+	},
+	{
+		"category_id" : 118,
+		"category_name" : "Interviste",
+		"category_slug" : "interviste-sound-designe",
+		"parent_category_id" : 103
+	},
+	{
+		"category_id" : 119,
+		"category_name" : "Hardware",
+		"category_slug" : "hardware-guitar-bass",
+		"parent_category_id" : 61
+	},
+	{
+		"category_id" : 120,
+		"category_name" : "Software",
+		"category_slug" : "software-guitar-bass",
+		"parent_category_id" : 61
+	},
+	{
+		"category_id" : 121,
+		"category_name" : "App",
+		"category_slug" : "app-guitar-bass",
+		"parent_category_id" : 61
+	},
+	{
+		"category_id" : 122,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-guitar-bass",
+		"parent_category_id" : 61
+	},
+	{
+		"category_id" : 123,
+		"category_name" : "Software",
+		"category_slug" : "software-drum-perc",
+		"parent_category_id" : 102
+	},
+	{
+		"category_id" : 124,
+		"category_name" : "Controller",
+		"category_slug" : "controller-drum-perc",
+		"parent_category_id" : 102
+	},
+	{
+		"category_id" : 125,
+		"category_name" : "Consolle",
+		"category_slug" : "consolle-drum-perc",
+		"parent_category_id" : 102
+	},
+	{
+		"category_id" : 126,
+		"category_name" : "Tutorial",
+		"category_slug" : "tutorial-drum-perc",
+		"parent_category_id" : 102
+	},
+	{
+		"category_id" : 908,
+		"category_name" : "Attualità",
+		"category_slug" : "attualita",
+		"parent_category_id" : 6
+	},
+	{
+		"category_id" : 997,
+		"category_name" : "Offerte",
+		"category_slug" : "offerte",
+		"parent_category_id" : 6
+	},
+	{
+		"category_id" : 4928,
+		"category_name" : "In Ear Monitor",
+		"category_slug" : "in-ear-monitor",
+		"parent_category_id" : 71
+	},
+	{
+		"category_id" : 6007,
+		"category_name" : "blog",
+		"category_slug" : "blog",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 9038,
+		"category_name" : "Monitor Controller",
+		"category_slug" : "monitor-controller",
+		"parent_category_id" : 71
+	},
+	{
+		"category_id" : 9042,
+		"category_name" : "controller passivo per monitor",
+		"category_slug" : "controller-passivo-per-monitor",
+		"parent_category_id" : 93
+	},
+	{
+		"category_id" : 9094,
+		"category_name" : "Pro light",
+		"category_slug" : "pro-light",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 9145,
+		"category_name" : "consulenze",
+		"category_slug" : "consulenze",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 9165,
+		"category_name" : "microfoni",
+		"category_slug" : "microfoni",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 9224,
+		"category_name" : "test",
+		"category_slug" : "test",
+		"parent_category_id" : 0
+	},
+	{
+		"category_id" : 10393,
+		"category_name" : "BLACK FRIDAY Offerte",
+		"category_slug" : "black-friday-offerte",
+		"parent_category_id" : 997
+	}
+]}

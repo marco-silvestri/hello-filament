@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,12 +20,13 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'content' => '',
+            'content' => fake()->randomHtml(),
             'json_content' => [],
             'excerpt' => fake()->text(),
             'status' => 'publish',
             'commentable' => '1',
-            'published_at' => Carbon::now()
+            'published_at' => Carbon::now(),
+            'author_id' => User::factory()->create()->id,
         ];
     }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Cms\HasSlug;
+use App\Traits\Cms\HasHierarchy;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Page extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasSlug, HasHierarchy;
 
 
     protected $guarded = ['id'];
@@ -17,9 +19,4 @@ class Page extends Model
     protected $casts = [
         'blocks' => 'array'
     ];
-
-    public function slug(): MorphOne
-    {
-        return $this->morphOne(Slug::class, 'sluggable');
-    }
 }

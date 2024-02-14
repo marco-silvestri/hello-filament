@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('legacy_id')->nullable();
             $table->tinyText('title');
             $table->mediumText('content');
-            $table->json('json_content')->nullable();
             $table->mediumText('excerpt');
             $table->string('slug')->unique();
             $table->text('status');

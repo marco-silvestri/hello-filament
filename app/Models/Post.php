@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasVisits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory, HasVisits, SoftDeletes;
+    use HasFactory, HasVisits, SoftDeletes, HasSlug;
 
     protected $guarded = ['id'];
 
@@ -33,10 +34,5 @@ class Post extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
-    }
-
-    public function slug(): MorphOne
-    {
-        return $this->morphOne(Slug::class, 'sluggable');
     }
 }
