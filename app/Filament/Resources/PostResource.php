@@ -243,9 +243,21 @@ class PostResource extends Resource
                     ->searchable(),
                 TextColumn::make('slug.name'),
                 TextColumn::make('tags.name')
-                    ->badge(),
+                    ->limit(10)
+                    ->limitList(4)
+                    ->badge()
+                    ->tooltip(function (TextColumn $column){
+                        $state = $column->getState();
+                        return implode(", ", $state);
+                    }),
                 TextColumn::make('categories.name')
-                    ->badge(),
+                    ->limit(10)
+                    ->limitList(2)
+                    ->badge()
+                    ->tooltip(function (TextColumn $column){
+                        $state = $column->getState();
+                        return implode(", ", $state);
+                    }),
                 TextColumn::make('visits_count')
                     ->counts('visits'),
                 IconColumn::make('has_importer_problem')
