@@ -19,13 +19,23 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\PostResource\Pages;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use App\Enums\Cms\PostStatusEnum;
+use App\Filament\Resources\PostResource\Pages\ViewPost;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\Components\Forms\Uploader;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
@@ -60,14 +70,14 @@ class PostResource extends Resource
                             })
                             ->maxLength(255),
                         Section::make()
-                        ->relationship('slug')
-                        ->schema([
-                            TextInput::make('name')
-                            ->label('slug')
-                            ->required()
-                            ->readonly()
-                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
-                        ]),
+                            ->relationship('slug')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('slug')
+                                    ->required()
+                                    ->readonly()
+                                    ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                            ]),
                         Builder::make('json_content')
                             ->label('Content')
                             ->columnSpanFull()
@@ -95,20 +105,27 @@ class PostResource extends Resource
                                 Block::make('paragraph')
                                     ->icon('heroicon-m-bars-3-bottom-left')
                                     ->schema([
-                                        TiptapEditor::make('content')
+                                        TinyEditor::make('content')
                                             ->label('')
                                             ->profile('minimal')
                                             ->columnSpanFull()
-                                            ->disableBubbleMenus()
-                                            ->disableFloatingMenus(),
+                                            // ->disableBubbleMenus()
+                                            // ->disableFloatingMenus(),
                                     ]),
                                 Block::make('image')
                                     ->icon('heroicon-o-photo')
+                                    ->columns(2)
                                     ->schema([
                                         TextInput::make('width')
-                                        ->numeric(),
+                                            ->columnSpan(1)
+                                            ->numeric(),
                                         TextInput::make('height')
-                                        ->numeric(),
+                                            ->columnSpan(1)
+                                            ->numeric(),
+                                        TextInput::make('alt')
+                                            ->columnSpanFull(),
+                                        TextInput::make('caption')
+                                            ->columnSpanFull(),
                                         CuratorPicker::make('image')
                                     ]),
                                 Block::make('related_posts')
@@ -126,6 +143,59 @@ class PostResource extends Resource
                                             ->label('Video Url')
                                             ->required(),
                                     ]),
+                                Block::make('audio')
+                                    ->schema([
+                                        Select::make('audio')
+                                            ->relationship(name: 'audio', titleAttribute: 'title')
+                                            ->native(false)
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm(fn (Form $form) => AudioResource::formForModal($form)),
+                                        TextInput::make('caption')
+                                    ]),
+                                Block::make('review')
+                                    ->maxItems(1)
+                                    ->columns(2)
+                                    ->columnSpan(2)
+                                    ->schema([
+                                        Repeater::make('parameters')
+                                            ->label(__('posts.lbl-parameter'))
+                                            ->maxItems(10)
+                                            ->columnSpanFull()
+                                            ->columns(2)
+                                            ->afterStateUpdated(function ($state, Set $set) {
+                                                $tot = 0;
+                                                $count = 0;
+                                                foreach ($state as $param) {
+                                                    $count++;
+                                                    $tot += $param['value'];
+                                                };
+                                                if ($count > 0) {
+                                                    $set('total_score', number_format(($tot / $count), 2));
+                                                }
+                                            })
+                                            ->schema([
+                                                TextInput::make('key')
+                                                    ->required()
+                                                    ->columnSpan(1),
+                                                TextInput::make('value')
+                                                    ->required()
+                                                    ->live()
+                                                    ->numeric()
+                                                    ->extraInputAttributes(['min' => 0, 'max' => 10])
+                                                    ->minValue(0)
+                                                    ->maxValue(10)
+                                                    ->step(0.1)
+                                                    ->columnSpan(1),
+                                            ]),
+                                        Textarea::make('summary')
+                                            ->label(__('posts.fl-summary')),
+                                        TextInput::make('total_score')
+                                            ->columnSpan(1)
+                                            ->type('decimal')
+                                            ->step(0.01)
+                                            ->live()
+                                    ])
                             ]),
                         Textarea::make('excerpt')
                             ->required()
@@ -149,10 +219,8 @@ class PostResource extends Resource
                             ->searchable(),
                         CuratorPicker::make('feature_media_id')
                             ->label('Featured image'),
-                        Textarea::make('status')
-                            ->required()
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
+                        Select::make('status')
+                            ->options(PostStatusEnum::class),
                         DateTimePicker::make('published_at')
                             ->label('Published at')
                             ->required(),
@@ -217,9 +285,7 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
@@ -230,10 +296,5 @@ class PostResource extends Resource
             'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
-    }
-
-    protected function beforeCreate(): void
-    {
-        dd('in');
     }
 }
