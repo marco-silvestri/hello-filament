@@ -24,10 +24,6 @@ enum PostStatusEnum: string implements HasLabel
 
     public function getValue(): string
     {
-        return match ($this) {
-            self::DRAFT => self::DRAFT->value,
-            self::PUBLISH => self::PUBLISH->value,
-            self::FUTURE => self::FUTURE->value,
-        };
+        return $this->value;
     }
 }

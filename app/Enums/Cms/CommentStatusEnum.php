@@ -26,11 +26,7 @@ enum CommentStatusEnum :string implements HasLabel, HasColor, HasIcon {
 
     public function getValue(): string
     {
-        return match($this) {
-            self::AWAITING_MODERATION => self::AWAITING_MODERATION->value,
-            self::APPROVED => self::APPROVED->value,
-            self::REJECTED => self::REJECTED->value,
-        };
+        return $this->value;
     }
 
     public function getColor(): string|array|null

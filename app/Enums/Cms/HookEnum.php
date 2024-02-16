@@ -24,10 +24,6 @@ enum HookEnum :string implements HasLabel{
 
     public function getValue(): string
     {
-        return match($this) {
-            self::HEAD => self::HEAD->value,
-            self::BODY => self::BODY->value,
-            self::FOOTER => self::FOOTER->value,
-        };
+        return $this->value;
     }
 }
