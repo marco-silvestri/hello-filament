@@ -21,6 +21,7 @@ use App\Filament\Resources\PostResource\Pages;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Enums\Cms\PostStatusEnum;
 use App\Filament\Resources\PostResource\Pages\ViewPost;
+use App\Models\Media;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Forms\Uploader;
 use Filament\Forms\Components\Builder;
@@ -31,6 +32,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -43,7 +45,9 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\Watcher\Watch;
 
 class PostResource extends Resource
 {
@@ -53,8 +57,10 @@ class PostResource extends Resource
 
     protected static ?string $navigationGroup = 'Contents';
 
+
     public static function form(Form $form): Form
     {
+        // dd(DB::table('media')->select(DB::raw('title, path as value'))->get()->toArray());
         return $form
             ->columns(3)
             ->schema([
@@ -107,10 +113,13 @@ class PostResource extends Resource
                                     ->schema([
                                         TinyEditor::make('content')
                                             ->label('')
-                                            ->profile('minimal')
-                                            ->columnSpanFull()
-                                            // ->disableBubbleMenus()
-                                            // ->disableFloatingMenus(),
+                                            ->imageList(Media::select('title', 'path')->get()->map( fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
+                                        // RichEditor::make('content')
+                                        //     ->label('')
+                                        //     ->columnSpanFull()
+                                        //     ->disableToolbarButtons([
+                                        //         'attachFiles',
+                                        //     ]),
                                     ]),
                                 Block::make('image')
                                     ->icon('heroicon-o-photo')

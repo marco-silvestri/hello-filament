@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29cf53159d24c88e402abcbb8d6db7eb",
+    "content-hash": "94104fcc3ae9c0f3d41af5da504c3c90",
     "packages": [
         {
             "name": "amidesfahani/filament-tinyeditor",
-            "version": "v1.1.2",
+            "version": "v1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amidesfahani/filament-tinyeditor.git",
-                "reference": "1abe5262b2bdd0bd15fe8a82101d6f0c004c5753"
+                "reference": "f73331f6247c6dd472372db26ccd42146ee75495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amidesfahani/filament-tinyeditor/zipball/1abe5262b2bdd0bd15fe8a82101d6f0c004c5753",
-                "reference": "1abe5262b2bdd0bd15fe8a82101d6f0c004c5753",
+                "url": "https://api.github.com/repos/amidesfahani/filament-tinyeditor/zipball/f73331f6247c6dd472372db26ccd42146ee75495",
+                "reference": "f73331f6247c6dd472372db26ccd42146ee75495",
                 "shasum": ""
             },
             "require": {
@@ -60,9 +60,9 @@
             ],
             "support": {
                 "issues": "https://github.com/amidesfahani/filament-tinyeditor/issues",
-                "source": "https://github.com/amidesfahani/filament-tinyeditor/tree/v1.1.2"
+                "source": "https://github.com/amidesfahani/filament-tinyeditor/tree/v1.1.4"
             },
-            "time": "2023-12-14T20:28:04+00:00"
+            "time": "2024-02-17T08:52:01+00:00"
         },
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5595,6 +5595,66 @@
             "time": "2022-12-18T12:58:32+00:00"
         },
         {
+            "name": "spatie/file-system-watcher",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/file-system-watcher.git",
+                "reference": "b6bb3fbeabf33c98894c7c71b2cb0ef01d895fc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/file-system-watcher/zipball/b6bb3fbeabf33c98894c7c71b2cb0ef01d895fc5",
+                "reference": "b6bb3fbeabf33c98894c7c71b2cb0ef01d895fc5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "symfony/process": "^5.2|^6.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5",
+                "spatie/ray": "^1.22",
+                "spatie/temporary-directory": "^2.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Watcher\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Watch changes in the file system using PHP",
+            "homepage": "https://github.com/spatie/file-system-watcher",
+            "keywords": [
+                "file-system-watcher",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/file-system-watcher/issues",
+                "source": "https://github.com/spatie/file-system-watcher/tree/1.1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-06-05T07:24:55+00:00"
+        },
+        {
             "name": "spatie/invade",
             "version": "2.0.0",
             "source": {
@@ -8239,16 +8299,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.8.2",
+            "version": "6.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "b0073db409746748af4fc06fbee337bb99f462d9"
+                "reference": "01d1959b1200e0b872ea078e59ea5abfb5c54100"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/b0073db409746748af4fc06fbee337bb99f462d9",
-                "reference": "b0073db409746748af4fc06fbee337bb99f462d9",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/01d1959b1200e0b872ea078e59ea5abfb5c54100",
+                "reference": "01d1959b1200e0b872ea078e59ea5abfb5c54100",
                 "shasum": ""
             },
             "type": "component",
@@ -8292,9 +8352,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.8.2"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/6.8.3"
             },
-            "time": "2023-12-11T03:21:56+00:00"
+            "time": "2024-02-08T23:33:30+00:00"
         },
         {
             "name": "ueberdosis/tiptap-php",

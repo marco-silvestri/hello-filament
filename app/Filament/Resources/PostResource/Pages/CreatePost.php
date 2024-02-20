@@ -40,23 +40,9 @@ class CreatePost extends CreateRecord
     // protected function mutateFormDataBeforeCreate(array $data): array
     // {
     //     // foreach ($data['json_content'] as $key => $block) {
-    //     //     if ($block['type'] == 'audio') {
-    //     //         $audioData = $block['data']['audio'];
-    //     //         $audio = Audio::create([
-    //     //             'disk' => $audioData['disk'],
-    //     //             'directory' => $audioData['directory'],
-    //     //             'name' => $audioData['name'],
-    //     //             'path' => $audioData['path'],
-    //     //             'type' => $audioData['type'],
-    //     //             'ext' => $audioData['ext'],
-    //     //             'title' => $block['data']['originalFilename'],
-    //     //         ]);
+    //     //     if ($block['type'] == 'paragraph') {
 
-    //     //         if ($audio) {
-    //     //             $data['json_content'][$key]['data']['audio'] = $audio->id;
-    //     //             unset($data['json_content'][$key]['data']['originalFilename']);
-    //     //         }
-                
+    //     //         dd($block['data']);
     //     //     }
     //     // }
     //     // return $data;
