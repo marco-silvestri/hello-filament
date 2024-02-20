@@ -5,44 +5,46 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use App\Enums\Cms\PostStatusEnum;
+use BladeUI\Icons\Components\Icon;
+use Filament\Forms\Components\Tabs;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Section;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use App\Filament\Resources\PostResource\Pages;
-use AmidEsfahani\FilamentTinyEditor\TinyEditor;
-use App\Enums\Cms\PostStatusEnum;
-use App\Filament\Resources\PostResource\Pages\ViewPost;
-use App\Models\Media;
-use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Awcodes\Curator\Components\Forms\Uploader;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Builder\Block;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Builder\Block;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\PostResource\Pages;
+use Awcodes\Curator\Components\Forms\Uploader;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
+use App\Filament\Resources\PostResource\Pages\ViewPost;
+use App\Models\Media;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
@@ -249,11 +251,31 @@ class PostResource extends Resource
                     ->searchable(),
                 TextColumn::make('slug.name'),
                 TextColumn::make('tags.name')
-                    ->badge(),
+                    ->limit(10)
+                    ->limitList(4)
+                    ->badge()
+                    ->tooltip(function (TextColumn $column){
+                        $state = $column->getState();
+                        return implode(", ", $state);
+                    }),
                 TextColumn::make('categories.name')
-                    ->badge(),
+                    ->limit(10)
+                    ->limitList(2)
+                    ->badge()
+                    ->tooltip(function (TextColumn $column){
+                        $state = $column->getState();
+                        return implode(", ", $state);
+                    }),
                 TextColumn::make('visits_count')
                     ->counts('visits'),
+                IconColumn::make('has_importer_problem')
+                    ->boolean()
+                    ->falseColor('info')
+                    ->trueColor('warning')
+                    ->falseIcon('heroicon-o-check')
+                    ->trueIcon('heroicon-o-x-mark')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -271,7 +293,9 @@ class PostResource extends Resource
                 SelectFilter::make('categories')
                     ->relationship('categories', 'name')
                     ->multiple()
-                    ->preload()
+                    ->preload(),
+                Filter::make('has_importer_problem')
+                    ->query(fn(EloquentBuilder $query):EloquentBuilder => $query->where('has_importer_problem', true)),
             ])
             ->actions([
                 ActionGroup::make([
