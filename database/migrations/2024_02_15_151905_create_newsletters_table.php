@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Cms\NewsletterStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('newsletters', function (Blueprint $table) {
+        Schema::create(config('cms.newsletter_table', 'newsletters'), function (Blueprint $table) {
+            $statusEnumValues =  config('cms.newsletter_status_enum')::getValues();
+            $statusEnumDefault = config('cms.newsletter_default_status_enum');
+
             $table->id();
             $table->string('name');
             $table->string('subject');
@@ -19,7 +23,9 @@ return new class extends Migration
             $table->dateTime('send_date')->nullable();
             $table->integer('number')->nullable();
             $table->string('type')->nullable();
-            $table->enum('status', ['draft', 'sent', 'loading', 'loaded', 'loading_error'])->default('draft');
+            $table->json('json_content')->nullable();
+            $table->enum('status', $statusEnumValues)
+                ->default($statusEnumDefault);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('newsletters');
+        Schema::dropIfExists(config('cms.newsletter_table', 'newsletters'));
     }
 };

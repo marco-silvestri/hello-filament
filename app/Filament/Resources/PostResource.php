@@ -82,9 +82,9 @@ class PostResource extends Resource
                                     ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
                             ]),
                         Builder::make('json_content')
-                            ->label('Content')
+                            ->label(__('block-builder.content'))
                             ->columnSpanFull()
-                            ->addActionLabel('Add a new block')
+                            ->addActionLabel(__('block-builder.add-block'))
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->blocks([
@@ -92,7 +92,7 @@ class PostResource extends Resource
                                     ->icon('heroicon-m-pencil')
                                     ->schema([
                                         TextInput::make('content')
-                                            ->label('Heading')
+                                            ->label(__('block-builder.heading'))
                                             ->required(),
                                         Select::make('level')
                                             ->options([
