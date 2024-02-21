@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('legacy_id')->nullable();
             $table->tinyText('title');
-            $table->mediumText('content');
+            $table->mediumText('content')->nullable();
             $table->mediumText('excerpt');
             $table->string('slug')->unique();
             $table->text('status');

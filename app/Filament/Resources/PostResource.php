@@ -231,6 +231,7 @@ class PostResource extends Resource
                         CuratorPicker::make('feature_media_id')
                             ->label('Featured image'),
                         Select::make('status')
+                        ->required()
                             ->options(PostStatusEnum::class),
                         DateTimePicker::make('published_at')
                             ->label('Published at')
@@ -256,7 +257,9 @@ class PostResource extends Resource
                     ->badge()
                     ->tooltip(function (TextColumn $column){
                         $state = $column->getState();
-                        return implode(", ", $state);
+                        if ($state) {
+                            return implode(", ", $state);
+                        }
                     }),
                 TextColumn::make('categories.name')
                     ->limit(10)
@@ -264,7 +267,9 @@ class PostResource extends Resource
                     ->badge()
                     ->tooltip(function (TextColumn $column){
                         $state = $column->getState();
-                        return implode(", ", $state);
+                        if ($state) {
+                            return implode(", ", $state);
+                        }
                     }),
                 TextColumn::make('visits_count')
                     ->counts('visits'),
