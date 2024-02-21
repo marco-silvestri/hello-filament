@@ -47,4 +47,9 @@ class CreatePost extends CreateRecord
     //     // }
     //     // return $data;
     // }
+
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
+    //     dd($data['json_content']);
+    // }
 }

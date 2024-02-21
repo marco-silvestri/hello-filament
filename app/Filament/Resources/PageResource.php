@@ -95,6 +95,7 @@ class PageResource extends Resource
                         Placeholder::make('url')
                             ->columnSpanFull()
                             ->label('Url')
+                            ->hiddenOn('create')
                             ->content(fn (Page $record): string => '/' . $record->slug->name),
                         TextInput::make('title')
                             ->required()
