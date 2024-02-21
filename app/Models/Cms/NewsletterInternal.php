@@ -10,6 +10,8 @@ class NewsletterInternal extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $casts = [
         'status_changed_at' => 'datetime:Y-m-d',
         'status' => InternalNewsletterStatusEnum::class,

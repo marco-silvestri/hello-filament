@@ -2,7 +2,7 @@
     <div class="flex">
         <div class="px-2 py-3">
             <div class="w-10 h-10">
-                {{-- <img src="{{ url('/storage/'.$image.'') }}" alt="{{ $name }}" role="img" class="object-cover w-full h-full overflow-hidden rounded-full shadow" /> --}}
+                <img src="{{ $src }}" role="img" class="object-cover w-full h-full overflow-hidden rounded-full shadow" />
             </div>
         </div>
 

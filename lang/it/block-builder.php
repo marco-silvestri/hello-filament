@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * fl: field
+ * act: action
+ * lbl: label
+ * ntf: notification
+ */
+
 return [
-    "add-block" => "Aggiungi un nuovo blocco",
-    "content" => "Contenuto",
-    "heading" => "Titolo",
+    "lbl-add-block" => "Aggiungi un nuovo blocco",
+    "lbl-related" => "Post",
 ];

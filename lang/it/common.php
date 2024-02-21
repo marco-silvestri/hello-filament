@@ -15,4 +15,12 @@ return [
     "fld-body" => "Contenuto",
     "fld-status" => "Stato",
     "fld-status-changed-at" => "Ultimo cambiamento di stato",
+    "lbl-content" => "Contenuto",
+    "lbl-heading" => "Heading",
+    "lbl-alignment" => "Allineamento",
+    "lbl-align-center" => "Centro",
+    "lbl-align-left" => "Sinistra",
+    "lbl-align-right" => "Destra",
+    "lbl-title" => "Titolo",
+    "lbl-excerpt" => "Estratto",
 ];

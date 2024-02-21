@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Cms\PostStatusEnum;
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Post;
@@ -26,6 +27,7 @@ use App\Filament\Resources\NewsletterResource\Pages;
 use Filament\Forms\Components\Builder as BuilderForm;
 use App\Filament\Resources\NewsletterResource\RelationManagers;
 use Closure;
+use Filament\Forms\Components\Textarea;
 
 class NewsletterResource extends Resource
 {
@@ -37,9 +39,23 @@ class NewsletterResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('number')
+                    ->default(function () {
+                        return Newsletter::max('number') + 1;
+                    })->hidden(),
+                TextInput::make('name')
+                    ->default(function (Get $get) {
+                        $date = Carbon::now()->format('d/m/Y');
+                        return "Newsletter n. {$get('number')} del {$date}";
+                    }),
+                TextInput::make('subject')
+                    ->default(function () {
+                        return 'Audiofader news';
+                    }),
                 BuilderForm::make('json_content')
+                    ->label(__('common.lbl-content'))
                     ->columnSpanFull()
-                    ->addActionLabel(__('block-builder.add-block'))
+                    ->addActionLabel(__('block-builder.lbl-add-block'))
                     ->reorderableWithButtons()
                     ->collapsible()
                     ->blocks([
@@ -47,7 +63,7 @@ class NewsletterResource extends Resource
                             ->icon('heroicon-m-pencil')
                             ->schema([
                                 TextInput::make('content')
-                                    ->label(__('block-builder.heading'))
+                                    ->label(__('common.lbl-heading'))
                                     ->required(),
                                 Select::make('level')
                                     ->options([
@@ -62,35 +78,55 @@ class NewsletterResource extends Resource
                             ])->columns(2),
                         Block::make('related_posts')
                             ->icon('heroicon-m-clipboard-document-list')
-                            ->maxItems(1)
                             ->schema([
-                                Select::make('selected_related')
+                                Select::make('posts')
+                                    ->label(__('block-builder.lbl-related'))
                                     ->allowHtml()
                                     ->searchable()
-                                    ->getSearchResultsUsing(function (string $search) {
+                                    ->preload()
+                                    ->options(function () {
                                         $posts = Post::query()
+                                            ->with('featuredImage')
+                                            ->select(['feature_media_id','title AS label', 'id AS value', 'excerpt'])
                                             ->where('created_at', '>', Carbon::now()
                                                 ->subMonth()
                                                 ->format('Y-m-d H:i:s'))
+                                            ->where('status', PostStatusEnum::PUBLISH)
+                                            ->orderByDesc('published_at')
                                             ->get();
 
-                                        return $posts->mapWithKeys(function ($post) {
-                                            return [$post->getKey() => static::getCleanOptionString($post)];
-                                        })->toArray();
-                                    })
-                                    ->getOptionLabelUsing(function ($value): string {
-                                        $post = Post::find($value);
+                                        $posts = $posts->map(function ($post, $value) {
 
-                                        return static::getCleanOptionString($post);
+                                            $label = view('filament.forms.components.recent-post')
+                                                ->with('title', $post->label)
+                                                ->with('excerpt', $post->excerpt)
+                                                ->with('src', $post->featuredImage->url)
+                                                ->render();
+                                            $post->label = $label;
+                                            return $post;
+                                        });
+
+                                        return $posts->pluck('label', 'value')->toArray();
                                     })
                                     ->live()
-                                    ->afterStateUpdated(function(Set $set, $state) {
+                                    ->afterStateUpdated(function (Set $set, $state) {
                                         $post = Post::find($state);
-                                        $set('title', $post->title);
-                                        $set('excerpt', $post->excerpt);
-                                    }),
-                                TextInput::make('title'),
-                                TextInput::make('excerpt'),
+                                        $set('title', $post?->title);
+                                        $set('excerpt', $post?->excerpt);
+                                    })->native(false),
+                                Select::make('alignment')
+                                    ->label(__('common.lbl-alignment'))
+                                    ->options([
+                                        'center' => __('common.lbl-align-center'),
+                                        'left' => __('common.lbl-align-left'),
+                                        'right' => __('common.lbl-align-right'),
+                                    ])
+                                    ->default('center')
+                                    ->native(false),
+                                TextInput::make('title')
+                                    ->label(__('common.lbl-title')),
+                                Textarea::make('excerpt')
+                                    ->label(__('common.lbl-excerpt')),
                                 // TextInput::make('image'),
                                 //RecentPost::make('recent_post'),
                                 // Select::make('related_posts')
@@ -160,15 +196,5 @@ class NewsletterResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getCleanOptionString(Model $model): string
-    {
-        return
-            view('filament.forms.components.recent-post')
-            ->with('title', $model?->title)
-            ->with('excerpt', $model?->excerpt)
-            ->with('id', $model?->id)
-            ->render();
     }
 }
