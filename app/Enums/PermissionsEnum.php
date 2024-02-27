@@ -2,8 +2,11 @@
 
 namespace App\Enums;
 
+use App\Traits\HasArray;
+
 enum PermissionsEnum: string
 {
+    use HasArray;
 
     case CATEGORY_CREATE = 'category_create';
     case CATEGORY_VIEW = 'category_view';
@@ -135,11 +138,11 @@ enum PermissionsEnum: string
             self::CATEGORY_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
             self::CATEGORY_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
 
-            self::COMMENT_CREATE => [RoleEnum::USER->value],
-            self::COMMENT_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value, RoleEnum::USER->value],
-            self::COMMENT_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value, RoleEnum::USER->value],
-            self::COMMENT_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value,  RoleEnum::USER->value],
-            self::COMMENT_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::USER->value],
+            self::COMMENT_CREATE => [RoleEnum::CUSTOMER->value],
+            self::COMMENT_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value, RoleEnum::CUSTOMER->value],
+            self::COMMENT_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value, RoleEnum::CUSTOMER->value],
+            self::COMMENT_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value,  RoleEnum::CUSTOMER->value],
+            self::COMMENT_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::CUSTOMER->value],
             self::COMMENT_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
 
             self::NEWSLETTER_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
@@ -156,7 +159,7 @@ enum PermissionsEnum: string
             self::PAGE_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
             self::PAGE_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
 
-            self::POST_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::POST_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value],
             self::POST_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
             self::POST_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
             self::POST_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
