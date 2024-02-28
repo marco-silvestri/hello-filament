@@ -43,13 +43,56 @@ class CreateNewsletter extends Command
                         $lastNewsletterRelatedPostsId[] = $block['data']['posts'];
                     }
                 }
-                $latest3Posts = Post::query()->orderBy('id', 'desc')->whereNotIn('id', $lastNewsletterRelatedPostsId)->where('status', PostStatusEnum::PUBLISH->value)->limit(3)->pluck('id')->toArray();
-                
+                $latest3Posts = Post::query()->orderBy('id', 'desc')->whereNotIn('id', $lastNewsletterRelatedPostsId)->where('status', PostStatusEnum::PUBLISH->value)->limit(3)->get();
+                $number = $lastNewsletter->number + 1;
+                $date = Carbon::now()->format('d/m/Y');
+                $jsonContent = $this->buildContent($latest3Posts);
                 $newsletter = Newsletter::create([
-                    'name' => "Newsletter n. {$get('number')} del {$date}",
+                    'name' => "Newsletter n. {$number} del {$date}",
+                    'subject' => "AudioFader news",
+                    'number' => $number,
+                    'status' => InternalNewsletterStatusEnum::DRAFT->value,
+                    'json_content' => $jsonContent
                 ]);
+
+                if ($newsletter) {
+                    return $this->info('newsletter created with id: ' . $newsletter->id);
+                }
             }
         } else {
+            $posts = Post::query()->orderBy('id', 'desc')->where('status', PostStatusEnum::PUBLISH->value)->limit(3)->get();
+            $number = 1;
+            $date = Carbon::now()->format('d/m/Y');
+            $jsonContent = $this->buildContent($posts);
+            $newsletter = Newsletter::create([
+                'name' => "Newsletter n. {$number} del {$date}",
+                'subject' => "AudioFader news",
+                'number' => $number,
+                'status' => InternalNewsletterStatusEnum::DRAFT->value,
+                'json_content' => $jsonContent
+            ]);
+
+            if ($newsletter) {
+                return $this->info('newsletter created with id: ' . $newsletter->id);
+            }
         }
+    }
+
+    private function buildContent($posts)
+    {
+        $blocks = [];
+        foreach ($posts as $post) {
+            $blocks[] = [
+                'data' => [
+                    'posts' => $post->id,
+                    'title' => $post->title,
+                    'excerpt' => $post->excerpt,
+                    'alignment' => 'center',
+                ],
+                'type' => 'related_posts'
+            ];
+        }
+
+        return $blocks;
     }
 }
