@@ -29,7 +29,7 @@ class SnippetResource extends Resource
 {
     protected static ?string $model = Snippet::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
 
     protected static ?string $navigationGroup = 'Settings';
 
