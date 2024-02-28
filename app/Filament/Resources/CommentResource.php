@@ -31,7 +31,7 @@ class CommentResource extends Resource
 
     protected static ?string $model = Comment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
     protected static ?string $navigationGroup = 'Contents';
 

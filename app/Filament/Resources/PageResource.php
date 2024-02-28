@@ -30,7 +30,7 @@ class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-window';
 
     protected static ?string $navigationGroup = 'Settings';
 
@@ -95,6 +95,7 @@ class PageResource extends Resource
                         Placeholder::make('url')
                             ->columnSpanFull()
                             ->label('Url')
+                            ->hiddenOn('create')
                             ->content(fn (Page $record): string => '/' . $record->slug->name),
                         TextInput::make('title')
                             ->required()
