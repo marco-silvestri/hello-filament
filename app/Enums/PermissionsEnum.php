@@ -8,6 +8,13 @@ enum PermissionsEnum: string
 {
     use HasArray;
 
+    case AUDIO_CREATE = 'audio_create';
+    case AUDIO_VIEW = 'audio_view';
+    case AUDIO_VIEW_ALL = 'audio_view_all';
+    case AUDIO_EDIT = 'audio_edit';
+    case AUDIO_DELETE = 'audio_delete';
+    case AUDIO_RESTORE = 'audio_restore';
+
     case CATEGORY_CREATE = 'category_create';
     case CATEGORY_VIEW = 'category_view';
     case CATEGORY_VIEW_ALL = 'category_view_all';
@@ -21,6 +28,13 @@ enum PermissionsEnum: string
     case COMMENT_EDIT = 'comment_edit';
     case COMMENT_DELETE = 'comment_delete';
     case COMMENT_RESTORE = 'comment_restore';
+
+    case MEDIA_CREATE = 'media_create';
+    case MEDIA_VIEW = 'media_view';
+    case MEDIA_VIEW_ALL = 'media_view_all';
+    case MEDIA_EDIT = 'media_edit';
+    case MEDIA_DELETE = 'media_delete';
+    case MEDIA_RESTORE = 'media_restore';
 
     case NEWSLETTER_CREATE = 'newsletter_create';
     case NEWSLETTER_VIEW = 'newsletter_view';
@@ -69,6 +83,13 @@ enum PermissionsEnum: string
     {
         return match ($this) {
 
+            self::AUDIO_CREATE => __('permissions.audio_create'),
+            self::AUDIO_VIEW => __('permissions.audio_view'),
+            self::AUDIO_VIEW_ALL => __('permissions.audio_view_all'),
+            self::AUDIO_EDIT => __('permissions.audio_edit'),
+            self::AUDIO_DELETE => __('permissions.audio_delete'),
+            self::AUDIO_RESTORE => __('permissions.audio_restore'),
+
             self::CATEGORY_CREATE => __('permissions.category_create'),
             self::CATEGORY_VIEW => __('permissions.category_view'),
             self::CATEGORY_VIEW_ALL => __('permissions.category_view_all'),
@@ -82,6 +103,13 @@ enum PermissionsEnum: string
             self::COMMENT_EDIT => __('permissions.comment_edit'),
             self::COMMENT_DELETE => __('permissions.comment_delete'),
             self::COMMENT_RESTORE => __('permissions.comment_restore'),
+
+            self::MEDIA_CREATE => __('permissions.media_create'),
+            self::MEDIA_VIEW => __('permissions.media_view'),
+            self::MEDIA_VIEW_ALL => __('permissions.media_view_all'),
+            self::MEDIA_EDIT => __('permissions.media_edit'),
+            self::MEDIA_DELETE => __('permissions.media_delete'),
+            self::MEDIA_RESTORE => __('permissions.media_restore'),
 
             self::NEWSLETTER_CREATE => __('permissions.newsletter_create'),
             self::NEWSLETTER_VIEW => __('permissions.newsletter_view'),
@@ -131,6 +159,13 @@ enum PermissionsEnum: string
     {
         return match ($this) {
 
+            self::AUDIO_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+            self::AUDIO_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+            self::AUDIO_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+            self::AUDIO_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+            self::AUDIO_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+            self::AUDIO_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+
             self::CATEGORY_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
             self::CATEGORY_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value, RoleEnum::AUTHOR->value],
             self::CATEGORY_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::AUTHOR->value],
@@ -144,6 +179,13 @@ enum PermissionsEnum: string
             self::COMMENT_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value,  RoleEnum::CUSTOMER->value],
             self::COMMENT_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::CUSTOMER->value],
             self::COMMENT_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
+
+            self::MEDIA_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::MEDIA_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::MEDIA_VIEW_ALL => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::MEDIA_EDIT => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::MEDIA_DELETE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value, RoleEnum::EDITOR->value],
+            self::MEDIA_RESTORE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
 
             self::NEWSLETTER_CREATE => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
             self::NEWSLETTER_VIEW => [RoleEnum::SUPERADMIN->value, RoleEnum::ADMIN->value],
