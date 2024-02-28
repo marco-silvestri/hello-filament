@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Enums\Cms\PostStatusEnum;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -26,7 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\NewsletterResource\Pages;
 use Filament\Forms\Components\Builder as BuilderForm;
 use App\Filament\Resources\NewsletterResource\RelationManagers;
+use App\Models\Media;
 use Closure;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 
 class NewsletterResource extends Resource
@@ -41,10 +44,10 @@ class NewsletterResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('number')
+                Hidden::make('number')
                     ->default(function () {
                         return Newsletter::max('number') + 1;
-                    })->hidden(),
+                    }),
                 TextInput::make('name')
                     ->default(function (Get $get) {
                         $date = Carbon::now()->format('d/m/Y');
@@ -55,6 +58,7 @@ class NewsletterResource extends Resource
                         return 'Audiofader news';
                     }),
                 BuilderForm::make('json_content')
+                    ->required()
                     ->label(__('common.lbl-content'))
                     ->columnSpanFull()
                     ->addActionLabel(__('block-builder.lbl-add-block'))
@@ -78,6 +82,17 @@ class NewsletterResource extends Resource
                                     ]),
                                 ColorPicker::make('color')
                             ])->columns(2),
+                        Block::make('paragraph')
+                            ->icon('heroicon-m-pencil')
+                            ->label(__('common.lbl-paragraph'))
+                            ->schema(
+                                [
+                                    TinyEditor::make('content')
+                                        ->label('')
+                                        ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
+
+                                ]
+                            ),
                         Block::make('related_posts')
                             ->icon('heroicon-m-clipboard-document-list')
                             ->schema([
@@ -102,7 +117,7 @@ class NewsletterResource extends Resource
                                             $label = view('filament.forms.components.recent-post')
                                                 ->with('title', $post->label)
                                                 ->with('excerpt', $post->excerpt)
-                                                ->with('src', $post->featuredImage->url)
+                                                ->with('src', $post->featuredImage->url ?? '')
                                                 ->render();
                                             $post->label = $label;
                                             return $post;
@@ -129,15 +144,6 @@ class NewsletterResource extends Resource
                                     ->label(__('common.lbl-title')),
                                 Textarea::make('excerpt')
                                     ->label(__('common.lbl-excerpt')),
-                                // TextInput::make('image'),
-                                //RecentPost::make('recent_post'),
-                                // Select::make('related_posts')
-                                //     ->options(Post::query()
-                                //         ->where('created_at', '>', Carbon::now()
-                                //             ->subMonth()
-                                //             ->format('Y-m-d H:i:s'))
-                                //         ->pluck('title', 'id'))
-                                //     ->searchable(),
                             ]),
                     ])
             ]);

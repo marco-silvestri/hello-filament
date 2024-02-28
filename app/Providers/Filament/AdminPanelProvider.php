@@ -62,7 +62,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Media')
                     ->pluralLabel('Media')
                     ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup('Contents')
+                    ->navigationGroup('Attachments')
                     ->navigationSort(3)
                     ->navigationCountBadge()
                     //->resource(\App\Filament\Resources\CustomMediaResource::class)

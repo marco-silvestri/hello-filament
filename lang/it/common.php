@@ -23,4 +23,5 @@ return [
     "lbl-align-right" => "Destra",
     "lbl-title" => "Titolo",
     "lbl-excerpt" => "Estratto",
+    "lbl-paragraph" => 'Paragrafo',
 ];

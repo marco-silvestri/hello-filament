@@ -33,7 +33,7 @@ class AudioResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
 
-    protected static ?string $navigationGroup = 'Contents';
+    protected static ?string $navigationGroup = 'Attachments';
 
     public static function form(Form $form): Form
     {
