@@ -24,4 +24,5 @@ return [
     "lbl-title" => "Titolo",
     "lbl-excerpt" => "Estratto",
     "lbl-paragraph" => 'Paragrafo',
+    "lbl-image" => "Immagine",
 ];
