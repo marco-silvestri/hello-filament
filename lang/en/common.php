@@ -23,4 +23,5 @@ return [
     "lbl-align-right" => "Right",
     "lbl-title" => "Title",
     "lbl-excerpt" => "Excerpt",
+    "lbl-image" => "Image",
 ];

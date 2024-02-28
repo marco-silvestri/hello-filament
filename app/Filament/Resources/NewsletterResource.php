@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Cms\PostStatusEnum;
+use Closure;
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Post;
@@ -13,8 +13,11 @@ use Filament\Forms\Form;
 use App\Models\Newsletter;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use App\Enums\Cms\PostStatusEnum;
 use App\Forms\Components\RecentPost;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
@@ -22,12 +25,11 @@ use Filament\Forms\Components\ViewField;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Builder\Block;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\NewsletterResource\Pages;
 use Filament\Forms\Components\Builder as BuilderForm;
 use App\Filament\Resources\NewsletterResource\RelationManagers;
-use Closure;
-use Filament\Forms\Components\Textarea;
 
 class NewsletterResource extends Resource
 {
@@ -87,20 +89,20 @@ class NewsletterResource extends Resource
                                     ->options(function () {
                                         $posts = Post::query()
                                             ->with('featuredImage')
-                                            ->select(['feature_media_id','title AS label', 'id AS value', 'excerpt'])
+                                            ->select(['feature_media_id', 'title AS label', 'id AS value', 'excerpt'])
                                             ->where('created_at', '>', Carbon::now()
-                                                ->subMonth()
+                                                ->subMonths(2)
                                                 ->format('Y-m-d H:i:s'))
                                             ->where('status', PostStatusEnum::PUBLISH)
                                             ->orderByDesc('published_at')
                                             ->get();
-
+                                        //dd($posts);
                                         $posts = $posts->map(function ($post, $value) {
 
                                             $label = view('filament.forms.components.recent-post')
                                                 ->with('title', $post->label)
                                                 ->with('excerpt', $post->excerpt)
-                                                ->with('src', $post->featuredImage->url)
+                                                ->with('src', $post->featuredImage?->url)
                                                 ->render();
                                             $post->label = $label;
                                             return $post;
@@ -113,21 +115,26 @@ class NewsletterResource extends Resource
                                         $post = Post::find($state);
                                         $set('title', $post?->title);
                                         $set('excerpt', $post?->excerpt);
+                                        $set('featureImage',['id'=> $post?->featuredImage]);
                                     })->native(false),
-                                Select::make('alignment')
-                                    ->label(__('common.lbl-alignment'))
-                                    ->options([
-                                        'center' => __('common.lbl-align-center'),
-                                        'left' => __('common.lbl-align-left'),
-                                        'right' => __('common.lbl-align-right'),
-                                    ])
-                                    ->default('center')
-                                    ->native(false),
+                                Group::make([
+                                    CuratorPicker::make('featureImage')
+                                        ->label(__('common.lbl-image')),
+                                    Select::make('alignment')
+                                        ->label(__('common.lbl-alignment'))
+                                        ->options([
+                                            'center' => __('common.lbl-align-center'),
+                                            'left' => __('common.lbl-align-left'),
+                                            'right' => __('common.lbl-align-right'),
+                                        ])
+                                        ->default('center')
+                                        ->native(false),
+                                ])->columns(2),
                                 TextInput::make('title')
                                     ->label(__('common.lbl-title')),
                                 Textarea::make('excerpt')
                                     ->label(__('common.lbl-excerpt')),
-                                // TextInput::make('image'),
+
                                 //RecentPost::make('recent_post'),
                                 // Select::make('related_posts')
                                 //     ->options(Post::query()
