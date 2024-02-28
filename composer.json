@@ -15,9 +15,11 @@
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.1.5",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^2.7",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "spatie/file-system-watcher": "^1.1",
         "spatie/laravel-permission": "^6.3",
         "wiebenieuwenhuis/filament-code-editor": "^1.0"
     },

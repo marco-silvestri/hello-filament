@@ -33,7 +33,9 @@ class NewsletterResource extends Resource
 {
     protected static ?string $model = Newsletter::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
+    protected static ?string $navigationGroup = 'Contents';
 
     public static function form(Form $form): Form
     {
@@ -87,7 +89,7 @@ class NewsletterResource extends Resource
                                     ->options(function () {
                                         $posts = Post::query()
                                             ->with('featuredImage')
-                                            ->select(['feature_media_id','title AS label', 'id AS value', 'excerpt'])
+                                            ->select(['feature_media_id', 'title AS label', 'id AS value', 'excerpt'])
                                             ->where('created_at', '>', Carbon::now()
                                                 ->subMonth()
                                                 ->format('Y-m-d H:i:s'))

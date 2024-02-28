@@ -17,6 +17,9 @@ class SlugFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->slug(),
+            'sluggable_type' => 'App\Models\Category',
+            'sluggable_id' => fake()->numberBetween(1, 100),
         ];
     }
 }
