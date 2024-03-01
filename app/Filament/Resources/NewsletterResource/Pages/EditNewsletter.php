@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\NewsletterResource\Pages;
 
 use App\Filament\Resources\NewsletterResource;
+use App\Services\HtmlContentBuilderService;
+use DOMDocument;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -19,4 +21,9 @@ class EditNewsletter extends EditRecord
             Actions\RestoreAction::make(),
         ];
     }
+
+    // protected function mutateFormDataBeforeSave(array $data): array
+    // {
+
+    // }
 }

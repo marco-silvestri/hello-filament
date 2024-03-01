@@ -33,6 +33,8 @@ use App\Filament\Resources\NewsletterResource\RelationManagers;
 use App\Models\Media;
 use Closure;
 use Filament\Forms\Components\Hidden;
+use Filament\Tables\Actions\Action;
+use Illuminate\Contracts\View\View;
 
 class NewsletterResource extends Resource
 {
@@ -132,7 +134,9 @@ class NewsletterResource extends Resource
                                         $post = Post::find($state);
                                         $set('title', $post?->title);
                                         $set('excerpt', $post?->excerpt);
-                                        $set('featureImage',['id'=> $post?->featuredImage]);
+                                        if ($post->featuredImage) {
+                                            $set('featureImage', ['id' => $post->featuredImage]);
+                                        }
                                     })->native(false),
                                 Group::make([
                                     CuratorPicker::make('featureImage')

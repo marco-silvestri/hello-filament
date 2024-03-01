@@ -13,7 +13,7 @@ class GliderCustomFallback extends GliderFallback
 
     public function getHeight(): int
     {
-        return 640;
+        return 300;
     }
 
     public function getKey(): string
@@ -23,7 +23,7 @@ class GliderCustomFallback extends GliderFallback
 
     public function getSource(): string
     {
-        return 'https://via.placeholder.com/640x420.jpg';
+        return asset('placeholder-img.jpg');
     }
 
     public function getType(): string

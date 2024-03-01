@@ -87,7 +87,8 @@ class CreateNewsletter extends Command
                     'posts' => $post->id,
                     'title' => $post->title,
                     'excerpt' => $post->excerpt,
-                    'alignment' => 'center',
+                    'alignment' => 'right',
+                    'featureImage' => $post->feature_media_id
                 ],
                 'type' => 'related_posts'
             ];
