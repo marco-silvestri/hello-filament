@@ -27,20 +27,19 @@ class TrackVisit implements ShouldQueue
     public function handle(LandingOnContent $event): void
     {
 
-        try{
+        try {
             $slug = $event->slug;
 
-            $post = Post::whereHas('slug', function (Builder $query )  use ($slug)  {
+            $post = Post::whereHas('slug', function (Builder $query)  use ($slug) {
                 $query->where('name', $slug);
             })->first();
-            $post->visits()->create([
-                'user_id' => $event->userId,
-            ]);
-
-        }catch(Exception $e)
-        {
+            if ($post) {
+                $post->visits()->create([
+                    'user_id' => $event->userId,
+                ]);
+            }
+        } catch (Exception $e) {
             Log::error("Cannot track visit: $event->slug" . PHP_EOL . "Because {$e->getMessage()}");
         }
-
     }
 }

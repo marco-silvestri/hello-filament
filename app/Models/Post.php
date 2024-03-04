@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasVisits;
+use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,5 +46,10 @@ class Post extends Model
     public function audio(): BelongsToMany
     {
         return $this->belongsToMany(Audio::class);
+    }
+
+    public function featuredImage(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'feature_media_id');
     }
 }

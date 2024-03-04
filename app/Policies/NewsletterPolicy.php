@@ -39,7 +39,10 @@ class NewsletterPolicy
      */
     public function update(User $user, Newsletter $newsletter): bool
     {
-        return $user->hasPermissionTo(PermissionsEnum::NEWSLETTER_EDIT->value);
+        if ($user->hasPermissionTo(PermissionsEnum::NEWSLETTER_EDIT->value) && $newsletter->status->value == 'draft' ) {
+            return true;
+        }
+        return false;
     }
 
     /**
