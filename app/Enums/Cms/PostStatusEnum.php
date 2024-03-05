@@ -18,12 +18,25 @@ enum PostStatusEnum: string implements HasLabel
         return match ($this) {
             self::DRAFT => __('posts.lbl-draft'),
             self::PUBLISH => __('posts.lbl-publish'),
-            self::FUTURE => __('posts.lbl-future'),
+            //self::FUTURE => __('posts.lbl-future'),
         };
     }
 
     public function getValue(): string
     {
-        return $this->value;
+        return match ($this) {
+            self::DRAFT => self::DRAFT->value,
+            self::PUBLISH => self::PUBLISH->value,
+            //self::FUTURE => self::FUTURE->value,
+        };
+    }
+
+    public static function mapLegacy(string $legacy)
+    {
+        return match ($legacy) {
+            'draft' => self::DRAFT,
+            'publish' => self::PUBLISH,
+            'future' => self::PUBLISH,
+        };
     }
 }

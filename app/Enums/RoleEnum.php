@@ -22,7 +22,7 @@ enum RoleEnum: string
             self::ADMIN => 'Admin',
             self::EDITOR => 'Editor',
             self::AUTHOR => 'Author',
-            self::CUSTOMER => 'customer',
+            self::CUSTOMER => 'Customer',
         };
     }
 
