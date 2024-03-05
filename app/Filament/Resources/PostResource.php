@@ -115,6 +115,7 @@ class PostResource extends Resource
                                     ->schema([
                                         TinyEditor::make('content')
                                             ->label('')
+                                            ->toolbarSticky(true)
                                             ->imageList(Media::select('title', 'path')->get()->map( fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                         // RichEditor::make('content')
                                         //     ->label('')
