@@ -44,10 +44,6 @@ class ImportComments extends Command
         $bar->start();
 
         $rawComments->map(function($rawComment) use(&$bar){
-            if($rawComment->comment_post_ID == 198)
-            {
-                $a = 0;
-            }
             $user = User::where('email', $rawComment->comment_author_email)->first();
             $post = Post::where('legacy_id', $rawComment->comment_post_ID)->first();
 
