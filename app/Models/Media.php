@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Media extends Model
 {
-
+    protected $guarded = ['id'];
 
     public function getImagesList()
     {
@@ -20,7 +20,7 @@ class Media extends Model
     protected function fullPath(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => 
+            get: fn (mixed $value, array $attributes) =>
             asset('storage/'. $attributes['path'])
         );
     }

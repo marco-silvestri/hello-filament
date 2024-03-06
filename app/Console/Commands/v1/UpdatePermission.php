@@ -24,7 +24,7 @@ class UpdatePermission extends Command
      */
     protected $description = 'update the old permission in the new roles ';
 
-    #definisce i permessi che non sono competenza dell'admin 
+    #definisce i permessi che non sono competenza dell'admin
     private $oldPermissions = [
         'customer' => RoleEnum::CUSTOMER->value,
         'author' => RoleEnum::AUTHOR->value,
@@ -35,6 +35,7 @@ class UpdatePermission extends Command
         'wpseo_manager' => RoleEnum::EDITOR->value,
         'superadmin' => RoleEnum::SUPERADMIN->value,
         'user' => RoleEnum::CUSTOMER->value,
+        'subscriber' => RoleEnum::CUSTOMER->value,
     ];
     /**
      * Execute the console command.
