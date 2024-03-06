@@ -51,7 +51,7 @@ class MenuResource extends Resource
                 TextInput::make('name')
                     ->string(),
                 Actions::make([
-                    Action::make('add menu item')
+                    Action::make('add_menu_item')
                         ->form([
                             TextInput::make('name')
                                 ->required()
