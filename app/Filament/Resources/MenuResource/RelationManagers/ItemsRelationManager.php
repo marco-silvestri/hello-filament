@@ -93,7 +93,7 @@ class ItemsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->defaultGroup('parent.name')
             ->defaultSort('order')
-            ->poll('10s')
+            ->poll('3s')
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('order')

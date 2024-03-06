@@ -41,6 +41,7 @@ class MenuResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-table-cells';
 
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
