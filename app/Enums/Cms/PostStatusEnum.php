@@ -18,7 +18,7 @@ enum PostStatusEnum: string implements HasLabel
         return match ($this) {
             self::DRAFT => __('posts.lbl-draft'),
             self::PUBLISH => __('posts.lbl-publish'),
-            //self::FUTURE => __('posts.lbl-future'),
+            default => ''
         };
     }
 
