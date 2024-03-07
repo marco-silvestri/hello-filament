@@ -53,4 +53,16 @@ enum InternalNewsletterStatusEnum :string implements HasLabel, HasColor, HasIcon
             self::LOADING_ERROR => 'heroicon-c-archive-box-x-mark',
         };
     }
+
+    public static function mapStatusFromApi(string $status):?string{
+
+        return match($status){
+            '0' => self::DRAFT->getValue(),
+            '1' => self::SENT->getValue(),
+            '2' => self::LOADING->getValue(),
+            '3' => self::LOADED->getValue(),
+            '4' => self::LOADING_ERROR->getValue(),
+            default => null,
+        };
+    }
 }

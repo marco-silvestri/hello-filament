@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use App\Enums\Cms\InternalNewsletterStatusEnum;
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Post;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\NewsletterResource\Pages;
 use Filament\Forms\Components\Builder as BuilderForm;
 use App\Filament\Resources\NewsletterResource\RelationManagers;
+use App\Models\Cms\NewsletterInternal;
 use App\Models\Media;
 use Closure;
 use Filament\Forms\Components\Hidden;
@@ -115,9 +117,7 @@ class NewsletterResource extends Resource
                                             ->where('status', PostStatusEnum::PUBLISH)
                                             ->orderByDesc('published_at')
                                             ->get();
-                                        //dd($posts);
                                         $posts = $posts->map(function ($post, $value) {
-
                                             $label = view('filament.forms.components.recent-post')
                                                 ->with('title', $post->label)
                                                 ->with('excerpt', $post->excerpt)
@@ -164,17 +164,28 @@ class NewsletterResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('subject'),
+                TextColumn::make('name')
+                    ->label(__('newsletter.fld-name')),
+                TextColumn::make('subject')
+                    ->label(__('newsletter.fld-subject')),
                 TextColumn::make('pre_header')
-                    ->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('send_date'),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('newsletter.fld-preheader')),
+                TextColumn::make('send_date')
+                    ->dateTime('d-m-Y H:i')
+                    ->label(__('newsletter.fld-send-date')),
                 TextColumn::make('number')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('common.fld-number')),
                 TextColumn::make('status')
-                    ->badge(),
-                TextColumn::make('created_at'),
-                TextColumn::make('updated_at',)
+                    ->badge()
+                    ->label(__('common.fld-status')),
+                TextColumn::make('created_at')
+                    ->dateTime('d-m-Y H:i')
+                    ->label(__('common.fld-created-at')),
+                TextColumn::make('updated_at')
+                    ->dateTime('d-m-Y H:i')
+                    ->label(__('common.fld-updated-at')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -182,6 +193,31 @@ class NewsletterResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Action::make('handle_workflow')
+                    ->requiresConfirmation()
+                    ->action(function(Newsletter $record){
+                        if($record->status === InternalNewsletterStatusEnum::DRAFT)
+                        {
+                            $record->update(['status' => InternalNewsletterStatusEnum::SENT]);
+                        } elseif($record->status === InternalNewsletterStatusEnum::SENT)
+                        {
+                            $record->update(['status' => InternalNewsletterStatusEnum::DRAFT]);
+                        }
+                    })->visible(
+                        fn (Newsletter $record): bool =>
+                            $record->status === InternalNewsletterStatusEnum::DRAFT
+                            || $record->status === InternalNewsletterStatusEnum::SENT,
+                    )->label(function(Newsletter $record){
+                        if($record->status === InternalNewsletterStatusEnum::DRAFT)
+                        {
+                            return __('newsletter.fld-approve');
+                        }
+
+                        if($record->status === InternalNewsletterStatusEnum::SENT)
+                        {
+                            return __('newsletter.fld-send-to-draft');
+                        }
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

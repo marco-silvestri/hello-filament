@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use App\Traits\Cms\HasWpData;
 use Illuminate\Console\Command;
 use App\Enums\Cms\PostStatusEnum;
+use App\Models\Slug;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
@@ -166,9 +167,12 @@ class ImportEntityLocal extends Command
                         'password' => Hash::make(uniqid()),
                         'email' => $rawUser->user_email,
                         'name' => $rawUser->user_login,
-                        'slug' => $rawUser->user_nicename,
                         'created_at' => $rawUser->user_registered,
                     ]);
+
+                    $slug = $this->getUniqueSlug($rawUser->user_nicename);
+
+                    $user->slug()->save($slug);
 
                     $rawRoles = array_keys(unserialize($rawUser->permissions));
                     $roles = [];
@@ -234,8 +238,10 @@ class ImportEntityLocal extends Command
                                 'legacy_id' => $legacyCategory->id,
                             ], [
                                 'name' => $legacyCategory->name,
-                                'slug' => $legacyCategory->slug,
                             ]);
+
+                            $slug = $this->getUniqueSlug($legacyCategory->slug, true);
+                            $category->slug()->save($slug);
 
                             return $category->id;
                         })->toArray());
@@ -245,8 +251,10 @@ class ImportEntityLocal extends Command
                                 'legacy_id' => $legacyTag->id,
                             ], [
                                 'name' => $legacyTag->name,
-                                'slug' => $legacyTag->slug,
                             ]);
+
+                            $slug = $this->getUniqueSlug($legacyTag->slug, true);
+                            $tag->slug()->save($slug);
 
                             return $tag->id;
                         })->toArray());
@@ -308,7 +316,6 @@ class ImportEntityLocal extends Command
                         $post = Post::firstOrCreate([
                             'legacy_id' => $rawPost->ID,
                         ], [
-                            'slug' => $rawPost->post_name,
                             'created_at' => Carbon::parse($rawPost->post_date_gmt),
                             'updated_at' => Carbon::parse($rawPost->post_modified_gmt),
                             'status' => $postStatus,
@@ -320,6 +327,9 @@ class ImportEntityLocal extends Command
                             'commentable' => $commentable,
                             'feature_media_id' => isset($imgObj) ? $imgObj->id : null,
                         ]);
+
+                        $slug = $this->getUniqueSlug($rawPost->post_name);
+                        $post->slug()->save($slug);
 
                         $post->tags()->sync($tags);
                         $post->categories()->sync($categories);
@@ -334,9 +344,44 @@ class ImportEntityLocal extends Command
 
             $bar->finish();
 
+            $hierarchy = $this->collectWpJson('legacy-data/audio_fader_categories_hierarchy.json', 'categories_hierarchy');
+
+            $hierarchy->map(function($relationship){
+                if($relationship->parent_category_id !== 0)
+                {
+                    $parent = Category::where('legacy_id', $relationship->parent_category_id)
+                        ->first();
+
+                    if($parent)
+                    {
+                        $category = Category::where('legacy_id', $relationship->category_id)
+                        ->update([
+                            'parent_id' => $parent->id,
+                        ]);
+                    }
+                }
+            });
+
         $this->info("Done!");
         return Command::SUCCESS;
     }
 
+    private function getUniqueSlug(string $slug, bool $takeFirstInstead = false): Slug
+    {
+        $slugName = $slug;
+            $existingSlug = Slug::where('name', $slug)->get();
 
+            if($takeFirstInstead && !$existingSlug->isEmpty())
+            {
+                return $existingSlug[0];
+            }
+
+            if(!$existingSlug->isEmpty())
+            {
+                $count = $existingSlug->count();
+                $slugName .= "-{$count}";
+            }
+
+            return new Slug(['name' => $slugName]);
+    }
 }

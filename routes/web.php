@@ -35,3 +35,5 @@ Route::get('/{slug}', function(string $slug){
     return view('public')
         ->with('post', $post);
 })->middleware(TrackVisits::class);
+
+require __DIR__ .'/cms/web.php';
