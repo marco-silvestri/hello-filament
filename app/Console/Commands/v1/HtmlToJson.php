@@ -23,7 +23,7 @@ class HtmlToJson extends Command
      *
      * @var string
      */
-    protected $signature = 'app:html-to-json';
+    protected $signature = 'app:html-to-json {id?}';
 
     /**
      * The console command description.
@@ -39,7 +39,15 @@ class HtmlToJson extends Command
     {
         libxml_use_internal_errors(false);
         $rawReviews = $this->collectWpJson('legacy-data/audio_fader_reviews.json', 'reviews');
-        $posts = Post::get();
+        if($this->argument('id'))
+        {
+            $posts = Post::query()
+                ->where('id', $this->argument('id'))
+                ->get();
+        }else{
+            $posts = Post::get();
+        }
+
         $bar = $this->output->createProgressBar(count($posts));
         $bar->start();
         foreach ($posts as $post) {

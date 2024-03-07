@@ -22,24 +22,6 @@ return new class extends Migration
                 ->on('categories')
                 ->cascadeOnUpdate();
         });
-
-        $hierarchy = $this->collectWpJson('legacy-data/audio_fader_categories_hierarchy.json', 'categories_hierarchy');
-
-        $hierarchy->map(function($relationship){
-            if($relationship->parent_category_id !== 0)
-            {
-                $parent = Category::where('legacy_id', $relationship->parent_category_id)
-                    ->first();
-
-                if($parent)
-                {
-                    $category = Category::where('legacy_id', $relationship->category_id)
-                    ->update([
-                        'parent_id' => $parent->id,
-                    ]);
-                }
-            }
-        });
     }
 
     /**

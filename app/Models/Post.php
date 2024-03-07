@@ -20,7 +20,8 @@ class Post extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'json_content' => 'array'
+        'json_content' => 'array',
+        'published_at' => 'datetime:Y-m-d H:i:s'
     ];
 
     public function author(): BelongsTo

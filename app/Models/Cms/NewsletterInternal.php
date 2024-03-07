@@ -15,6 +15,7 @@ class NewsletterInternal extends Model
     protected $casts = [
         'status_changed_at' => 'datetime:Y-m-d',
         'status' => InternalNewsletterStatusEnum::class,
-        'json_content' => 'array'
+        'json_content' => 'array',
+        'send_date' => 'datetime:Y-m-d H:i:s'
     ];
 }
