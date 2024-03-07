@@ -36,14 +36,13 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('id')
-                    ->disabled()
-                    ->numeric(),
                 Select::make('roles')
+                    ->label(__('common.lbl-roles'))
                     ->relationship(name: 'roles', titleAttribute: 'name')
                     ->multiple()
                     ->searchable(),
                 TextInput::make('name')
+                    ->label(__('common.fld-name'))
                     ->required()
                     ->live(debounce: 500)
                     ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
@@ -54,12 +53,13 @@ class UserResource extends Resource
                     ->relationship('slug')
                     ->schema([
                         TextInput::make('name')
-                            ->label('slug')
+                            ->label(__('common.lbl-slug'))
                             ->required()
                             ->readonly()
                             ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
                     ]),
                 TextInput::make('email')
+                    ->label(__('common.fld-email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
@@ -78,23 +78,29 @@ class UserResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('common.fld-name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
+                    ->label(__('common.lbl-roles'))
                     ->searchable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('common.fld-email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('common.fld-created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('common.fld-updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('roles')
+                    ->label(__('common.lbl-roles'))
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->searchable()
@@ -129,5 +135,15 @@ class UserResource extends Resource
             'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-user');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-users');
     }
 }

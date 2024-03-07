@@ -37,6 +37,7 @@ class TagResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Textarea::make('name')
+                    ->label(__('common.lbl-slug'))
                     ->required()
                     ->maxLength(65535)
                     ->live(debounce: 500)
@@ -48,6 +49,7 @@ class TagResource extends Resource
                     ->relationship('slug')
                     ->schema([
                         TextInput::make('name')
+                            ->label(__('common.lbl-slug'))
                             ->label('slug')
                             ->required()
                             ->readonly()
@@ -65,13 +67,16 @@ class TagResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label(__('common.lbl-slug'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('posts_count')
+                    ->label(__('common.lbl-post-count'))
                     ->counts('posts')
                     ->url(fn (Tag $tag): string => PostResource::getUrl('index', ['tableFilters' => ['tags' => ['values' => [$tag->id]]]]))
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('common.fld-created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -108,5 +113,15 @@ class TagResource extends Resource
             'view' => Pages\ViewTag::route('/{record}'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-tag');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-tags');
     }
 }

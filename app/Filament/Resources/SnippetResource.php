@@ -38,8 +38,10 @@ class SnippetResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label(__('common.fld-name'))
                     ->required(),
-                TextInput::make('description'),
+                TextInput::make('description')
+                    ->label(__('common.fld-description')),
                 CodeEditor::make('payload')
                     ->label('Snippet')
                     ->required(),
@@ -52,11 +54,12 @@ class SnippetResource extends Resource
                     ->native(false)
                     ->required(),
                 Select::make('status')
-                        ->options([
-                            true => 'Enabled',
-                            false => 'Disabled',
-                        ])
-                        ->native(false),
+                    ->label(__('common.lbl-status'))
+                    ->options([
+                        true => __('common.lbl-enable'),
+                        false => __('common.lbl-disable'),
+                    ])
+                    ->native(false),
             ]);
     }
 
@@ -65,15 +68,20 @@ class SnippetResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('common.fld-name'))
                     ->sortable(),
-                TextColumn::make('payload'),
-                TextColumn::make('description'),
+                TextColumn::make('payload')
+                    ->label('Snippet'),
+                TextColumn::make('description')
+                    ->label(__('common.fld-description')),
                 TextColumn::make('hook')
                     ->badge()
                     ->sortable(),
                 TextColumn::make('priority')
+                    ->label(__('common.lbl-priority'))
                     ->sortable(),
                 IconColumn::make('status')
+                    ->label(__('common.fld-status'))
                     ->icon(fn (bool $state): string => match ($state) {
                         true => 'heroicon-o-check',
                         false => 'heroicon-o-x-mark',
@@ -90,15 +98,15 @@ class SnippetResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                    // ->after(
-                    //     fn() => SnippetService::flushSnippetsCache(),
-                    //     fn() => SnippetService::fillSnippetsCache()
-                    // ),
+                // ->after(
+                //     fn() => SnippetService::flushSnippetsCache(),
+                //     fn() => SnippetService::fillSnippetsCache()
+                // ),
                 Tables\Actions\DeleteAction::make()
-                    // ->after(
-                    //     fn() => SnippetService::flushSnippetsCache(),
-                    //     fn() => SnippetService::fillSnippetsCache()
-                    // ),
+                // ->after(
+                //     fn() => SnippetService::flushSnippetsCache(),
+                //     fn() => SnippetService::fillSnippetsCache()
+                // ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -123,5 +131,15 @@ class SnippetResource extends Resource
             'create' => Pages\CreateSnippet::route('/create'),
             'edit' => Pages\EditSnippet::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-snippet');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-snippets');
     }
 }

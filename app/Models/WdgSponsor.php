@@ -22,7 +22,7 @@ class WdgSponsor extends Model
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
                 $decoded = json_decode($attributes['json_content']);
-                return isset($decoded->immagine);
+                return isset($decoded->img);
             }
         );
     }

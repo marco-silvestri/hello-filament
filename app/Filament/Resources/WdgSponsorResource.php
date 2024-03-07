@@ -31,8 +31,6 @@ class WdgSponsorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-code-bracket-square';
 
-    protected static ?string $modelLabel = 'Sponsor';
-
     protected static ?string $navigationGroup = 'Widget';
 
     public static function form(Form $form): Form
@@ -41,6 +39,7 @@ class WdgSponsorResource extends Resource
             ->schema([
                 Section::make([
                     TextInput::make('name')
+                        ->label(__('common.fld-name'))
                         ->required()
                         ->maxLength(255),
                     Hidden::make('type')->default(WdgSponsorTypeEnum::BADGE->value),
@@ -60,25 +59,32 @@ class WdgSponsorResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('common.fld-name'))
                     ->searchable(),
                 TextColumn::make('cardinality')
-                    ->label('order')
+                    ->label(__('common.lbl-order'))
                     ->numeric()
                     ->sortable(),
                 ViewColumn::make('preview')
-                ->view('filament.forms.components.widgets.badge-table'),
+                    ->label(__('common.fld-preview'))
+                    ->view('filament.forms.components.widgets.badge-table'),
                 IconColumn::make('has_problem')
-                ->boolean(),
-                ToggleColumn::make('is_visible'),
+                    ->label(__('common.fld-has-problem'))
+                    ->boolean(),
+                ToggleColumn::make('is_visible')
+                    ->label(__('common.fld-is-visible')),
                 TextColumn::make('deleted_at')
+                    ->label(__('common.fld-deleted-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('common.fld-created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('common.fld-updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -87,7 +93,7 @@ class WdgSponsorResource extends Resource
             ->reorderRecordsTriggerAction(
                 fn (Action $action, bool $isReordering) => $action
                     ->button()
-                    ->label($isReordering ? 'Disable reordering' : 'Enable reordering'),
+                    ->label($isReordering ? __('common.lbl-reorder-disable') :  __('common.lbl-reorder-enable')),
             )
             ->filters([
                 //
@@ -116,5 +122,15 @@ class WdgSponsorResource extends Resource
             'create' => Pages\CreateWdgSponsor::route('/create'),
             'edit' => Pages\EditWdgSponsor::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-sponsor');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-sponsors');
     }
 }

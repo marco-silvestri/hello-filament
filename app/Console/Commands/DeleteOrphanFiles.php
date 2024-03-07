@@ -31,7 +31,7 @@ class DeleteOrphanFiles extends Command
         $activeImg = [];
         $sponsors = WdgSponsor::pluck('json_content')->toArray();
         foreach ($sponsors as $sponsor) {
-            $activeImg[] = $sponsor['immagine'];
+            $activeImg[] = $sponsor['img'];
         }
         collect(Storage::disk('public')->allFiles('sponsor'))
             ->reject(fn (string $file) => in_array($file, $activeImg))

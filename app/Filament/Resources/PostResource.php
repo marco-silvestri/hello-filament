@@ -62,7 +62,6 @@ class PostResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // dd(DB::table('media')->select(DB::raw('title, path as value'))->get()->toArray());
         return $form
             ->columns(3)
             ->schema([
@@ -70,6 +69,7 @@ class PostResource extends Resource
                     ->columnSpan(2)
                     ->schema([
                         Textarea::make('title')
+                            ->label(__('common.lbl-title'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->live(debounce: 500)
@@ -111,20 +111,16 @@ class PostResource extends Resource
                                         ColorPicker::make('color')
                                     ])->columns(2),
                                 Block::make('paragraph')
+                                    ->label(__('block-builder.paragraph'))
                                     ->icon('heroicon-m-bars-3-bottom-left')
                                     ->schema([
                                         TinyEditor::make('content')
                                             ->label('')
                                             ->toolbarSticky(true)
-                                            ->imageList(Media::select('title', 'path')->get()->map( fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
-                                        // RichEditor::make('content')
-                                        //     ->label('')
-                                        //     ->columnSpanFull()
-                                        //     ->disableToolbarButtons([
-                                        //         'attachFiles',
-                                        //     ]),
+                                            ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                     ]),
                                 Block::make('image')
+                                    ->label(__('block-builder.image'))
                                     ->icon('heroicon-o-photo')
                                     ->columns(2)
                                     ->schema([
@@ -141,6 +137,7 @@ class PostResource extends Resource
                                         CuratorPicker::make('image')
                                     ]),
                                 Block::make('related_posts')
+                                    ->label(__('block-builder.related_posts'))
                                     ->icon('heroicon-m-clipboard-document-list')
                                     ->maxItems(1)
                                     ->schema([
@@ -232,7 +229,7 @@ class PostResource extends Resource
                         CuratorPicker::make('feature_media_id')
                             ->label('Featured image'),
                         Select::make('status')
-                        ->required()
+                            ->required()
                             ->options(PostStatusEnum::class),
                         DateTimePicker::make('published_at')
                             ->label('Published at')
@@ -256,7 +253,7 @@ class PostResource extends Resource
                     ->limit(10)
                     ->limitList(4)
                     ->badge()
-                    ->tooltip(function (TextColumn $column){
+                    ->tooltip(function (TextColumn $column) {
                         $state = $column->getState();
                         if ($state) {
                             return implode(", ", $state);
@@ -266,7 +263,7 @@ class PostResource extends Resource
                     ->limit(10)
                     ->limitList(2)
                     ->badge()
-                    ->tooltip(function (TextColumn $column){
+                    ->tooltip(function (TextColumn $column) {
                         $state = $column->getState();
                         if ($state) {
                             return implode(", ", $state);
@@ -301,7 +298,7 @@ class PostResource extends Resource
                     ->multiple()
                     ->preload(),
                 Filter::make('has_importer_problem')
-                    ->query(fn(EloquentBuilder $query):EloquentBuilder => $query->where('has_importer_problem', true)),
+                    ->query(fn (EloquentBuilder $query): EloquentBuilder => $query->where('has_importer_problem', true)),
             ])
             ->actions([
                 ActionGroup::make([
@@ -335,5 +332,15 @@ class PostResource extends Resource
             'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-post');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-posts');
     }
 }

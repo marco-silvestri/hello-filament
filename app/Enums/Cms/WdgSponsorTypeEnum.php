@@ -41,11 +41,12 @@ enum WdgSponsorTypeEnum: string implements HasLabel
     {
         return match ($type) {
             self::BADGE->value => [
-                FileUpload::make('json_content.immagine')
+                FileUpload::make('json_content.img')
+                ->label(__('common.lbl-image'))
                     ->disk('public')
                     ->directory('sponsor'),
                 TextInput::make('json_content.alt')
-                    ->label('alt text'),
+                    ->label(__('common.lbl-alt-text')),
                 ViewField::make('preview')
                     ->view(self::BADGE->getView())
                     ->hiddenOn('create')
