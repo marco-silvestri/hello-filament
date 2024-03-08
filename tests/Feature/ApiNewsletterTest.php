@@ -50,7 +50,7 @@ class ApiNewsletterTest extends TestCase
     }
 
     /** @test */
-    public function newsletter_get_endpoint_responds_with_newsletters_if_token_is_valid()
+    public function newsletter_get_endpoint_responds_with_sent_newsletters_if_token_is_valid()
     {
         $token = 'mocked_token';
         Cache::put('internal_newsletter_token', $token, 60);
@@ -72,7 +72,8 @@ class ApiNewsletterTest extends TestCase
                     ],
                     "type" => "related_posts"
                 ],
-        ]]);
+            ]
+        ]);
 
         $response = $this->post('/api/newsletter/get', [
             'auth_token' => $token,
@@ -82,6 +83,42 @@ class ApiNewsletterTest extends TestCase
         $response->assertOk();
 
         $response->assertJsonStructure($this->getNewsletterJsonStructure(), $response->json());
+    }
+
+    /** @test */
+    public function newsletter_get_endpoint_responds_with_empty_payload_if_no_sent_newsletters_and_token_is_valid()
+    {
+        $token = 'mocked_token';
+        Cache::put('internal_newsletter_token', $token, 60);
+
+        $post = Post::factory()->create();
+
+        Newsletter::factory()->create([
+            'status' => InternalNewsletterStatusEnum::DRAFT,
+            'json_content' => [
+                [
+                    "data" =>
+                    [
+                        "posts" => $post->id,
+                        "title" => $post->title,
+                        "excerpt" => $post->excerpt,
+                        "alignment" => "left",
+                        "featureImage" => 1,
+                        "published_at" => "2024-05-01 15:16:07"
+                    ],
+                    "type" => "related_posts"
+                ],
+            ]
+        ]);
+
+        $response = $this->post('/api/newsletter/get', [
+            'auth_token' => $token,
+            'mailing_id' => 2,
+        ]);
+
+        $response->assertOk();
+
+        $response->assertJsonStructure($this->getNewsletterJsonStructure(), []);
     }
 
     /** @test */
@@ -118,7 +155,8 @@ class ApiNewsletterTest extends TestCase
                     ],
                     "type" => "related_posts"
                 ],
-        ]]);
+            ]
+        ]);
 
         $response = $this->post('/api/newsletter/update', [
             'auth_token' => $token,
@@ -174,7 +212,8 @@ class ApiNewsletterTest extends TestCase
                     ],
                     "type" => "related_posts"
                 ],
-        ]]);
+            ]
+        ]);
 
         $response = $this->post('/api/newsletter/preview', [
             'auth_token' => $token,
@@ -184,7 +223,6 @@ class ApiNewsletterTest extends TestCase
         $response->assertOk();
 
         $response->assertJsonStructure($this->getNewsletterJsonStructure(), $response->json());
-
     }
 
     /** @test */
@@ -212,7 +250,7 @@ class ApiNewsletterTest extends TestCase
         $response->assertNotFound();
     }
 
-    private function getNewsletterJsonStructure():array
+    private function getNewsletterJsonStructure(): array
     {
         return [
             '*' => [
