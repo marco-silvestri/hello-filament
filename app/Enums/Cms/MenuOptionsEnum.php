@@ -17,10 +17,10 @@ enum MenuOptionsEnum: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::PAGE => __('menus.lbl-page'),
-            self::CATEGORY => __('menus.lbl-category'),
-            self::TAG => __('menus.lbl-tag'),
-            self::EXTERNAL_URL => __('menus.lbl-external-url'),
+            self::PAGE => __('common.ent-page'),
+            self::CATEGORY => __('common.ent-category'),
+            self::TAG => __('common.ent-tag'),
+            self::EXTERNAL_URL => __('common.lbl-external-url'),
         };
     }
 

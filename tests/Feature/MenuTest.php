@@ -100,9 +100,9 @@ class MenuTest extends TestCase
 
     //     $menu = Menu::factory()->create();
 
-    //     Livewire::test(MenuResource::class, [
+    //     Livewire::test(EditMenu::class, [
     //         'record' => $menu->getRouteKey(),
-    //     ])->callAction('add_menu_item')
+    //     ])->callFormComponentAction('form', 'add_menu_item')
     //         ->fillForm([
     //             'name' => fake()->word(),
     //             'parent_id' => null,

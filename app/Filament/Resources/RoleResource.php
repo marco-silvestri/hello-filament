@@ -31,6 +31,7 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 Textarea::make('name')
+                ->label(__('common.fld-name'))
                     ->required()
             ]);
     }
@@ -40,8 +41,10 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->searchable(),
+                ->label(__('common.fld-name'))
+                    ->searchable(),
                 TextColumn::make('users_count')
+                ->label(__('common.lbl-users-count'))
                     ->counts('users')
                     ->sortable()
             ])
@@ -49,14 +52,14 @@ class RoleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\ViewAction::make(),
+                // Tables\Actions\EditAction::make(),
             ]);
+            // ->bulkActions([
+            //     Tables\Actions\BulkActionGroup::make([
+            //         Tables\Actions\DeleteBulkAction::make(),
+            //     ]),
+            // ]);
     }
 
     public static function getRelations(): array
@@ -74,5 +77,15 @@ class RoleResource extends Resource
             'view' => Pages\ViewRole::route('/{record}'),
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-role');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-roles');
     }
 }

@@ -62,7 +62,6 @@ class PostResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // dd(DB::table('media')->select(DB::raw('title, path as value'))->get()->toArray());
         return $form
             ->columns(3)
             ->schema([
@@ -70,6 +69,7 @@ class PostResource extends Resource
                     ->columnSpan(2)
                     ->schema([
                         Textarea::make('title')
+                            ->label(__('common.lbl-title'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->live(debounce: 500)
@@ -94,12 +94,14 @@ class PostResource extends Resource
                             ->collapsible()
                             ->blocks([
                                 Block::make('heading')
+                                    ->label(__('block-builder.heading'))
                                     ->icon('heroicon-m-pencil')
                                     ->schema([
                                         TextInput::make('content')
-                                            ->label(__('block-builder.heading'))
+                                            ->label(__('block-builder.content'))
                                             ->required(),
                                         Select::make('level')
+                                            ->label(__('block-builder.level'))
                                             ->options([
                                                 'h1' => 'Heading 1',
                                                 'h2' => 'Heading 2',
@@ -109,29 +111,28 @@ class PostResource extends Resource
                                                 'h6' => 'Heading 6',
                                             ]),
                                         ColorPicker::make('color')
+                                            ->label(__('block-builder.color'))
                                     ])->columns(2),
                                 Block::make('paragraph')
+                                    ->label(__('block-builder.paragraph'))
                                     ->icon('heroicon-m-bars-3-bottom-left')
                                     ->schema([
                                         TinyEditor::make('content')
-                                            ->label('')
+                                            ->label(__('block-builder.content'))
                                             ->toolbarSticky(true)
-                                            ->imageList(Media::select('title', 'path')->get()->map( fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
-                                        // RichEditor::make('content')
-                                        //     ->label('')
-                                        //     ->columnSpanFull()
-                                        //     ->disableToolbarButtons([
-                                        //         'attachFiles',
-                                        //     ]),
+                                            ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                     ]),
                                 Block::make('image')
+                                    ->label(__('block-builder.image'))
                                     ->icon('heroicon-o-photo')
                                     ->columns(2)
                                     ->schema([
                                         TextInput::make('width')
+                                            ->label(__('block-builder.width'))
                                             ->columnSpan(1)
                                             ->numeric(),
                                         TextInput::make('height')
+                                            ->label(__('block-builder.height'))
                                             ->columnSpan(1)
                                             ->numeric(),
                                         TextInput::make('alt')
@@ -139,23 +140,28 @@ class PostResource extends Resource
                                         TextInput::make('caption')
                                             ->columnSpanFull(),
                                         CuratorPicker::make('image')
+                                            ->label(__('block-builder.image'))
                                     ]),
                                 Block::make('related_posts')
+                                    ->label(__('block-builder.related_posts'))
                                     ->icon('heroicon-m-clipboard-document-list')
                                     ->maxItems(1)
                                     ->schema([
                                         Select::make('related_posts')
+                                            ->label(__('block-builder.related_posts'))
                                             ->options(Post::all()->pluck('title', 'id'))
                                             ->searchable()
                                             ->multiple()
                                     ]),
                                 Block::make('video')
+                                    ->icon('heroicon-o-video-camera')
                                     ->schema([
                                         TextInput::make('url')
                                             ->label('Video Url')
                                             ->required(),
                                     ]),
                                 Block::make('audio')
+                                    ->icon('heroicon-o-musical-note')
                                     ->schema([
                                         Select::make('audio')
                                             ->relationship(name: 'audio', titleAttribute: 'title')
@@ -166,12 +172,14 @@ class PostResource extends Resource
                                         TextInput::make('caption')
                                     ]),
                                 Block::make('review')
+                                    ->icon('heroicon-o-clipboard-document-list')
+                                    ->label(__('block-builder.review'))
                                     ->maxItems(1)
                                     ->columns(2)
                                     ->columnSpan(2)
                                     ->schema([
                                         Repeater::make('parameters')
-                                            ->label(__('posts.lbl-parameter'))
+                                            ->label(__('posts.lbl-parameters'))
                                             ->maxItems(10)
                                             ->columnSpanFull()
                                             ->columns(2)
@@ -188,9 +196,11 @@ class PostResource extends Resource
                                             })
                                             ->schema([
                                                 TextInput::make('key')
+                                                    ->label(__('block-builder.key'))
                                                     ->required()
                                                     ->columnSpan(1),
                                                 TextInput::make('value')
+                                                    ->label(__('block-builder.value'))
                                                     ->required()
                                                     ->live()
                                                     ->numeric()
@@ -203,6 +213,7 @@ class PostResource extends Resource
                                         Textarea::make('summary')
                                             ->label(__('posts.fl-summary')),
                                         TextInput::make('total_score')
+                                            ->label(__('block-builder.score'))
                                             ->columnSpan(1)
                                             ->type('decimal')
                                             ->step(0.01)
@@ -218,24 +229,28 @@ class PostResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Select::make('author_id')
+                            ->label(__('common.fld-author'))
                             ->relationship('author', 'name', fn (EloquentBuilder $query) => $query->role('author'),)
                             ->native(false)
                             ->required(),
                         Select::make('categories')
+                            ->label(__('common.ent-categories'))
                             ->relationship(name: 'categories', titleAttribute: 'name')
                             ->multiple()
                             ->searchable(),
                         Select::make('tags')
+                            ->label(__('common.ent-tags'))
                             ->relationship(name: 'tags', titleAttribute: 'name')
                             ->multiple()
                             ->searchable(),
                         CuratorPicker::make('feature_media_id')
-                            ->label('Featured image'),
+                            ->label(__('posts.lbl-featured-image')),
                         Select::make('status')
-                        ->required()
+                            ->label(__('posts.lbl-status'))
+                            ->required()
                             ->options(PostStatusEnum::class),
                         DateTimePicker::make('published_at')
-                            ->label('Published at')
+                            ->label(__('posts.lbl-published-at'))
                             ->required(),
                     ]),
             ]);
@@ -246,35 +261,41 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('author.name')
+                    ->label(__('common.fld-author'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('title')
+                    ->label(__('common.lbl-title'))
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('slug.name'),
+                TextColumn::make('slug.name')
+                    ->label(__('common.lbl-slug')),
                 TextColumn::make('tags.name')
                     ->limit(10)
                     ->limitList(4)
                     ->badge()
-                    ->tooltip(function (TextColumn $column){
+                    ->tooltip(function (TextColumn $column) {
                         $state = $column->getState();
                         if ($state) {
                             return implode(", ", $state);
                         }
                     }),
                 TextColumn::make('categories.name')
+                    ->label(__('common.ent-categories'))
                     ->limit(10)
                     ->limitList(2)
                     ->badge()
-                    ->tooltip(function (TextColumn $column){
+                    ->tooltip(function (TextColumn $column) {
                         $state = $column->getState();
                         if ($state) {
                             return implode(", ", $state);
                         }
                     }),
                 TextColumn::make('visits_count')
+                    ->label(__('posts.lbl-visits-count'))
                     ->counts('visits'),
                 IconColumn::make('has_importer_problem')
+                    ->label(__('posts.lbl-importer-problem'))
                     ->boolean()
                     ->falseColor('info')
                     ->trueColor('warning')
@@ -283,10 +304,12 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('common.fld-created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('common.fld-updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -301,7 +324,7 @@ class PostResource extends Resource
                     ->multiple()
                     ->preload(),
                 Filter::make('has_importer_problem')
-                    ->query(fn(EloquentBuilder $query):EloquentBuilder => $query->where('has_importer_problem', true)),
+                    ->query(fn (EloquentBuilder $query): EloquentBuilder => $query->where('has_importer_problem', true)),
             ])
             ->actions([
                 ActionGroup::make([
@@ -335,5 +358,15 @@ class PostResource extends Resource
             'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-post');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-posts');
     }
 }

@@ -37,7 +37,8 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('name')
+                TextInput::make('name')
+                    ->label(__('common.fld-name'))
                     ->required()
                     ->live(debounce: 500)
                     ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
@@ -66,14 +67,17 @@ class CategoryResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label(__('common.fld-name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('posts_count')
+                    ->label(__('common.lbl-post-count'))
                     ->counts('posts')
                     ->sortable()
                     ->url(fn (Category $category): string => PostResource::getUrl('index', ['tableFilters' => ['categories' => ['values' => [$category->id]]]]))
                     ->openUrlInNewTab(),
                 TextColumn::make('created_at')
+                    ->label(__('fld-created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -108,5 +112,15 @@ class CategoryResource extends Resource
             'view' => Pages\ViewCategory::route('/{record}'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-category');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-categories');
     }
 }
