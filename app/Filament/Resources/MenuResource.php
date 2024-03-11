@@ -49,19 +49,24 @@ class MenuResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label(__('common.fld-name'))
                     ->string(),
                 Actions::make([
                     Action::make('add_menu_item')
+                        ->label(__('block-builder.add-menu-item'))
                         ->form([
                             TextInput::make('name')
+                                ->label(__('common.fld-name'))
                                 ->required()
                                 ->string(),
                             Select::make('parent_id')
+                                ->label(__('common.lbl-parent-id'))
                                 ->live()
                                 ->options(function (Menu $record) {
                                     return $record->items()->where('has_submenu', true)->pluck('name', 'id');
                                 }),
                             TextInput::make('order')
+                                ->label(__('common.lbl-order'))
                                 ->numeric()
                                 ->hidden(fn (Get $get): bool => $get('parent_id') ?? false)
                                 ->minValue(1)
@@ -69,11 +74,13 @@ class MenuResource extends Resource
                                     return ($record->items()->max('order') + 1);
                                 })->default(1),
                             Toggle::make('has_submenu')
+                                ->label(__('common.lbl-has-submenu'))
                                 ->live()
                                 ->columnSpanFull()
                                 ->onColor('success')
                                 ->offColor('danger'),
                             Select::make('type')
+                                ->label(__('common.fld-type'))
                                 ->required()
                                 ->live()
                                 ->hidden(fn (Get $get): bool => $get('has_submenu') ?? false)
@@ -86,7 +93,7 @@ class MenuResource extends Resource
                                 ->hidden(fn (Get $get): bool => !($get('type') == MenuOptionsEnum::EXTERNAL_URL->value)),
                             Select::make('value')
                                 ->required()
-                                ->label('Category')
+                                ->label(__('common.fld-category'))
                                 ->options(Category::all()->pluck('name', 'id'))
                                 ->required()
                                 ->searchable()
@@ -101,6 +108,7 @@ class MenuResource extends Resource
                             Select::make('value')
                                 ->required()
                                 ->label('Page')
+                                ->label(__('common.ent-page'))
                                 ->options(Page::all()->pluck('title', 'id'))
                                 ->required()
                                 ->hidden(fn (Get $get): bool => !($get('type') == MenuOptionsEnum::PAGE->value)),
@@ -181,5 +189,15 @@ class MenuResource extends Resource
                 ]);
             }
         }
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-menu');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-menus');
     }
 }

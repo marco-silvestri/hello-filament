@@ -21,6 +21,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -57,6 +58,7 @@ class AudioResource extends Resource
                         ->hiddenOn('create')
                         ->tabs([
                             Tab::make('Preview')
+                                ->label('common.fld-preview')
                                 ->schema([
                                     ViewField::make('preview')
                                         ->view('cms.filament.audio-track-preview')
@@ -86,9 +88,11 @@ class AudioResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         TextInput::make('title')
+                            ->label(__('common.lbl-title'))
                             ->maxLength(255)
                             ->required(),
                         TextInput::make('description')
+                            ->label(__('common.fld-description'))
                             ->maxLength(255),
                     ]),
                 Section::make('Dettagli')
@@ -97,7 +101,7 @@ class AudioResource extends Resource
                     ->schema([
                         Placeholder::make('created_at')
                             ->columnSpan(1)
-                            ->label('Caricato il')
+                            ->label(__('common.fld-created-at'))
                             ->content(function (Audio $audio) {
                                 if ($audio->created_at != null) {
                                     return $audio->created_at;
@@ -106,7 +110,7 @@ class AudioResource extends Resource
                             }),
                         Placeholder::make('type')
                             ->columnSpan(1)
-                            ->label('Tipo di file')
+                            ->label(__('common.lbl-file-type'))
                             ->content(function (Audio $audio) {
                                 if ($audio->type != null) {
                                     return $audio->type;
@@ -115,7 +119,7 @@ class AudioResource extends Resource
                             }),
                         Placeholder::make('disk')
                             ->columnSpan(1)
-                            ->label('Disco')
+                            ->label(__('common.lbl-disk'))
                             ->content(function (Audio $audio) {
                                 if ($audio->disk != null) {
                                     return $audio->disk;
@@ -124,7 +128,7 @@ class AudioResource extends Resource
                             }),
                         Placeholder::make('directory')
                             ->columnSpan(1)
-                            ->label('Cartella')
+                            ->label(__('common.lbl-directory'))
                             ->content(function (Audio $audio) {
                                 if ($audio->directory != null) {
                                     return $audio->directory;
@@ -133,7 +137,7 @@ class AudioResource extends Resource
                             }),
                         Placeholder::make('visibility')
                             ->columnSpan(1)
-                            ->label('Visibilità')
+                            ->label(__('common.lbl-visibility'))
                             ->content(function (Audio $audio) {
                                 if ($audio->visibility != null) {
                                     return $audio->visibility;
@@ -142,7 +146,7 @@ class AudioResource extends Resource
                             }),
                         Placeholder::make('path')
                             ->columnSpan(3)
-                            ->label('Url del file')
+                            ->label(__('common.lbl-path'))
                             ->content(function (Audio $audio) {
                                 if ($audio->path != null) {
                                     return Storage::disk($audio->disk)->url($audio->path);
@@ -197,9 +201,11 @@ class AudioResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         TextInput::make('title')
+                            ->label("common.lbl-title")
                             ->maxLength(255)
                             ->required(),
                         TextInput::make('description')
+                            ->label("common.fld-description")
                             ->maxLength(255),
                     ]),
             ]);
@@ -209,35 +215,48 @@ class AudioResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('disk')
+                TextColumn::make('disk')
+                    ->label(__('common.lbl-disk'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('directory')
+                TextColumn::make('directory')
+                    ->label(__('common.lbl-directory'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('visibility')
+                TextColumn::make('visibility')
+                    ->label(__('common.lbl-visibility'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
+                    ->label(__('common.fld-name'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('path')
+                TextColumn::make('path')
+                    ->label(__('common.lbl-path'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
+                    ->label(__('common.lbl-file-type'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('ext')
+                TextColumn::make('ext')
+                    ->label(__('common.lbl-ext'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
+                    ->label(__('common.lbl-title'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('attributes')
+                TextColumn::make('attributes')
+                    ->label(__('common.lbl-attributes'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
+                    ->label(__("common.fld-description"))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
+                    ->label("common.fld-deleted-at")
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
+                    ->label("common.fld-created-at")
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
+                    ->label("common.fld-updated-at")
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -269,5 +288,15 @@ class AudioResource extends Resource
             'create' => Pages\CreateAudio::route('/create'),
             'edit' => Pages\EditAudio::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-audio');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-audio');
     }
 }

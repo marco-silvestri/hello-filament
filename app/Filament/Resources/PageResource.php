@@ -43,19 +43,21 @@ class PageResource extends Resource
                     ->columnSpan(2)
                     ->schema([
                         ComponentsBuilder::make('blocks')
-                            ->label('Content')
+                            ->label(__('block-builder.content'))
                             ->columnSpanFull()
                             ->addActionLabel('Add a new block')
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->blocks([
                                 Block::make('heading')
+                                    ->label(__('block-builder.heading'))
                                     ->icon('heroicon-m-pencil')
                                     ->schema([
                                         TextInput::make('content')
-                                            ->label('Heading')
+                                            ->label(__('block-builder.heading'))
                                             ->required(),
                                         Select::make('level')
+                                            ->label(__('block-builder.level'))
                                             ->options([
                                                 'h1' => 'Heading 1',
                                                 'h2' => 'Heading 2',
@@ -65,8 +67,10 @@ class PageResource extends Resource
                                                 'h6' => 'Heading 6',
                                             ]),
                                         ColorPicker::make('color')
+                                            ->label(__('block-builder.color'))
                                     ]),
                                 Block::make('paragraph')
+                                    ->label(__('block-builder.paragraph'))
                                     ->icon('heroicon-m-bars-3-bottom-left')
                                     ->schema([
                                         TiptapEditor::make('content')
@@ -77,6 +81,7 @@ class PageResource extends Resource
                                             ->disableFloatingMenus(),
                                     ]),
                                 Block::make('image')
+                                    ->label(__('block-builder.image'))
                                     ->icon('heroicon-o-photo')
                                     ->schema([
                                         CuratorPicker::make('image')
@@ -98,6 +103,7 @@ class PageResource extends Resource
                             ->hiddenOn('create')
                             ->content(fn (Page $record): string => '/' . $record->slug->name),
                         TextInput::make('title')
+                            ->label(__('common.lbl-title'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->live(debounce: 500)
@@ -109,7 +115,7 @@ class PageResource extends Resource
                             ->relationship('slug')
                             ->schema([
                                 TextInput::make('name')
-                                    ->label('slug')
+                                    ->label('Slug')
                                     ->required()
                                     ->readonly()
                                     ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
@@ -123,18 +129,21 @@ class PageResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')
+                    ->label(__('common.lbl-title'))
                     ->searchable(),
                 TextColumn::make('slug.name')
                     ->label('Url')
                     ->prefix('/')
                     ->searchable(),
-                TextColumn::make('layout')
-                    ->searchable(),
+                // TextColumn::make('layout')
+                //     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('common.fld-created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('common.fld-updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -166,5 +175,15 @@ class PageResource extends Resource
             'create' => Pages\CreatePage::route('/create'),
             'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.ent-page');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.ent-pages');
     }
 }
