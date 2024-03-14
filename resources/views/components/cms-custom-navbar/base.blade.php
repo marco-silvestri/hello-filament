@@ -23,9 +23,9 @@
                         @endphp
 
                         @if ($item->parent_id == null && !$item->has_submenu)
-                        <x-custom-navbar.simple-button :item="$item" /> 
+                        <x-cms-custom-navbar.simple-button :item="$item" /> 
                         @elseif($item->parent_id == null && $item->has_submenu)
-                        <x-custom-navbar.dropdown-button :item="$item" /> 
+                        <x-cms-custom-navbar.dropdown-button :item="$item" /> 
                         @else
                         @endif
                     @endforeach

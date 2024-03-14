@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Cms\PostStatusEnum;
 use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasVisits;
 use Awcodes\Curator\Models\Media;
@@ -39,11 +40,6 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function slug(): MorphOne
-    {
-        return $this->morphOne(Slug::class, 'sluggable');
-    }
-
     public function audio(): BelongsToMany
     {
         return $this->belongsToMany(Audio::class);
@@ -52,5 +48,18 @@ class Post extends Model
     public function featuredImage(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'feature_media_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query
+            ->where('status', PostStatusEnum::PUBLISH)
+            ->where('published_at', '<=', now())
+            ->whereNotNull('published_at');
     }
 }

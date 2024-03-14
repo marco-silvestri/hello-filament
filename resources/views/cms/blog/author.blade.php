@@ -1,0 +1,11 @@
+<x-layouts.post>
+    <div>
+        <h2>Autor</h2>
+        @dump($author)
+        @dump($author?->profile)
+    </div>
+    <div>
+        <h2>Posts</h2>
+        @dump($author?->posts)
+    </div>
+</x-layouts.post>

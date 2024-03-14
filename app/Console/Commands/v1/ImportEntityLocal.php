@@ -170,9 +170,11 @@ class ImportEntityLocal extends Command
                         'created_at' => $rawUser->user_registered,
                     ]);
 
-                    $slug = $this->getUniqueSlug($rawUser->user_nicename);
-
-                    $user->slug()->save($slug);
+                    $slug = Slug::firstOrCreate([
+                        'name' => $rawUser->user_nicename,
+                        'sluggable_type' => 'App\Models\User',
+                        'sluggable_id' => $user->id
+                    ]);
 
                     $rawRoles = array_keys(unserialize($rawUser->permissions));
                     $roles = [];
@@ -192,16 +194,16 @@ class ImportEntityLocal extends Command
                             $user->save();
                             $user = $user->refresh();
                         }
-
                     }
-
 
                     $user->syncRoles($roles);
 
                     if($url || $legacyUserMeta)
                     {
-                        Profile::create([
-                            'user_id' => $user->id,
+                        Profile::firstOrCreate([
+                            'user_id' => $user->id
+                        ],
+                        [
                             'url' => $url,
                             'description' => $legacyUserMeta,
                         ]);
@@ -240,8 +242,11 @@ class ImportEntityLocal extends Command
                                 'name' => $legacyCategory->name,
                             ]);
 
-                            $slug = $this->getUniqueSlug($legacyCategory->slug, true);
-                            $category->slug()->save($slug);
+                            $slug = Slug::firstOrCreate([
+                                'name' => $legacyCategory->slug,
+                                'sluggable_type' => 'App\Models\Category',
+                                'sluggable_id' => $category->id
+                            ]);
 
                             return $category->id;
                         })->toArray());
@@ -253,8 +258,11 @@ class ImportEntityLocal extends Command
                                 'name' => $legacyTag->name,
                             ]);
 
-                            $slug = $this->getUniqueSlug($legacyTag->slug, true);
-                            $tag->slug()->save($slug);
+                            $slug = Slug::firstOrCreate([
+                                'name' => $legacyTag->slug,
+                                'sluggable_type' => 'App\Models\Tag',
+                                'sluggable_id' => $tag->id
+                            ]);
 
                             return $tag->id;
                         })->toArray());
@@ -328,8 +336,11 @@ class ImportEntityLocal extends Command
                             'feature_media_id' => isset($imgObj) ? $imgObj->id : null,
                         ]);
 
-                        $slug = $this->getUniqueSlug($rawPost->post_name);
-                        $post->slug()->save($slug);
+                        $slug = Slug::firstOrCreate([
+                            'name' => $rawPost->post_name,
+                            'sluggable_type' => 'App\Models\Post',
+                            'sluggable_id' => $post->id
+                        ]);
 
                         $post->tags()->sync($tags);
                         $post->categories()->sync($categories);
@@ -364,24 +375,5 @@ class ImportEntityLocal extends Command
 
         $this->info("Done!");
         return Command::SUCCESS;
-    }
-
-    private function getUniqueSlug(string $slug, bool $takeFirstInstead = false): Slug
-    {
-        $slugName = $slug;
-            $existingSlug = Slug::where('name', $slug)->get();
-
-            if($takeFirstInstead && !$existingSlug->isEmpty())
-            {
-                return $existingSlug[0];
-            }
-
-            if(!$existingSlug->isEmpty())
-            {
-                $count = $existingSlug->count();
-                $slugName .= "-{$count}";
-            }
-
-            return new Slug(['name' => $slugName]);
     }
 }

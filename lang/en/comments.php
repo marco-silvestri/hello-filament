@@ -21,4 +21,11 @@ return [
     "ntf-err-rejected" => "Error in rejecting the comment",
     "ntf-awaiting" => "Comment sent back to moderation pool",
     "ntf-err-awaiting" => "Error in sending the comment to moderation pool",
+    "lbl-on" => "on",
+    "lbl-at" => "at",
+    "btn-reply" => "Reply",
+    "btn-send" => "Send",
+    "lbl-writes" => "writes",
+    "lbl-anonymous" => "Anonymous",
+    "lbl-reply-sent" => "Reply sent",
 ];

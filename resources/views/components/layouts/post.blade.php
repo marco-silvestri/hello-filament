@@ -16,13 +16,13 @@
         </style>
 
         {!! $headSnippets !!}
-        {{-- @vite('resources/css/app.css') --}}
+        @vite('resources/css/app.css')
     </head>
 
     <body class="antialiased">
         {!! $bodySnippets !!}
         {{ $slot }}
-        {{-- @vite('resources/js/app.js') --}}
+        @vite('resources/js/app.js')
 
         {!! $footerSnippets !!}
     </body>

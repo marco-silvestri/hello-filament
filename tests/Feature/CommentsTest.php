@@ -10,6 +10,11 @@ use function PHPUnit\Framework\assertTrue;
 
 class CommentsTest extends TestCase
 {
+    protected function setUp():void
+    {
+        parent::setUp();
+        config()->set('honeypot.enabled', false);
+    }
     /** @test */
     public function only_admin_can_access_comments_panel()
     {

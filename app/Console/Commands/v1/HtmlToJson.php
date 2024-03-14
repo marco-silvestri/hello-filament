@@ -73,7 +73,7 @@ class HtmlToJson extends Command
                 $explodedHtml = explode("\n", $html);
 
                 collect($explodedHtml)
-                    ->filter(fn ($el) => $el != "" && $el != "&nbsp;")
+                    ->filter(fn ($el) => $el != "" && $el != "&nbsp;" && $el != null && $el != '\r')
                     ->map(function ($el) use (&$payload) {
                         if (Str::containsAll($el, ['<a href', '<img '])) {
                             $packedBlock = $this->parseImageBlock($el);
@@ -82,6 +82,9 @@ class HtmlToJson extends Command
                             $payload[] = $this->parseVideoBlock($el);
                         } else if (Str::contains($el, '[audio')) {
                             $payload[] = $this->parseAudioBlock($el);
+                        }   else if (Str::contains($el, '<iframe class="wp-embedded-content'))
+                        {
+                            $payload[] = $this->parseIframeRelatedBlock($el);
                         } else {
                             $payload[] = $this->parseParagraphBlock($el);
                         }
@@ -247,13 +250,46 @@ class HtmlToJson extends Command
         return $url;
     }
 
+    public function parseIframeRelatedBlock(string $el):array
+    {
+        $dom = new DOMDocument();
+        $dom->loadHTML($el);
+        $iframes = $dom->getElementsByTagName('iframe');
+
+        $slug = "";
+        foreach ($iframes as $iframe) {
+            if ($iframe->hasAttribute('src')) {
+                $srcValue = $iframe->getAttribute('src');
+                $urlComponents = parse_url($srcValue);
+                $path = $urlComponents['path'];
+                $parts = explode('/', trim($path, '/'));
+                $slug = $parts[count($parts) - 2];
+            }
+        }
+
+        $post = Post::whereHas('slug', function ($query) use ($slug) {
+            $query->where('name', $slug);
+        })->first();
+
+        if(!$post->isEmpty())
+        {
+            return [
+                'data' => [
+                    'related_posts' => $post->id,
+                ],
+                'type' => 'related_posts',
+        ];
+        }
+    }
+
     public function parseRelatedPostsBlock(array $arrayHtml, string $html): array
     {
         $legacyRelatedPostsUrl = [];
         $postsId = [];
         collect($arrayHtml)
             ->filter(fn ($el) =>
-                $el != "" && Str::contains($el, 'audiofader.com') && !Str::contains($el, '[button'))
+                $el != ""
+                && (Str::contains($el, 'audiofader.com') && !Str::contains($el, '[button')))
             ->map(function ($url) use (&$postsId, &$legacyRelatedPostsUrl) {
                 $slug = Str::replace([
                     'http://www.audiofader.com/',

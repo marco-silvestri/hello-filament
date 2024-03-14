@@ -17,5 +17,9 @@ return [
             'address' => env('NEWSLETTER_FROM_ADDRESS', 'admin'),
         ],
         'reply' => env('NEWSLETTER_REPLY_ADDRESS', 'admin'),
-    ]
+    ],
+    'post_caching' => [
+        'enabled' => false,
+        'ttl' => 60 * 60 * 2, // 2 hours
+    ],
 ];

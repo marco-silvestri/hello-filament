@@ -25,9 +25,9 @@
                         $insertedItemId[] = $children->id;
                     @endphp
                     @if ($children->has_submenu)
-                        <x-custom-navbar.submenu-dropdown-item :item="$children" />
+                        <x-cms-custom-navbar.submenu-dropdown-item :item="$children" />
                     @else
-                        <x-custom-navbar.simple-submenu-item :item="$children" />
+                        <x-cms-custom-navbar.simple-submenu-item :item="$children" />
                     @endif
                 @endforeach
                 <!-- More dropdown items... -->

@@ -21,4 +21,11 @@ return [
     "ntf-err-rejected" => "Errore nel rifiutare il commento",
     "ntf-awaiting" => "Commento messo in moderazione",
     "ntf-err-awaiting" => "Errore nel mettere il commento in moderazione",
+    "lbl-on" => "il",
+    "lbl-at" => "alle",
+    "btn-reply" => "Rispondi",
+    "btn-send" => "Invia",
+    "lbl-writes" => "scrive",
+    "lbl-anonymous" => "Anonimo",
+    "lbl-reply-sent" => "Risposta inviata",
 ];

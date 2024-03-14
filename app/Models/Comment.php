@@ -26,4 +26,10 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    public function scopeApproved($query)
+    {
+        return $query
+            ->where('status', CommentStatusEnum::APPROVED);
+    }
 }
