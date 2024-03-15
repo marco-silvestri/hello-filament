@@ -117,10 +117,11 @@ class PostResource extends Resource
                                     ->label(__('block-builder.paragraph'))
                                     ->icon('heroicon-m-bars-3-bottom-left')
                                     ->schema([
-                                        TinyEditor::make('content')
+                                        TiptapEditor::make('content')
                                             ->label(__('block-builder.content'))
-                                            ->toolbarSticky(true)
-                                            ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
+                                            ->profile('simple')
+                                            // ->toolbarSticky(true)
+                                            // ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                     ]),
                                 Block::make('image')
                                     ->label(__('block-builder.image'))
