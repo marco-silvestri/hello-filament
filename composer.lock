@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46de0d0f3b659d85fd8532e4ca10dd83",
+    "content-hash": "fb458f6f878ea758cd822cfcf0ab456e",
     "packages": [
         {
             "name": "amidesfahani/filament-tinyeditor",
@@ -213,16 +213,16 @@
         },
         {
             "name": "awcodes/filament-tiptap-editor",
-            "version": "v3.2.21",
+            "version": "v3.2.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awcodes/filament-tiptap-editor.git",
-                "reference": "fef08d6c920cd5775db393fcbc2f08acba81389f"
+                "reference": "e1fe08063fed3536796fab942379fc08cfdb8af0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/fef08d6c920cd5775db393fcbc2f08acba81389f",
-                "reference": "fef08d6c920cd5775db393fcbc2f08acba81389f",
+                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/e1fe08063fed3536796fab942379fc08cfdb8af0",
+                "reference": "e1fe08063fed3536796fab942379fc08cfdb8af0",
                 "shasum": ""
             },
             "require": {
@@ -284,7 +284,7 @@
             ],
             "support": {
                 "issues": "https://github.com/awcodes/filament-tiptap-editor/issues",
-                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.2.21"
+                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.2.25"
             },
             "funding": [
                 {
@@ -292,7 +292,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-20T13:59:33+00:00"
+            "time": "2024-02-28T21:33:43+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
