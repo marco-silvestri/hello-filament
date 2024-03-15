@@ -73,7 +73,7 @@ class HtmlToJson extends Command
                 $explodedHtml = explode("\n", $html);
 
                 collect($explodedHtml)
-                    ->filter(fn ($el) => $el != "" && $el != "&nbsp;" && $el != null && $el != '\r')
+                    ->filter(fn ($el) => $el != "")
                     ->map(function ($el) use (&$payload) {
                         if (Str::containsAll($el, ['<a href', '<img '])) {
                             $packedBlock = $this->parseImageBlock($el);
@@ -86,7 +86,12 @@ class HtmlToJson extends Command
                         {
                             $payload[] = $this->parseIframeRelatedBlock($el);
                         } else {
-                            $payload[] = $this->parseParagraphBlock($el);
+                            $paragraph = $this->parseParagraphBlock($el);
+
+                            if($paragraph)
+                            {
+                                $payload[] = $paragraph;
+                            }
                         }
                     });
 
@@ -173,14 +178,19 @@ class HtmlToJson extends Command
         return $html;
     }
 
-    public function reviewParser(Post $post, Collection $rawReviews):array
+    public function reviewParser(Post $post, Collection $rawReviews):?array
     {
-        $payload = [];
         if($post->legacy_id)
         {
+            $payload = [];
             $postReview = $rawReviews->filter(
                 fn($reviewElement) => $reviewElement->post_id === $post->legacy_id
             );
+
+            if(count($postReview) === 0)
+            {
+                return;
+            }
 
             $payload = [
                 'data' => [
@@ -227,9 +237,9 @@ class HtmlToJson extends Command
                     'value' => $scores[$scoreKey],
                 ];
             }
-        }
 
-        return $payload;
+            return $payload;
+        }
     }
 
     public function arrayToCss(array $classes) :string
@@ -377,7 +387,7 @@ class HtmlToJson extends Command
         ];
     }
 
-    public function parseImageBlock(string $el): array
+    public function parseImageBlock(string $el): ?array
     {
         try {
             $dom = new DOMDocument();
@@ -447,7 +457,7 @@ class HtmlToJson extends Command
 
             $returnable = [];
 
-            if(isset($headParagraph))
+            if(isset($headParagraph) && $headParagraph)
             {
                 $returnable = $headParagraph;
             }
@@ -463,7 +473,7 @@ class HtmlToJson extends Command
                 'type' => 'image',
             ];
 
-            if(isset($tailParagraph))
+            if(isset($tailParagraph) && $tailParagraph)
             {
                 $returnable[] = $tailParagraph;
             }
@@ -471,18 +481,22 @@ class HtmlToJson extends Command
             return $returnable;
 
         } catch (Exception $e) {
-            return [];
         }
     }
 
-    public function parseParagraphBlock(string $el): array
+    public function parseParagraphBlock(string $el): ?array
     {
-        return [
-            'data' => [
-                'content' => $el,
-            ],
-            'type' => 'paragraph',
-        ];
+        $el = str_replace(["\r\n", "\r", "&npsp;", "\n"], "", $el);
+
+        if($el)
+        {
+            return [
+                'data' => [
+                    'content' => $el,
+                ],
+                'type' => 'paragraph',
+            ];
+        }
     }
 
     public function element_to_obj($element)
