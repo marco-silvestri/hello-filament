@@ -14,6 +14,7 @@ return [
     "lbl-parameters" => "Parametri",
     "lbl-featured-image" => "Immagine di copertina",
     "lbl-published-at" => "Pubblicato il",
+    "lbl-related-post" => "Post relazionati",
     "lbl-visits-count" => "Conteggio visite",
     "lbl-importer-problem" => "Problemi d'importazione",
     "lbl-status" => "Stato",

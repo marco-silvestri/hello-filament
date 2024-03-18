@@ -120,8 +120,8 @@ class PostResource extends Resource
                                         TiptapEditor::make('content')
                                             ->label(__('block-builder.content'))
                                             ->profile('simple')
-                                            // ->toolbarSticky(true)
-                                            // ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
+                                        // ->toolbarSticky(true)
+                                        // ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                     ]),
                                 Block::make('image')
                                     ->label(__('block-builder.image'))
@@ -142,17 +142,6 @@ class PostResource extends Resource
                                             ->columnSpanFull(),
                                         CuratorPicker::make('image')
                                             ->label(__('block-builder.image'))
-                                    ]),
-                                Block::make('related_posts')
-                                    ->label(__('block-builder.related_posts'))
-                                    ->icon('heroicon-m-clipboard-document-list')
-                                    ->maxItems(1)
-                                    ->schema([
-                                        Select::make('related_posts')
-                                            ->label(__('block-builder.related_posts'))
-                                            ->options(Post::all()->pluck('title', 'id'))
-                                            ->searchable()
-                                            ->multiple()
                                     ]),
                                 Block::make('video')
                                     ->icon('heroicon-o-video-camera')
@@ -242,6 +231,11 @@ class PostResource extends Resource
                         Select::make('tags')
                             ->label(__('common.ent-tags'))
                             ->relationship(name: 'tags', titleAttribute: 'name')
+                            ->multiple()
+                            ->searchable(),
+                        Select::make('related_post')
+                            ->label(__('posts.lbl-related-post'))
+                            ->relationship(name: 'relatedPosts', titleAttribute: 'title')
                             ->multiple()
                             ->searchable(),
                         CuratorPicker::make('feature_media_id')
