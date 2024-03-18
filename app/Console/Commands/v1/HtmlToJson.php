@@ -189,7 +189,7 @@ class HtmlToJson extends Command
 
             if(count($postReview) === 0)
             {
-                return;
+                return null;
             }
 
             $payload = [
@@ -497,6 +497,8 @@ class HtmlToJson extends Command
                 'type' => 'paragraph',
             ];
         }
+
+        return null;
     }
 
     public function element_to_obj($element)
