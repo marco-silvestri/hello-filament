@@ -66,14 +66,17 @@ class HtmlToJson extends Command
                     $html = $this->parseLegacyButtons($explodedJsonHtml, $html);
                     $parsedBlocks = $this->parseRelatedPostsBlock($explodedJsonHtml, $html);
                     $html = $parsedBlocks['html'];
-                    $relatedArticles = $parsedBlocks['payload'];
+                    if (isset($parsedBlocks['payload'])){
+
+                        $relatedArticles = $parsedBlocks['payload'];
+                    }
                 }
 
                 //$explodedHtml = explode("\r\n", $html);
                 $explodedHtml = explode("\n", $html);
 
                 collect($explodedHtml)
-                    ->filter(fn ($el) => $el != "")
+                    ->filter(fn ($el) => $el != "" && $el != "&nbsp;")
                     ->map(function ($el) use (&$payload) {
                         if (Str::containsAll($el, ['<a href', '<img '])) {
                             $packedBlock = $this->parseImageBlock($el);
@@ -95,8 +98,17 @@ class HtmlToJson extends Command
                         }
                     });
 
-                $payload[] = $this->reviewParser($post, $rawReviews);
-                $payload[] = $relatedArticles;
+                $reviews = $this->reviewParser($post, $rawReviews);
+                if($reviews['data']['parameters'] !== [])
+                {
+                    $payload[] = $reviews;
+                }
+
+                if(count($relatedArticles) > 0)
+                {
+                    //$payload[] = $relatedArticles;
+                    $post->relatedPosts()->sync($relatedArticles['data']['related_posts']);
+                }
 
                 $payload = $this->payloadCleaner($payload);
 
@@ -104,6 +116,7 @@ class HtmlToJson extends Command
                     'json_content' => $payload,
                 ]);
             } catch (Exception $e) {
+                $this->error("Could not process post {$post->id}");
                 Log::error("Could not process post {$post->id}", ['reason' => $e]);
                 $post->update([
                     'json_content' => [$this->parseParagraphBlock($post->content)],
@@ -119,7 +132,7 @@ class HtmlToJson extends Command
     {
         foreach($payload as $key => $el)
         {
-            if($el === '')
+            if($el === '' || $el === null || $el === [])
             {
                 unset($payload[$key]);
             }
@@ -186,11 +199,6 @@ class HtmlToJson extends Command
             $postReview = $rawReviews->filter(
                 fn($reviewElement) => $reviewElement->post_id === $post->legacy_id
             );
-
-            if(count($postReview) === 0)
-            {
-                return null;
-            }
 
             $payload = [
                 'data' => [
@@ -281,7 +289,7 @@ class HtmlToJson extends Command
             $query->where('name', $slug);
         })->first();
 
-        if(!$post->isEmpty())
+        if($post != null)
         {
             return [
                 'data' => [
@@ -312,21 +320,31 @@ class HtmlToJson extends Command
                     $query->where('name', $slug);
                 })->first();
 
-                $postsId[] = $post->id;
+                if($post)
+                {
+                    $postsId[] = $post->id;
+                }
             });
 
         $html = Str::replace($legacyRelatedPostsUrl, "", $html);
         $html = trim($html);
 
-        return [
-            'html' => $html,
-            'payload' => [
-                'data' => [
-                    'related_posts' => $postsId,
-                ],
-                'type' => 'related_posts',
-            ]
-        ];
+        if(count($postsId) > 0)
+        {
+            return [
+                'html' => $html,
+                'payload' => [
+                    'data' => [
+                        'related_posts' => $postsId,
+                    ],
+                    'type' => 'related_posts',
+                ]
+            ];
+        }else{
+            return [
+                'html' => $html
+            ];
+        }
     }
 
     public function parseAudioBlock(string $el): array
@@ -343,7 +361,8 @@ class HtmlToJson extends Command
         $filenameToArray = explode('.', $filenameAndExtension);
 
         if (!Storage::exists($path)) {
-            $file = Http::get($url);//file_get_contents($url);
+            //$file = Http::get($url);
+            $file =file_get_contents($url);
             Storage::disk('public')->put($path, $file);
         }
 
@@ -482,11 +501,13 @@ class HtmlToJson extends Command
 
         } catch (Exception $e) {
         }
+
+        return null;
     }
 
     public function parseParagraphBlock(string $el): ?array
     {
-        $el = str_replace(["\r\n", "\r", "&npsp;", "\n"], "", $el);
+        $el = str_replace(["\r\n", "\r", "&nbsp;", "\n"], "", $el);
 
         if($el)
         {

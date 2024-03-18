@@ -55,6 +55,11 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function relatedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'related_posts', 'post_id', 'related_post_id');
+    }
+
     public function scopePublished($query)
     {
         return $query
