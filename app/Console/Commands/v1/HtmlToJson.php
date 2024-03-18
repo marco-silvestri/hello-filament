@@ -361,7 +361,6 @@ class HtmlToJson extends Command
         $filenameToArray = explode('.', $filenameAndExtension);
         if (!Storage::exists($path)) {
             $file = Http::get($url);
-            //$file = file_get_contents($url);
             Storage::disk('public')->put($path, $file);
         }
 
@@ -442,7 +441,6 @@ class HtmlToJson extends Command
             $imgWidth = $imgEl['width'];
             $imgHeight = $imgEl['height'];
 
-            //$uniqName = uniqid();
             $explodedUrl = explode('.', $imgUrl);
             $extension = end($explodedUrl);
             $explodedUrl = explode('/', $imgUrl);
