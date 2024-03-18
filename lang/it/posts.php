@@ -19,4 +19,9 @@ return [
     "lbl-importer-problem" => "Problemi d'importazione",
     "lbl-status" => "Stato",
     "fl-summary" => "Descrizione",
+    "fl-access-free" => "Gratuito",
+    "fl-access-registered" => "Per utenti registrati",
+    "fl-access-premium" => "Per utenti premium",
+    "lbl-highlighted" => "In evidenza",
+    "lbl-accessible-for" => "Visibile per",
 ];

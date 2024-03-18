@@ -18,6 +18,11 @@ class EditPost extends EditRecord
 
     protected static string $resource = PostResource::class;
 
+    // protected function beforeValidate()
+    // {
+    //     dd($this);
+    // }
+
     protected function getHeaderActions(): array
     {
         return [

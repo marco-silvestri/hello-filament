@@ -13,4 +13,9 @@ return [
     "lbl-future" => "Future release",
     "lbl-parameter" => "Parameters",
     "fl-summary" => "Summary",
+    "fl-access-free" => "Free",
+    "fl-access-registered" => "For registered users",
+    "fl-access-premium" => "For premium users",
+    "lbl-highlighted" => "Highlighted",
+    "lbl-accessible-for" => "Accessible for",
 ];

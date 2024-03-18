@@ -5,21 +5,28 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
+use App\Models\Media;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
+use Spatie\Watcher\Watch;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use App\Enums\Cms\PostAccessEnum;
 use App\Enums\Cms\PostStatusEnum;
 use BladeUI\Icons\Components\Icon;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\Tabs;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
@@ -30,6 +37,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
@@ -44,12 +52,7 @@ use Awcodes\Curator\Components\Forms\Uploader;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use App\Filament\Resources\PostResource\Pages\ViewPost;
-use App\Models\Media;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Spatie\Watcher\Watch;
 
 class PostResource extends Resource
 {
@@ -120,8 +123,6 @@ class PostResource extends Resource
                                         TiptapEditor::make('content')
                                             ->label(__('block-builder.content'))
                                             ->profile('simple')
-                                        // ->toolbarSticky(true)
-                                        // ->imageList(Media::select('title', 'path')->get()->map(fn ($item, $key) => ['title' => $item->title, 'value' => $item->fullPath])->toArray())
                                     ]),
                                 Block::make('image')
                                     ->label(__('block-builder.image'))
@@ -246,7 +247,21 @@ class PostResource extends Resource
                             ->options(PostStatusEnum::class),
                         DateTimePicker::make('published_at')
                             ->label(__('posts.lbl-published-at'))
+                            ->native(false)
+                            ->displayFormat('d/m/Y H:i:s')
                             ->required(),
+                        Group::make()
+                            ->label('Settings')
+                            ->relationship('settings')
+                            ->schema([
+                                Select::make('accessible_for')
+                                    ->label(__('posts.lbl-accessible-for'))
+                                    ->options(PostAccessEnum::class),
+                                DatePicker::make('highlighted')
+                                    ->label(__('posts.lbl-highlighted'))
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y'),
+                            ]),
                     ]),
             ]);
     }
