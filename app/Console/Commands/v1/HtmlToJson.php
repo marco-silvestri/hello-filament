@@ -356,13 +356,12 @@ class HtmlToJson extends Command
 
         $urlToArray = explode("/", $url);
         $filenameAndExtension = end($urlToArray);
-        $path = "audio/{$filenameAndExtension}";
+        $path = trim("audio/{$filenameAndExtension}");
 
         $filenameToArray = explode('.', $filenameAndExtension);
-
         if (!Storage::exists($path)) {
-            //$file = Http::get($url);
-            $file =file_get_contents($url);
+            $file = Http::get($url);
+            //$file = file_get_contents($url);
             Storage::disk('public')->put($path, $file);
         }
 
