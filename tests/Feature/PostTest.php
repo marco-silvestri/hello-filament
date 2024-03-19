@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Cms\PostAccessEnum;
 use App\Enums\Cms\PostStatusEnum;
 use App\Enums\RoleEnum;
 use App\Filament\Resources\PostResource\Pages\CreatePost;
@@ -48,7 +49,8 @@ class PostTest extends TestCase
                 'tags' => $tags,
                 'json_content' => $this->create_content_for_builder(),
                 'published_at' => Carbon::now(),
-                'status' => PostStatusEnum::PUBLISH->value
+                'status' => PostStatusEnum::PUBLISH->value,
+                'settings.accessible_for' => PostAccessEnum::FREE->value,
 
             ])
             ->assertFormSet([
@@ -101,7 +103,8 @@ class PostTest extends TestCase
             'title' => $record->title
         ])->fillForm([
             'title' => fake()->sentence(),
-            'author_id' => $newAuthor->id
+            'author_id' => $newAuthor->id,
+            'settings.accessible_for' => PostAccessEnum::FREE->value,
         ])
             ->call('save')
             ->assertHasNoFormErrors();

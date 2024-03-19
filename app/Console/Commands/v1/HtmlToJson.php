@@ -99,7 +99,7 @@ class HtmlToJson extends Command
                     });
 
                 $reviews = $this->reviewParser($post, $rawReviews);
-                if($reviews['data']['parameters'] !== [])
+                if(isset($reviews['data']['parameters']) && $reviews['data']['parameters'] !== [])
                 {
                     $payload[] = $reviews;
                 }
@@ -248,6 +248,8 @@ class HtmlToJson extends Command
 
             return $payload;
         }
+
+        return null;
     }
 
     public function arrayToCss(array $classes) :string
