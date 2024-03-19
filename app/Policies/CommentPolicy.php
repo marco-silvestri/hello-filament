@@ -23,6 +23,7 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment): bool
     {
+        $x = 0;
         return $user->hasPermissionTo(PermissionsEnum::COMMENT_VIEW->value);
     }
 

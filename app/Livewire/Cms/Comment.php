@@ -45,13 +45,13 @@ class Comment extends Component
             if($this->postId)
             {
                 Post::find($this->postId)->comments()->create([
-                    'user_id' => $userId,
+                    'author_id' => $userId,
                     'body' => $this->newComment,
                     'status' => CommentStatusEnum::AWAITING_MODERATION,
                 ]);
             } else {
                 $this->comment->post->comments()->create([
-                    'user_id' => $userId,
+                    'author_id' => $userId,
                     'body' => $this->newComment,
                     'status' => CommentStatusEnum::AWAITING_MODERATION,
                     'parent_id' => $this->parentId,
