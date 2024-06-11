@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Traits\Cms\HasSlug;
+use App\Traits\Cms\HasAuthor;
 use App\Traits\Cms\HasVisits;
 use App\Models\Cms\PostSettings;
 use App\Enums\Cms\PostStatusEnum;
+use App\Traits\Cms\HasStringOperations;
 use Awcodes\Curator\Models\Media;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -18,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
-    use HasFactory, HasVisits, SoftDeletes, HasSlug;
+    use HasFactory, HasVisits, SoftDeletes, HasSlug, HasAuthor, HasStringOperations;
 
     protected $guarded = ['id'];
 
@@ -26,11 +29,6 @@ class Post extends Model
         'json_content' => 'array',
         'published_at' => 'datetime:Y-m-d H:i:s'
     ];
-
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'author_id', 'id');
-    }
 
     public function tags(): BelongsToMany
     {
@@ -70,8 +68,43 @@ class Post extends Model
             ->whereNotNull('published_at');
     }
 
-    public function settings():HasOne
+    public function scopeSearch(
+        $query,
+        string $searchTerms,
+        array $columns = ['title', 'json_content'],
+        bool $addFuzzyness = true
+    ) {
+        $searchTerms = $this->prepStringForQuery($searchTerms, $addFuzzyness);
+
+        foreach ($searchTerms as $searchTerm) {
+            $deFuzzedSearchTerm = $this->deFuzz($searchTerm);
+            $query = $query->whereAny($columns, 'LIKE', $searchTerm)
+                ->orWhereHas('categories', function ($query) use ($deFuzzedSearchTerm) {
+                    $query->where('name', $deFuzzedSearchTerm);
+                })->orWhereHas('tags', function ($query) use ($deFuzzedSearchTerm) {
+                    $query->where('name', $deFuzzedSearchTerm);
+                });
+        }
+
+        $query = $query->orderByDesc('created_at');
+
+        return $query;
+    }
+
+    public function settings(): HasOne
     {
         return $this->hasOne(PostSettings::class);
+    }
+
+    public static function getLatests(): Collection
+    {
+        return Post::with('categories')
+            ->published()
+            ->orderByDesc('published_at')
+            ->limit(6)
+            ->get()
+            ->each(function ($post) {
+                $post->categoryName = $post->categories->first()?->name ?? __('posts.lbl-uncategorized');
+            });
     }
 }

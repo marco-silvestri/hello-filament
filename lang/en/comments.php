@@ -24,8 +24,15 @@ return [
     "lbl-on" => "on",
     "lbl-at" => "at",
     "btn-reply" => "Reply",
-    "btn-send" => "Send",
+    "btn-send" => "Send comment",
     "lbl-writes" => "writes",
     "lbl-anonymous" => "Anonymous",
     "lbl-reply-sent" => "Reply sent",
+    "lbl-comment" => "Comment",
+    "lbl-comments" => "Comments",
+    "lbl-nocomments" => "No comments",
+    "lbl-leave-comment" => "Leave a comment",
+    "lbl-spam-detected" => "Potential spam detected",
+    "lbl-comment-success" => "Comment posted successfully",
+    "lbl-comment-failure" => "The comment could not be posted"
 ];

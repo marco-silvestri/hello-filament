@@ -79,4 +79,5 @@ return [
     "lbl-users-count" => "N. Utenti associati",
     "lbl-visibility" => "Visibilità",
     "lbl-ext" => "Estensione",
+    "lbl-written-by" => "Scritto da",
 ];

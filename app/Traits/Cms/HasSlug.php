@@ -11,4 +11,9 @@ trait HasSlug {
     {
         return $this->morphOne(Slug::class, 'sluggable');
     }
+
+    public function getHumanizedSluggableType()
+    {
+        return strtolower(str_replace('App\Models\\','',$this->slug->sluggable_type));
+    }
 }

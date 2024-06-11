@@ -1,4 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .strip--title{
+        @apply uppercase font-brand font-bold text-display-500
+    }
+
+    .strip--title__base{
+        @apply text-[28px] leading-[42px] tracking-[1.4px]
+    }
+
+    .strip--title__small{
+        @apply text-[22px] leading-[33px] tracking-[1.1px]
+    }
+
+    .card--title{
+        @apply font-brand font-bold text-display-500
+    }
+
+    .card--title__base{
+        @apply text-[20px] leading-[21px] tracking-[1px]
+    }
+
+    .card--title__small{
+        @apply text-[14px] leading-[16px] tracking-[0.7px]
+    }
+    .card--title__large{
+        @apply text-[30px] leading-[31px] tracking-[1.5px]
+    }
+
+    .group--title{
+        @apply font-brand-alt font-medium uppercase
+    }
+
+    .group--title__base{
+        @apply text-[11px] leading-[15px] tracking-[0.45px]
+    }
+
+    .card-meta-info{
+        @apply font-brand-alt text-display-950 text-[10px] leading-3 tracking-normal
+    }
+
+    .footer-info{
+        @apply font-brand-alt text-display-950 text-[10px]
+    }
+
+    .menu-item{
+        @apply uppercase font-medium hover:text-display-200 font-brand text-[12px] leading-[18px] tracking-[0.6px] text-display-950
+    }
+
+    .containter-arrows{
+        @apply top-[-35px] right-0
+    }
+
+    .arrow-carousel{
+        @apply text-brand-500
+    }
+
+    .post--title{
+        @apply font-bold font-brand text-display-950
+    }
+
+    .post--title__base{
+        @apply text-3xl tracking-[1.5px] leading-8
+    }
+
+    .post--meta-info{
+        @apply font-brand-alt text-display-950 text-[12px] leading-3 tracking-normal
+    }
+
+    .breadcrumb--text{
+        @apply uppercase font-light tracking-[0.5px] leading-3 font-brand-alt text-[10px] text-display-500
+    }
+
+    .breadcrumb--text__link{
+        @apply hover:text-display-400 hover:underline focus:text-display-400 focus:underline
+    }
+
+    .comment--text {
+        @apply font-brand text-[12px] tracking-[0.6px] leading-[22px] text-display-500
+    }
+
+    .button__brand {
+        @apply block px-8 py-2 text-white uppercase hover:bg-white hover:text-display-500 border border-brand-500 bg-brand-500 font-brand text-[12px] tracking-[0.6px] leading-[22px]
+    }
+
+    .button__brand--inverted {
+        @apply block px-2 py-2 text-display-500 uppercase hover:bg-brand-500 hover:text-white border border-brand-500 bg-white font-brand text-[12px] tracking-[0.6px] leading-[22px]
+    }
+}

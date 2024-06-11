@@ -1,13 +1,120 @@
 <x-layouts.post>
-    @dump($post)
-    <div>
-        <livewire:cms.comment wire:ignore :postId="$post->id" />
-    </div>
-    <div wire:ignore>
-        @foreach ($post->comments as $comment)
-            <div>
-                <livewire:cms.comment wire:ignore wire:key="{{md5($comment->body)}}" :$comment />
+    <x-elements.blog-container>
+        @section('menu')
+            @if ($menu)
+                <x-cms-custom-navbar.base :feMenu="$menu" :overrideMenu="true"/>
+            @endif
+        @endsection
+
+        @section('deck')
+            {{ Breadcrumbs::render('post', $post) }}
+            <div class="flex justify-between">
+                <div class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->is_highlighted) bg-brand-50 @endif border border-transparent border-b-display-100">
+                    <x-elements.categories-deck :categories="$post->categories" />
+                    <div class="mt-4 mb-2">
+                        <h1 class="mt-4 mb-6 post--title post--title__base">
+                            {{ $post->title }}
+                        </h1>
+                        <x-elements.post-meta-info :post="$post" />
+                    </div>
+
+                    <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center"
+                        format="webp" fallback="article_fallback" />
+                    <div>
+                        @if ($post->json_content)
+                            @foreach ($post->json_content as $dataBlock)
+                                {!! \App\Services\BlockLoader::renderDataBlock($dataBlock) !!}
+                            @endforeach
+                        @endif
+                    </div>
+                    <div class="flex items-center mb-8 space-x-4">
+                        @if($post->tags)
+                        @foreach ($post->tags as $tag)
+                            <a href="{{route('tag', ['slug' => $tag->slug->name])}}" class="text-[10px] text-center button__brand--inverted">
+                                {{$tag->name}}
+                            </a>
+                        @endforeach
+                        @endif
+                    </div>
+                </div>
+                <div class="flex flex-row w-full mx-2 md:w-1/4">
+                    <x-sections.sponsor-deck/>
+                </div>
             </div>
-        @endforeach
-    </div>
+            </div>
+        @endsection
+
+        @section('prev-next')
+            <div class="flex items-center justify-between w-3/4">
+                @if ($prevPost)
+                <a href="{{$prevPost->slug->name}}" class="flex items-start w-1/2">
+                    <div class="mr-4">
+                        <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$prevPost->featuredImage?->id"
+                            fit="crop-center" format="webp" width="170" height="170" fallback="article_fallback" />
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex space-x-2">
+                            <img src="{{ asset('img/left-arrow.svg') }}" alt="left-arrow">
+                            <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
+                                {{ __('posts.lbl-prev-post') }} </span>
+                        </div>
+                        <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
+                            {{ $prevPost->title }}</div>
+                    </div>
+                </a>
+                @endif
+                @if($nextPost)
+                <a href="{{$nextPost->slug->name}}" class="flex items-start w-1/2">
+                    <div class="flex flex-col ml-2">
+                        <div class="flex space-x-2">
+                            <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
+                                {{ __('posts.lbl-next-post') }} </span>
+                            <img src="{{ asset('img/right-arrow.svg') }}" alt="left-arrow">
+                        </div>
+                        <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
+                            {{ $nextPost->title }}</div>
+                    </div>
+                    <div class="ml-4">
+                        <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$nextPost->featuredImage?->id"
+                            fit="crop-center" format="webp" width="170" height="170" fallback="article_fallback" />
+                    </div>
+                </a>
+                @endif
+            </div>
+        @endsection
+
+        @section('comments-deck')
+            <div class="flex flex-col justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="w-3/4 mr-4 ">
+                    <div class="font-brand font-bold text-[22px] uppercase tracking-[1.1px] leading-8
+            mb-4">
+                        @if ($post->commentsCount == 0)
+                            {{ __('comments.lbl-nocomments') }}
+                        @else
+                            {{ $post->commentsCount }}
+                            @if ($post->commentsCount > 1)
+                                {{ __('comments.lbl-comments') }}
+                            @else
+                                {{ __('comments.lbl-comment') }}
+                            @endif
+                        @endif
+                        <x-elements.small-hr />
+                    </div>
+                    <div wire:ignore class="mb-8 border border-b-2 border-transparent border-b-display-50">
+                        @foreach ($post->comments as $comment)
+                            <div class="mb-4">
+                                <livewire:cms.comment wire:ignore wire:key="{{ md5($comment->body) }}" :$comment />
+                            </div>
+                        @endforeach
+                    </div>
+                    <div>
+                        <livewire:cms.comment wire:ignore :postId="$post->id" />
+                    </div>
+                </div>
+
+            @endsection
+            @section('related')
+                <x-sections.related-deck :section="$relatedPosts" :title="__('posts.lbl-related-posts')" />
+            @endsection
+    </x-elements.blog-container>
 </x-layouts.post>

@@ -11,7 +11,7 @@ class RecentPost extends Field
 {
     protected string $view = 'filament.forms.components.recent-post';
 
-    public $selectedPost = 'pippo';
+    public $selectedPost = '';
 
     public function getRecentPosts():?Collection
     {

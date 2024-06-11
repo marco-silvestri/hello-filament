@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Post;
+use App\Traits\Cms\HasGroup;
 use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasHierarchy;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes, HasSlug, HasHierarchy;
+    use HasFactory, SoftDeletes, HasSlug, HasHierarchy, HasGroup;
 
     protected $guarded = ['id'];
 

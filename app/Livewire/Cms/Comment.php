@@ -17,7 +17,7 @@ class Comment extends Component
 
     public $comment;
     public ?int $parentId;
-    public ?int $postId;
+    public ?int $postId = null;
     public HoneypotData $extraFields;
 
     public function mount()
@@ -34,7 +34,8 @@ class Comment extends Component
             $this->protectAgainstSpam();
         } catch (Exception $e)
         {
-            Log::error("Spam detected",$e->getMessage());
+            session()->flash('spamDetection', __('comments.lbl-spam-detected'));
+            Log::error("Spam detected",['error' => $e->getMessage()]);
         }
 
         try{
@@ -59,9 +60,11 @@ class Comment extends Component
             }
 
             $this->reset('newComment');
+            session()->flash('commentSuccess', __('comments.lbl-comment-success'));
         }catch(Exception $e)
         {
-            Log::error("Cannot insert comment",$e->getMessage());
+            session()->flash('commentFailure', __('comments.lbl-comment-failure'));
+            Log::error("Cannot insert comment",['error' => $e->getMessage()]);
         }
 
     }

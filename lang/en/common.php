@@ -27,4 +27,5 @@ return [
     "lbl-excerpt" => "Excerpt",
     "lbl-paragraph" => 'Paragraph',
     "lbl-image" => "Image",
+    "lbl-written-by" => "By",
 ];

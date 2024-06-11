@@ -235,7 +235,7 @@ class PostResource extends Resource
                             ->multiple()
                             ->searchable(),
                         Select::make('related_post')
-                            ->label(__('posts.lbl-related-post'))
+                            ->label(__('posts.lbl-related-posts'))
                             ->relationship(name: 'relatedPosts', titleAttribute: 'title')
                             ->multiple()
                             ->searchable(),
@@ -352,7 +352,7 @@ class PostResource extends Resource
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Cms\MenuOptionsEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,5 +29,22 @@ class MenuItem extends Model
     public function menu()
     {
         return $this->belongsTo(Menu::class);
+    }
+
+    public function getNavigationSlug():?string
+    {
+        if($this->type === MenuOptionsEnum::CATEGORY->getValue())
+        {
+            $slug = Category::find($this->value)->slug->name;
+            return route('category', ['slug' => $slug]);
+        }
+
+        if($this->type === MenuOptionsEnum::TAG->getValue())
+        {
+            $slug = Tag::find($this->value)->slug->name;
+            return route('tag', ['slug' => $slug]);
+        }
+
+        return null;
     }
 }

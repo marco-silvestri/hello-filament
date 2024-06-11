@@ -14,7 +14,7 @@ return [
     "lbl-parameters" => "Parametri",
     "lbl-featured-image" => "Immagine di copertina",
     "lbl-published-at" => "Pubblicato il",
-    "lbl-related-post" => "Post relazionati",
+    "lbl-related-posts" => "Articoli correlati",
     "lbl-visits-count" => "Conteggio visite",
     "lbl-importer-problem" => "Problemi d'importazione",
     "lbl-status" => "Stato",
@@ -24,4 +24,8 @@ return [
     "fl-access-premium" => "Per utenti premium",
     "lbl-highlighted" => "In evidenza",
     "lbl-accessible-for" => "Visibile per",
+    "lbl-next-post" => "Articolo successivo",
+    "lbl-prev-post" => "Articolo precedente",
+    "lbl-uncategorized" => "Non categorizzato",
+    "lbl-fallback" => "Potrebbe interessarti",
 ];

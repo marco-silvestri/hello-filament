@@ -22,4 +22,5 @@ return [
         'enabled' => false,
         'ttl' => 60 * 60 * 2, // 2 hours
     ],
+    'default_alt' => env('APP_NAME', 'Blog News'),
 ];

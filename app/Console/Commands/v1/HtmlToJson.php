@@ -299,6 +299,8 @@ class HtmlToJson extends Command
                 ],
                 'type' => 'related_posts',
         ];
+        }else{
+            return [];
         }
     }
 

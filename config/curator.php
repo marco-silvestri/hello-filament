@@ -1,5 +1,6 @@
 <?php
 
+use App\Utility\GliderBlogFallback;
 use App\Utility\GliderCustomFallback as UtilityGliderCustomFallback;
 
 return [
@@ -8,6 +9,7 @@ return [
         'image/png',
         'image/webp',
         'image/svg+xml',
+        'image/gif',
         'application/pdf',
     ],
     'cloud_disks' => [
@@ -21,6 +23,7 @@ return [
         'webp',
         'png',
         'avif',
+        'gif',
     ],
     'curation_presets' => [
         \Awcodes\Curator\Curations\ThumbnailPreset::class,
@@ -30,7 +33,8 @@ return [
     'glide' => [
         'server' => \Awcodes\Curator\Glide\DefaultServerFactory::class,
         'fallbacks' => [
-            UtilityGliderCustomFallback::class
+            UtilityGliderCustomFallback::class,
+            GliderBlogFallback::class,
         ],
         'route_path' => 'curator',
     ],
