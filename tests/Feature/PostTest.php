@@ -2,22 +2,24 @@
 
 namespace Tests\Feature;
 
-use App\Enums\Cms\PostAccessEnum;
-use App\Enums\Cms\PostStatusEnum;
-use App\Enums\RoleEnum;
-use App\Filament\Resources\PostResource\Pages\CreatePost;
-use App\Filament\Resources\PostResource\Pages\EditPost;
-use App\Filament\Resources\PostResource\Pages\ListPosts;
+use Carbon\Carbon;
+use App\Models\Tag;
+use Tests\TestCase;
 use App\Models\Post;
 use App\Models\Slug;
-use App\Models\Tag;
 use App\Models\User;
-use Carbon\Carbon;
-use Filament\Actions\DeleteAction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\TestCase;
+use App\Enums\RoleEnum;
 use Illuminate\Support\Str;
+use App\Enums\Cms\PostAccessEnum;
+use App\Enums\Cms\PostStatusEnum;
+use App\Models\Cms\PostPlannings;
+use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\Repeater;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Filament\Resources\PostResource\Pages\EditPost;
+use App\Filament\Resources\PostResource\Pages\ListPosts;
+use App\Filament\Resources\PostResource\Pages\CreatePost;
 
 class PostTest extends TestCase
 {
@@ -29,6 +31,8 @@ class PostTest extends TestCase
      */
     public function can_create_post(): void
     {
+  
+        
 
         $this->seed();
         $user = User::factory()->create();
@@ -41,7 +45,9 @@ class PostTest extends TestCase
         $title = fake()->sentence();
         $excerpt = fake()->text();
         $tags = Tag::factory(2)->hasSlug()->create();
+
         Livewire::test(CreatePost::class)
+            ->set('data.plannings',null)
             ->fillForm([
                 'title' => $title,
                 'author_id' => $author->id,
@@ -50,7 +56,7 @@ class PostTest extends TestCase
                 'json_content' => $this->create_content_for_builder(),
                 'published_at' => Carbon::now(),
                 'status' => PostStatusEnum::PUBLISH->value,
-                'settings.accessible_for' => PostAccessEnum::FREE->value,
+                'settings.accessible_for' => PostAccessEnum::FREE->value
 
             ])
             ->assertFormSet([
@@ -68,7 +74,9 @@ class PostTest extends TestCase
         ]);
     }
 
-    /**
+
+
+        /**
      * @test
      */
     public function can_list_post(): void
@@ -132,6 +140,25 @@ class PostTest extends TestCase
             'title' => $record->title,
             'deleted_at' => $record->deleted_at
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function scope_published_returns_scoped_posts(){
+        $this->seed();
+       
+        $records = Post::factory(5)->hasSlug()->hasAuthor()->create();
+   
+        Post::factory(2)
+            ->hasSlug()->hasAuthor()
+            ->hasPlannings()
+            ->create();
+    
+       
+        $this->assertCount(5, Post::published()->get());
+        $this->assertCount(7, Post::get());
+        
     }
 
     private function create_content_for_builder()

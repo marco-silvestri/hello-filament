@@ -261,7 +261,26 @@ class PostResource extends Resource
                                     ->label(__('posts.lbl-highlighted'))
                                     ->native(false)
                                     ->displayFormat('d/m/Y'),
-                            ]),
+                                
+                            ]),                           
+                            Repeater::make('plannings')
+                            ->relationship()
+                                ->label('Plannings')
+                               ->schema([
+                                DatePicker::make('start_at')
+                                ->label(__('Published from'))
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
+                                ->required(),
+                                DatePicker::make('end_at')
+                                    ->label(__('Published to'))
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y')
+                                    ->required(),
+                                ])
+                            
+                        
+                           
                     ]),
             ]);
     }

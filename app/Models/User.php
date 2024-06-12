@@ -19,6 +19,11 @@ class User extends Authenticatable
 
     protected $guarded = ['id'];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'author_id', 'id');

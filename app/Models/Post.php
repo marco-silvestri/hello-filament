@@ -7,6 +7,7 @@ use App\Traits\Cms\HasAuthor;
 use App\Traits\Cms\HasVisits;
 use App\Models\Cms\PostSettings;
 use App\Enums\Cms\PostStatusEnum;
+use App\Models\Cms\PostPlannings;
 use App\Traits\Cms\HasStringOperations;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Support\Collection;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -65,7 +67,14 @@ class Post extends Model
         return $query
             ->where('status', PostStatusEnum::PUBLISH)
             ->where('published_at', '<=', now())
-            ->whereNotNull('published_at');
+            ->whereNotNull('published_at')
+            ->where(function(Builder $post) {
+                $post->doesntHave('plannings')
+                    ->orWhereHas('plannings', function (Builder $planning) {
+                        $planning->where('start_at', '<=', now())
+                            ->where('end_at', '>=', now());
+                });
+            });
     }
 
     public function scopeSearch(
@@ -94,6 +103,11 @@ class Post extends Model
     public function settings(): HasOne
     {
         return $this->hasOne(PostSettings::class);
+    }
+
+    public function plannings(): HasMany
+    {
+        return $this->hasMany(PostPlannings::class);
     }
 
     public static function getLatests(): Collection
