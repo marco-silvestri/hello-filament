@@ -8,12 +8,13 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Log;
 use App\Enums\Cms\CommentStatusEnum;
+use App\Traits\Cms\HasMetricsTracking;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
 class Comment extends Component
 {
-    use UsesSpamProtection;
+    use UsesSpamProtection, HasMetricsTracking;
 
     public $comment;
     public ?int $parentId;
@@ -40,23 +41,25 @@ class Comment extends Component
 
         try{
             $this->validate();
-
             $userId = auth() ? auth()->id() : null;
+
+            $ip = $this->getIpAddress();
+            $ua = $this->getUserAgent();
+
+            $data = [
+                'author_ip' => $ip,
+                'user_agent' => $ua,
+                'author_id' => $userId,
+                'body' => $this->newComment,
+                'status' => CommentStatusEnum::AWAITING_MODERATION,
+            ];
 
             if($this->postId)
             {
-                Post::find($this->postId)->comments()->create([
-                    'author_id' => $userId,
-                    'body' => $this->newComment,
-                    'status' => CommentStatusEnum::AWAITING_MODERATION,
-                ]);
+                Post::find($this->postId)->comments()->create($data);
             } else {
-                $this->comment->post->comments()->create([
-                    'author_id' => $userId,
-                    'body' => $this->newComment,
-                    'status' => CommentStatusEnum::AWAITING_MODERATION,
-                    'parent_id' => $this->parentId,
-                ]);
+                $data['parent_id'] = $this->parentId;
+                $this->comment->post->comments()->create($data);
             }
 
             $this->reset('newComment');
