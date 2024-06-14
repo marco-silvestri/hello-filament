@@ -9,6 +9,7 @@ use App\Traits\Cms\HasPostsCaching;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\Response;
 
 class ShowPostsByCategoryController extends Controller
 {
@@ -18,9 +19,6 @@ class ShowPostsByCategoryController extends Controller
     {
         $slug = $request->slug;
         $category = null;
-        $menu = Menu::where('name', 'home-page')
-            ->where('is_active', 1)
-            ->first();
 
         $posts = Cache::remember("posts-category-$slug", $this->getTtl(), function ()
         use ($slug, &$category) {
@@ -29,16 +27,18 @@ class ShowPostsByCategoryController extends Controller
                 $query->where('name', $slug);
             })->first();
 
-            if($category){
-                return $category
-                    ->posts()
-                    ->published()
-                    ->orderByDesc('published_at')
-                    ->paginate(18);
-            }
+            abort_unless($category, Response::HTTP_NOT_FOUND);
 
-            return abort(404);
+            return $category
+                ->posts()
+                ->published()
+                ->orderByDesc('published_at')
+                ->paginate(18);
         });
+
+        $menu = Menu::where('name', 'home-page')
+            ->where('is_active', 1)
+            ->first();
 
         return view('cms.blog.aggregated-posts')
             ->with('group', $category)
