@@ -52,6 +52,8 @@ class ImportComments extends Command
                 $postId = $post->id;
                 $data = [
                     'body' => $rawComment->comment_content,
+                    'author_ip' => $rawComment->comment_author_IP ?? null,
+                    'user_agent' => $rawComment->comment_agent ?? null,
                     'post_id' => $postId,
                     'status' => CommentStatusEnum::APPROVED->getValue(),
                     'created_at' => Carbon::parse($rawComment->comment_date),
