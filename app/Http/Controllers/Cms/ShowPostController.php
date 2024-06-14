@@ -10,6 +10,7 @@ use App\Traits\Cms\HasPostsCaching;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\Response;
 
 class ShowPostController extends Controller
 {
@@ -17,12 +18,6 @@ class ShowPostController extends Controller
     public function __invoke(Request $request)
     {
         $slug = $request->slug;
-
-        $menu = Cache::remember("menu-$slug", $this->getTtl(), function(){
-            return Menu::where('name', 'home-page')
-                ->where('is_active', 1)
-                ->first();
-        });
 
         $post = Cache::remember("post-$slug", $this->getTtl(), function ()
         use ($slug) {
@@ -38,6 +33,14 @@ class ShowPostController extends Controller
                 })->first();
         });
 
+        abort_unless($post, Response::HTTP_NOT_FOUND);
+
+        $menu = Cache::remember("menu-$slug", $this->getTtl(), function(){
+            return Menu::where('name', 'home-page')
+                ->where('is_active', 1)
+                ->first();
+        });
+
         $relatedPosts = Cache::remember("related-$slug", $this->getTtl(), function() use($post){
             return $post->categories()->limit(5)->get()->map(function($category){
                 return $category->posts()
@@ -49,7 +52,7 @@ class ShowPostController extends Controller
                     });
             })->flatten()->unique('id');
         });
-//dd($relatedPosts);
+
         $relatedPosts = $relatedPosts->shuffle();
         $relatedPosts = $relatedPosts->take(6);
 
