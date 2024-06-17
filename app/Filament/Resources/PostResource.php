@@ -2,22 +2,14 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\Post;
-use Filament\Tables;
-use App\Models\Media;
-use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
-use Spatie\Watcher\Watch;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use App\Enums\Cms\PostAccessEnum;
 use App\Enums\Cms\PostStatusEnum;
-use BladeUI\Icons\Components\Icon;
-use Illuminate\Support\Facades\DB;
-use Filament\Forms\Components\Tabs;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
@@ -26,32 +18,24 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use FilamentTiptapEditor\TiptapEditor;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ViewField;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\PostResource\Pages;
-use Awcodes\Curator\Components\Forms\Uploader;
-use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use App\Filament\Resources\PostResource\Pages\ViewPost;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 
 class PostResource extends Resource
@@ -261,26 +245,26 @@ class PostResource extends Resource
                                     ->label(__('posts.lbl-highlighted'))
                                     ->native(false)
                                     ->displayFormat('d/m/Y'),
-                                
-                            ]),                           
-                            Repeater::make('plannings')
+
+                            ]),
+                        Repeater::make('plannings')
                             ->relationship()
-                                ->label('Plannings')
-                               ->schema([
+                            ->label('Plannings')
+                            ->schema([
                                 DatePicker::make('start_at')
-                                ->label(__('Published from'))
-                                ->native(false)
-                                ->displayFormat('d/m/Y')
-                                ->required(),
+                                    ->label(__('Published from'))
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y')
+                                    ->required(),
                                 DatePicker::make('end_at')
                                     ->label(__('Published to'))
                                     ->native(false)
                                     ->displayFormat('d/m/Y')
                                     ->required(),
-                                ])
-                            
-                        
-                           
+                            ])
+
+
+
                     ]),
             ]);
     }
