@@ -24,7 +24,7 @@ class ShowPostController extends Controller
             return Post::with([
                 'categories',
                 'tags',
-                'comments' => fn($query) => $query->approved()
+                'comments' => fn ($query) => $query->approved()
             ])
                 ->published()
                 ->whereHas('slug', function (Builder $query)
@@ -35,19 +35,17 @@ class ShowPostController extends Controller
 
         abort_unless($post, Response::HTTP_NOT_FOUND);
 
-        $menu = Cache::remember("menu-$slug", $this->getTtl(), function(){
-            return Menu::where('name', 'home-page')
-                ->where('is_active', 1)
-                ->first();
-        });
+        $menu = Menu::where('name', 'home-page')
+            ->where('is_active', 1)
+            ->first();
 
-        $relatedPosts = Cache::remember("related-$slug", $this->getTtl(), function() use($post){
-            return $post->categories()->limit(5)->get()->map(function($category){
+        $relatedPosts = Cache::remember("related-$slug", $this->getTtl(), function () use ($post) {
+            return $post->categories()->limit(5)->get()->map(function ($category) {
                 return $category->posts()
                     ->published()
                     ->limit(6)
                     ->get()
-                    ->each(function($post)use($category){
+                    ->each(function ($post) use ($category) {
                         $post->categoryName = $category->name;
                     });
             })->flatten()->unique('id');
@@ -58,14 +56,14 @@ class ShowPostController extends Controller
 
         $post->commentsCount = count($post->comments);
 
-        $prevPost = Cache::remember("prev-$slug", $this->getTtl(), function() use($post){
+        $prevPost = Cache::remember("prev-$slug", $this->getTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '<', $post->published_at)
                 ->orderByDesc('id')
                 ->first();
         });
 
-        $nextPost = Cache::remember("next-$slug", $this->getTtl(), function() use($post){
+        $nextPost = Cache::remember("next-$slug", $this->getTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '>', $post->published_at)
                 ->orderBy('id')
@@ -81,6 +79,3 @@ class ShowPostController extends Controller
             ->with('nextPost', $nextPost);
     }
 }
-
-
-

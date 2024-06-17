@@ -28,4 +28,5 @@ return [
     "lbl-prev-post" => "Previous",
     "lbl-uncategorized" => "Uncategorized",
     "lbl-fallback" => "You may be interested in",
+    "lbl-preview" => "Preview",
 ];

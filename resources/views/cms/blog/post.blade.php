@@ -1,15 +1,21 @@
 <x-layouts.post>
+    @isset($isPreview)
+    <div class="sticky top-0 z-50 w-full py-2 text-center text-white opacity-80 bg-brand-500">
+        {{__('posts.lbl-preview')}}
+    </div>
+    @endisset
     <x-elements.blog-container>
         @section('menu')
             @if ($menu)
-                <x-cms-custom-navbar.base :feMenu="$menu" :overrideMenu="true"/>
+                <x-cms-custom-navbar.base :feMenu="$menu" :overrideMenu="true" />
             @endif
         @endsection
 
         @section('deck')
             {{ Breadcrumbs::render('post', $post) }}
             <div class="flex justify-between">
-                <div class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->is_highlighted) bg-brand-50 @endif border border-transparent border-b-display-100">
+                <div
+                    class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->is_highlighted) bg-brand-50 @endif border border-transparent border-b-display-100">
                     <x-elements.categories-deck :categories="$post->categories" />
                     <div class="mt-4 mb-2">
                         <h1 class="mt-4 mb-6 post--title post--title__base">
@@ -28,61 +34,69 @@
                         @endif
                     </div>
                     <div class="flex items-center mb-8 space-x-4">
-                        @if($post->tags)
-                        @foreach ($post->tags as $tag)
-                            <a href="{{route('tag', ['slug' => $tag->slug->name])}}" class="text-[10px] text-center button__brand--inverted">
-                                {{$tag->name}}
-                            </a>
-                        @endforeach
+                        @if ($post->tags)
+                            @foreach ($post->tags as $tag)
+                                @if ($tag->slug)
+                                    <a href="{{ route('tag', ['slug' => $tag->slug->name]) }}"
+                                        class="text-[10px] text-center button__brand--inverted">
+                                        {{ $tag->name }}
+                                    </a>
+                                @endif
+                            @endforeach
                         @endif
                     </div>
                 </div>
                 <div class="flex flex-row w-full mx-2 md:w-1/4">
-                    <x-sections.sponsor-deck/>
+                    <x-sections.sponsor-deck />
                 </div>
             </div>
             </div>
         @endsection
 
-        @section('prev-next')
-            <div class="flex items-center justify-between w-3/4">
-                @if ($prevPost)
-                <a href="{{$prevPost->slug->name}}" class="flex items-start w-1/2">
-                    <div class="mr-4">
-                        <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$prevPost->featuredImage?->id"
-                            fit="crop-center" format="webp" width="170" height="170" fallback="article_fallback" />
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex space-x-2">
-                            <img src="{{ asset('img/left-arrow.svg') }}" alt="left-arrow">
-                            <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
-                                {{ __('posts.lbl-prev-post') }} </span>
-                        </div>
-                        <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
-                            {{ $prevPost->title }}</div>
-                    </div>
-                </a>
-                @endif
-                @if($nextPost)
-                <a href="{{$nextPost->slug->name}}" class="flex items-start w-1/2">
-                    <div class="flex flex-col ml-2">
-                        <div class="flex space-x-2">
-                            <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
-                                {{ __('posts.lbl-next-post') }} </span>
-                            <img src="{{ asset('img/right-arrow.svg') }}" alt="left-arrow">
-                        </div>
-                        <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
-                            {{ $nextPost->title }}</div>
-                    </div>
-                    <div class="ml-4">
-                        <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$nextPost->featuredImage?->id"
-                            fit="crop-center" format="webp" width="170" height="170" fallback="article_fallback" />
-                    </div>
-                </a>
-                @endif
-            </div>
-        @endsection
+        @if (isset($prevPost) && isset($nextPost))
+            @section('prev-next')
+                <div class="flex items-center justify-between w-3/4">
+                    @if ($prevPost)
+                        <a href="{{ $prevPost->slug->name }}" class="flex items-start w-1/2">
+                            <div class="mr-4">
+                                <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$prevPost->featuredImage?->id"
+                                    fit="crop-center" format="webp" width="170" height="170"
+                                    fallback="article_fallback" />
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="flex space-x-2">
+                                    <img src="{{ asset('img/left-arrow.svg') }}" alt="left-arrow">
+                                    <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
+                                        {{ __('posts.lbl-prev-post') }} </span>
+                                </div>
+                                <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
+                                    {{ $prevPost->title }}</div>
+                            </div>
+                        </a>
+                    @endif
+                    @if ($nextPost)
+                        <a href="{{ $nextPost->slug->name }}" class="flex items-start w-1/2">
+                            <div class="flex flex-col ml-2">
+                                <div class="flex space-x-2">
+                                    <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
+                                        {{ __('posts.lbl-next-post') }} </span>
+                                    <img src="{{ asset('img/right-arrow.svg') }}" alt="left-arrow">
+                                </div>
+                                <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
+                                    {{ $nextPost->title }}</div>
+                            </div>
+                            <div class="ml-4">
+                                <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$nextPost->featuredImage?->id"
+                                    fit="crop-center" format="webp" width="170" height="170"
+                                    fallback="article_fallback" />
+                            </div>
+                        </a>
+                    @endif
+                </div>
+            @endsection
+        @endif
 
+        @if(!isset($isPreview))
         @section('comments-deck')
             <div class="flex flex-col justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="w-3/4 mr-4 ">
@@ -113,8 +127,11 @@
                 </div>
 
             @endsection
-            @section('related')
-                <x-sections.related-deck :section="$relatedPosts" :title="__('posts.lbl-related-posts')" />
-            @endsection
+            @endif
+            @isset($relatedPost)
+                @section('related')
+                    <x-sections.related-deck :section="$relatedPosts" :title="__('posts.lbl-related-posts')" />
+                @endsection
+            @endisset
     </x-elements.blog-container>
 </x-layouts.post>

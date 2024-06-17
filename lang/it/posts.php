@@ -28,4 +28,5 @@ return [
     "lbl-prev-post" => "Articolo precedente",
     "lbl-uncategorized" => "Non categorizzato",
     "lbl-fallback" => "Potrebbe interessarti",
+    "lbl-preview" => "Anteprima",
 ];

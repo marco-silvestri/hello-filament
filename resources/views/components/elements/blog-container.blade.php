@@ -1,4 +1,4 @@
-<div class=" mx-auto md:flex md:flex-col">
+<div class="mx-auto md:flex md:flex-col">
     <div>
         @section('menu')
         @show
