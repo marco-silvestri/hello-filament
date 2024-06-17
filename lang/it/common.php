@@ -79,6 +79,6 @@ return [
     "lbl-visibility" => "Visibilità",
     "lbl-ext" => "Estensione",
     "lbl-written-by" => "Scritto da",
-    "common.btn-cancel" => "Annulla",
-    "common.btn-save" => "Salva",
+    "btn-cancel" => "Annulla",
+    "btn-save" => "Salva",
 ];
