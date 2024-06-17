@@ -20,6 +20,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Filament\Resources\PostResource\Pages\EditPost;
 use App\Filament\Resources\PostResource\Pages\ListPosts;
 use App\Filament\Resources\PostResource\Pages\CreatePost;
+use Filament\Facades\Filament;
 
 class PostTest extends TestCase
 {
@@ -31,9 +32,6 @@ class PostTest extends TestCase
      */
     public function can_create_post(): void
     {
-  
-        
-
         $this->seed();
         $user = User::factory()->create();
         $user->assignRole(RoleEnum::SUPERADMIN->value);
@@ -47,7 +45,7 @@ class PostTest extends TestCase
         $tags = Tag::factory(2)->hasSlug()->create();
 
         Livewire::test(CreatePost::class)
-            ->set('data.plannings',null)
+            ->set('data.plannings', null)
             ->fillForm([
                 'title' => $title,
                 'author_id' => $author->id,
@@ -76,7 +74,7 @@ class PostTest extends TestCase
 
 
 
-        /**
+    /**
      * @test
      */
     public function can_list_post(): void
@@ -145,20 +143,55 @@ class PostTest extends TestCase
     /**
      * @test
      */
-    public function scope_published_returns_scoped_posts(){
+    public function scope_published_returns_scoped_posts()
+    {
         $this->seed();
-       
+
         $records = Post::factory(5)->hasSlug()->hasAuthor()->create();
-   
+
         Post::factory(2)
             ->hasSlug()->hasAuthor()
             ->hasPlannings()
             ->create();
-    
-       
+
         $this->assertCount(5, Post::published()->get());
         $this->assertCount(7, Post::get());
-        
+    }
+
+    /**
+     * @test
+     */
+    public function preview_return_login_if_user_is_not_admin()
+    {
+        $this->seed();
+
+        $res = $this->get("/admin/preview/999");
+        $res->assertRedirectToRoute('filament.admin.auth.login');
+    }
+
+    /**
+     * @test
+     */
+    public function preview_return_view_with_post_for_admin()
+    {
+        $this->seed();
+        $admin = User::factory()->create();
+        $admin->assignRole(RoleEnum::SUPERADMIN->value);
+
+        $post = Post::factory()
+            ->hasSlug()
+            ->hasAuthor()
+            ->create();
+
+        $this->actingAs($admin);
+        $view = $this->view('cms.blog.post', [
+            'menu' => [],
+            'post' => $post,
+            'isPreview' => true,
+        ]);
+
+        $view->assertSee(__('posts.lbl-preview'))
+            ->assertDontSee(__('comments.lbl-comments'));
     }
 
     private function create_content_for_builder()
