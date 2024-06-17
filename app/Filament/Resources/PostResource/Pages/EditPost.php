@@ -2,32 +2,39 @@
 
 namespace App\Filament\Resources\PostResource\Pages;
 
-use Filament\Actions;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
-use App\Filament\Resources\PostResource;
-use App\Models\Audio;
 use DOMDocument;
-use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Audio;
+use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Illuminate\Support\Facades\Cache;
 
 use function PHPUnit\Framework\isNull;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use App\Filament\Resources\PostResource;
+use Filament\Resources\Pages\EditRecord;
 
 class EditPost extends EditRecord
 {
 
     protected static string $resource = PostResource::class;
 
-    // protected function beforeValidate()
-    // {
-    //     dd($this);
-    // }
-
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Action::make('preview')
+                ->label(__('posts.lbl-preview'))
+                ->url(fn ($record): string => route('preview', ['post' => $record])),
+            Action::make('save')
+                ->label(__('common.btn-save')),
+            Action::make('cancel')
+                ->label(__('common.btn-cancel'))
+                ->url($this->getResource()::getUrl('index')),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 
@@ -60,5 +67,10 @@ class EditPost extends EditRecord
             }
         }
         return $record;
+    }
+
+    protected function getFormActions(): array
+    {
+        return [];
     }
 }

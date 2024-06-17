@@ -29,4 +29,5 @@ return [
     "lbl-uncategorized" => "Non categorizzato",
     "lbl-fallback" => "Potrebbe interessarti",
     "lbl-preview" => "Anteprima",
+    "btn-save" => "Salva",
 ];

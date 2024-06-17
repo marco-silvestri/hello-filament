@@ -32,7 +32,6 @@ return [
     "fld-author" => "Autore",
     "fld-created-at" => "Inserito il",
     "fld-body" => "Contenuto",
-    "fld-created-at" => "Inserito il",
     "fld-deleted-at" => "Eliminato il",
     "fld-description" => "Descrizione",
     "fld-email" => "Email",
@@ -80,4 +79,6 @@ return [
     "lbl-visibility" => "Visibilità",
     "lbl-ext" => "Estensione",
     "lbl-written-by" => "Scritto da",
+    "common.btn-cancel" => "Annulla",
+    "common.btn-save" => "Salva",
 ];
