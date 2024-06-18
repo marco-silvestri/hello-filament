@@ -30,4 +30,8 @@ return [
     "lbl-fallback" => "Potrebbe interessarti",
     "lbl-preview" => "Anteprima",
     "btn-save" => "Salva",
+    "lbl-plannings"=>"Pianificazioni",
+    "lbl-published-from"=>"Pubblicato da",
+    "lbl-published-to"=>"Pubblicato a",
+    "lbl-new-planning"=>"Nuova Pianificazione",
 ];

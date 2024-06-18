@@ -240,7 +240,9 @@ class PostResource extends Resource
                             ->schema([
                                 Select::make('accessible_for')
                                     ->label(__('posts.lbl-accessible-for'))
-                                    ->options(PostAccessEnum::class),
+                                    ->options(PostAccessEnum::class)
+                                    ->default(PostAccessEnum::FREE)
+                                    ->required(),
                                 DatePicker::make('highlighted')
                                     ->label(__('posts.lbl-highlighted'))
                                     ->native(false)
@@ -249,15 +251,17 @@ class PostResource extends Resource
                             ]),
                         Repeater::make('plannings')
                             ->relationship()
-                            ->label('Plannings')
+                            ->label(__('posts.lbl-plannings'))
+                            ->defaultItems(0)
+                            ->addActionLabel(__('posts.lbl-new-planning'))
                             ->schema([
                                 DatePicker::make('start_at')
-                                    ->label(__('Published from'))
+                                    ->label(__('posts.lbl-published-from'))
                                     ->native(false)
                                     ->displayFormat('d/m/Y')
                                     ->required(),
                                 DatePicker::make('end_at')
-                                    ->label(__('Published to'))
+                                    ->label(__('posts.lbl-published-to'))
                                     ->native(false)
                                     ->displayFormat('d/m/Y')
                                     ->required(),
