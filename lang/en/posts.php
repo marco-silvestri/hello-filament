@@ -29,4 +29,8 @@ return [
     "lbl-uncategorized" => "Uncategorized",
     "lbl-fallback" => "You may be interested in",
     "lbl-preview" => "Preview",
+    "lbl-plannings"=>"Plannings",
+    "lbl-published-from"=>"Published from",
+    "lbl-published-to"=>"Published to",
+    "lbl-new-planning"=>"New Planning",
 ];
