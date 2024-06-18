@@ -1,7 +1,7 @@
 @props(['searchKey'])
 <form class="items-center max-w-lg bg-shade-500 p-4 rounded-lg" action='{{ route("search") }}' method="GET" autocomplete="off">  
     <span class="group--title group--title__base text-brand-500 font-bold">
-    CERCA NEL SITO
+    {{__('search.lbl-search')}}
     </span>
     <div class="relative w-full">
        
@@ -16,7 +16,7 @@
     </div>
     <div class="relative w-full text-center mt-4">
     <button type="submit" class="inline-flex items-center py-2 px-6 text-sm font-small text-white bg-brand-500  border border-brand-500 hover:bg-brand-500 focus:ring-4 focus:outline-none focus:ring-blue-300">
-        SEARCH
+    {{__('search.plh-search')}}
     </button>
     </div>
 </form>
