@@ -15,7 +15,7 @@
             {{ Breadcrumbs::render('post', $post) }}
             <div class="flex justify-between">
                 <div
-                    class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->settings->highlighted) bg-brand-50 @endif border border-transparent border-b-display-100">
+                    class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->settings?->highlighted) bg-brand-50 @endif border border-transparent border-b-display-100">
                     <x-elements.categories-deck :categories="$post->categories" />
                     <div class="mt-4 mb-2">
                         <h1 class="mt-4 mb-6 post--title post--title__base">
