@@ -22,6 +22,7 @@ class ShowPostController extends Controller
         $post = Cache::remember("post-$slug", $this->getTtl(), function ()
         use ($slug) {
             return Post::with([
+                'settings',
                 'categories',
                 'tags',
                 'comments' => fn ($query) => $query->approved()
