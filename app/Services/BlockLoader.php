@@ -33,7 +33,7 @@ class BlockLoader
     private static function composeImage($data):string
     {
         $blade = "<x-custom.glider
-            class='object-cover w-2/3 mx-auto my-1 rounded-md'
+            class='object-cover mx-auto my-1 rounded-md'
             :media='{$data['image']}'
             fit='crop-center'
             format='webp'
@@ -64,7 +64,7 @@ class BlockLoader
 
     private static function composeIframe($data):string
     {
-        return "<iframe class='w-full aspect-video my-4'  src='{$data['src']}'> </iframe>";
+        return "<iframe class='w-full my-4 aspect-video'  src='{$data['src']}'> </iframe>";
     }
 
     private static function composeReview($data):string
