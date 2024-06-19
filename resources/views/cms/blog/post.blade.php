@@ -45,6 +45,9 @@
                             @endforeach
                         @endif
                     </div>
+                    <div>
+                        <x-cms.social-sharing :post="$post"/>
+                    </div>
                 </div>
                 <div class="flex flex-row w-full mx-2 md:w-1/4">
                     <x-sections.sponsor-deck />
@@ -114,6 +117,7 @@
                         @endif
                         <x-elements.small-hr />
                     </div>
+
                     <div wire:ignore class="mb-8 border border-b-2 border-transparent border-b-display-50">
                         @foreach ($post->comments as $comment)
                             <div class="mb-4">

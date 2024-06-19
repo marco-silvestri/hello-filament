@@ -8,18 +8,19 @@ use App\Traits\Cms\HasVisits;
 use App\Models\Cms\PostSettings;
 use App\Enums\Cms\PostStatusEnum;
 use App\Models\Cms\PostPlannings;
-use App\Traits\Cms\HasStringOperations;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Support\Collection;
+use App\Traits\Cms\HasStringOperations;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -120,5 +121,13 @@ class Post extends Model
             ->each(function ($post) {
                 $post->categoryName = $post->categories->first()?->name ?? __('posts.lbl-uncategorized');
             });
+    }
+
+    protected function encodedUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () =>
+                config('app.url')."/post/".$this->slug->name,
+        );
     }
 }

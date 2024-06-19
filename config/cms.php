@@ -23,4 +23,38 @@ return [
         'ttl' => 60 * 60 * 2, // 2 hours
     ],
     'default_alt' => env('APP_NAME', 'Blog News'),
+    'sharing' => [
+        'services' => [
+            'facebook' => [
+                'uri' => 'https://www.facebook.com/sharer/sharer.php?u=',
+                'text' => false,
+                'icon' => 'bi-facebook',
+                'color' => '#3b5998',
+            ],
+            'x' => [
+                'uri' => 'https://x.com/intent/post?url=',
+                'text' => true,
+                'icon' => 'bi-twitter-x',
+                'color' => '#000',
+            ],
+            'linkedin' => [
+                'uri' => 'https://www.linkedin.com/shareArticle?mini=true&url=',
+                'text' => false,
+                'icon' => 'bi-linkedin',
+                'color' => '#0e76a8',
+            ],
+            'pinterest' => [
+                'uri' => 'https://pinterest.com/pin/create/button/?url=',
+                'text' => false,
+                'icon' => 'bi-pinterest',
+                'color' => '#c8232c',
+            ],
+            'whatsapp' => [
+                'uri' => 'https://wa.me/?text=',
+                'text' => false,
+                'icon' => 'bi-whatsapp',
+                'color' => '#25d366',
+            ],
+        ],
+    ]
 ];
