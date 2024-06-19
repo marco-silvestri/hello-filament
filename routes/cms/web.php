@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Cms\TrackVisits;
 use Filament\Http\Middleware\Authenticate;
 use App\Http\Controllers\Cms\HomePageController;
+use App\Http\Controllers\Cms\ShowPageController;
 use App\Http\Controllers\Cms\ShowPostController;
 use App\Http\Controllers\Cms\ShowPostsByTagController;
 use App\Http\Controllers\Cms\ShowPostPreviewController;
@@ -19,7 +20,7 @@ Route::group([], function () {
     Route::get('/tag/{slug}', ShowPostsByTagController::class)->name('tag');
     Route::get('/category/{slug}', ShowPostsByCategoryController::class)->name('category');
     Route::get('/author/{slug}', ShowPostsByAuthorController::class)->name('author');
-    Route::get('/page/{slug}', fn() => dd('Not implemented yet'));
+    Route::get('/page/{slug}', ShowPageController::class)->name('page');
     })->middleware(TrackVisits::class);
 
 Route::get('/admin/preview/{post}', ShowPostPreviewController::class)->name('preview')

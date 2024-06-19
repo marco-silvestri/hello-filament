@@ -19,7 +19,7 @@ class PageFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'layout' => 'default',
-            'blocks' => []
+            'json_content' => []
         ];
     }
 }

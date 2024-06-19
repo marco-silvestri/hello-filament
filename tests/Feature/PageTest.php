@@ -105,4 +105,26 @@ class PageTest extends TestCase
             'deleted_at' => $record->deleted_at
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function can_access_page_via_slug()
+    {
+        $record = Page::factory()->hasSlug()->create();
+
+        $res = $this->get("/page/{$record->slug->name}");
+
+        $res->assertOk()->assertSee($record->title);
+    }
+
+    /**
+     * @test
+     */
+    public function if_page_doesnt_exist_returns_404()
+    {
+        $res = $this->get("/page/non-existing-slug");
+
+        $res->assertNotFound();
+    }
 }

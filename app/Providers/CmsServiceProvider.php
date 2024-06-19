@@ -16,7 +16,7 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['components.layouts.post'], function ($view) {
+        View::composer(['components.layouts.public'], function ($view) {
 
             $headSnippets = SnippetService::getStringedSnippets(HookEnum::HEAD);
             $bodySnippets = SnippetService::getStringedSnippets(HookEnum::BODY);

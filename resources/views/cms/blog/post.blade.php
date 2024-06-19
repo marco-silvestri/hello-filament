@@ -1,4 +1,4 @@
-<x-layouts.post>
+<x-layouts.public>
     @isset($isPreview)
     <div class="sticky top-0 z-50 w-full py-2 text-center text-white opacity-80 bg-brand-500">
         {{__('posts.lbl-preview')}}
@@ -134,4 +134,4 @@
                 @endsection
             @endisset
     </x-elements.blog-container>
-</x-layouts.post>
+</x-layouts.public>

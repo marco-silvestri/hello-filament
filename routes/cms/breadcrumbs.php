@@ -4,10 +4,11 @@
 // this import. This is nice for IDE syntax and refactoring.
 
 use App\Models\Tag;
-use App\Models\Post;
+use App\Models\Page;
 
 // This import is also not required, and you could replace `BreadcrumbTrail $trail`
 //  with `$trail`. This is nice for IDE type checking and completion.
+use App\Models\Post;
 use App\Models\Category;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
@@ -17,11 +18,12 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push('Home', route('home'));
 });
 
-// Home > Blog
-// Breadcrumbs::for('blog', function (BreadcrumbTrail $trail) {
-//     $trail->parent('home');
-//     $trail->push('Blog', route('blog'));
-// });
+Breadcrumbs::for(
+    'page',
+    fn (BreadcrumbTrail $trail, Page $page) => $trail
+        ->parent('home')
+        ->push($page->title, route('page', $page->slug->name))
+);
 
 Breadcrumbs::for(
     'post',

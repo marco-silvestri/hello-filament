@@ -80,26 +80,26 @@ class PostResource extends Resource
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->blocks([
-                                Block::make('heading')
-                                    ->label(__('block-builder.heading'))
-                                    ->icon('heroicon-m-pencil')
-                                    ->schema([
-                                        TextInput::make('content')
-                                            ->label(__('block-builder.content'))
-                                            ->required(),
-                                        Select::make('level')
-                                            ->label(__('block-builder.level'))
-                                            ->options([
-                                                'h1' => 'Heading 1',
-                                                'h2' => 'Heading 2',
-                                                'h3' => 'Heading 3',
-                                                'h4' => 'Heading 4',
-                                                'h5' => 'Heading 5',
-                                                'h6' => 'Heading 6',
-                                            ]),
-                                        ColorPicker::make('color')
-                                            ->label(__('block-builder.color'))
-                                    ])->columns(2),
+                                // Block::make('heading')
+                                //     ->label(__('block-builder.heading'))
+                                //     ->icon('heroicon-m-pencil')
+                                //     ->schema([
+                                //         TextInput::make('content')
+                                //             ->label(__('block-builder.content'))
+                                //             ->required(),
+                                //         Select::make('level')
+                                //             ->label(__('block-builder.level'))
+                                //             ->options([
+                                //                 'h1' => 'Heading 1',
+                                //                 'h2' => 'Heading 2',
+                                //                 'h3' => 'Heading 3',
+                                //                 'h4' => 'Heading 4',
+                                //                 'h5' => 'Heading 5',
+                                //                 'h6' => 'Heading 6',
+                                //             ]),
+                                //         ColorPicker::make('color')
+                                //             ->label(__('block-builder.color'))
+                                //     ])->columns(2),
                                 Block::make('paragraph')
                                     ->label(__('block-builder.paragraph'))
                                     ->icon('heroicon-m-bars-3-bottom-left')
