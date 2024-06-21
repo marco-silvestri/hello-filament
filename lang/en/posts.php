@@ -33,4 +33,5 @@ return [
     "lbl-published-from"=>"Published from",
     "lbl-published-to"=>"Published to",
     "lbl-new-planning"=>"New Planning",
+    "lbl-scheduled-send"=>"Scheduled E-mail"
 ];

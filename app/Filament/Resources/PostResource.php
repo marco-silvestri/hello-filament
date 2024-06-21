@@ -3,10 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Models\Post;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use App\Enums\Cms\PostBoolEnum;
 use Filament\Resources\Resource;
 use App\Enums\Cms\PostAccessEnum;
 use App\Enums\Cms\PostStatusEnum;
@@ -18,6 +20,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
@@ -227,8 +230,17 @@ class PostResource extends Resource
                             ->label(__('posts.lbl-featured-image')),
                         Select::make('status')
                             ->label(__('posts.lbl-status'))
+                            ->default(PostStatusEnum::DRAFT)
                             ->required()
-                            ->options(PostStatusEnum::class),
+                            ->options(PostStatusEnum::class)
+                            ->live()
+                            ->afterStateUpdated(function (Get $get, Set $set) {
+
+                                if ($get('status') == PostStatusEnum::PUBLISH->value) {
+
+                                    $set('published_at', now());
+                                }
+                            }),
                         DateTimePicker::make('published_at')
                             ->label(__('posts.lbl-published-at'))
                             ->native(false)
@@ -243,11 +255,8 @@ class PostResource extends Resource
                                     ->options(PostAccessEnum::class)
                                     ->default(PostAccessEnum::FREE)
                                     ->required(),
-                                DatePicker::make('highlighted')
-                                    ->label(__('posts.lbl-highlighted'))
-                                    ->native(false)
-                                    ->displayFormat('d/m/Y'),
-
+                                Checkbox::make('highlighted')
+                                    ->label(__('posts.lbl-highlighted')),
                             ]),
                         Repeater::make('plannings')
                             ->relationship()
@@ -266,9 +275,6 @@ class PostResource extends Resource
                                     ->displayFormat('d/m/Y')
                                     ->required(),
                             ])
-
-
-
                     ]),
             ]);
     }

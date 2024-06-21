@@ -81,4 +81,7 @@ return [
     "lbl-written-by" => "Written bu",
     "btn-cancel" => "Cancel",
     "btn-save" => "Save",
+    "lbl-yes" => "Yes",
+    "lbl-no" => "No",
+    "fld-company" => "Company",
 ];

@@ -81,4 +81,7 @@ return [
     "lbl-written-by" => "Scritto da",
     "btn-cancel" => "Annulla",
     "btn-save" => "Salva",
+    "lbl-yes" => "Si",
+    "lbl-no" => "No",
+    "fld-company" => "Azienda",
 ];

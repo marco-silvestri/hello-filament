@@ -58,6 +58,11 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function scheduled(): HasMany
+    {
+        return $this->hasMany(ScheduledPost::class);
+    }
+
     public function relatedPosts()
     {
         return $this->belongsToMany(Post::class, 'related_posts', 'post_id', 'related_post_id');
@@ -109,6 +114,11 @@ class Post extends Model
     public function plannings(): HasMany
     {
         return $this->hasMany(PostPlannings::class);
+    }
+
+    public function communications(): HasMany
+    {
+        return $this->hasMany(Communication::class);
     }
 
     public static function getLatests(): Collection

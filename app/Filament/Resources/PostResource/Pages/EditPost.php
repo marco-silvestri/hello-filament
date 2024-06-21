@@ -3,32 +3,101 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use DOMDocument;
-use App\Models\Audio;
-use Filament\Actions;
+use App\Models\Post;
+use App\Models\Contact;
 use Filament\Actions\Action;
-use Filament\Actions\EditAction;
+use App\Models\Communication;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Cache;
-
-use function PHPUnit\Framework\isNull;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use App\Filament\Resources\PostResource;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Forms\Components\RichEditor;
+use App\Enums\Cms\CommunicationStatusEnum;
 
 class EditPost extends EditRecord
 {
-
     protected static string $resource = PostResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('scheduled')
+                ->label(__('posts.lbl-scheduled-send'))
+                ->form([
+                    Select::make('recipients')
+                        ->label(__('scheduled-send.lbl-recipients'))
+                        ->multiple()
+                        ->options(function () {
+                            $contacts = Contact::get();
+                            $contacts = $contacts->map(function ($contact) {
+                                $label = "$contact->name ($contact->email)";
+                                if ($contact->company) {
+                                    $label = "$contact->company - $label";
+                                };
+
+                                $contact->label = $label;
+
+                                return $contact;
+                            })->pluck('label', 'id');
+
+                            return $contacts;
+                        })
+                        ->required()
+                        ->createOptionForm([
+                            TextInput::make('name')
+                                ->required(),
+                            TextInput::make('company')
+                                ->required(),
+                            TextInput::make('email')
+                                ->required()
+                                ->unique()
+                                ->regex('/^.+@.+$/i')
+                                ->email(),
+                        ])->createOptionUsing(function (array $data) {
+                            $contact = Contact::create([
+                                'name' => $data['name'],
+                                'company' => $data['company'],
+                                'email' => $data['email'],
+                            ]);
+
+                            return $contact->id;
+                        }),
+                    TextInput::make('subject')
+                        ->label(__('scheduled-send.lbl-subject'))
+                        ->default(fn(Post $record) =>
+                        __('scheduled-send.fl-default-subject',[
+                            'title' => $record->title,
+                        ]))
+                        ->required(),
+                        RichEditor::make('body')
+                        ->label(__('scheduled-send.lbl-body'))
+                        ->default(fn(Post $record) =>
+                            __('scheduled-send.fl-default-body',[
+                                'title' => $record->title,
+                                'link' => $record->encoded_url,
+                            ]))
+                        ->required(),
+                ])
+                ->action(function (Post $record, array $data): void {
+                    $communication = Communication::create([
+                        'subject' => $data['subject'],
+                        'body' => $data['body'],
+                        'status' => CommunicationStatusEnum::SCHEDULED,
+                        'post_id' => $record->id,
+                    ]);
+
+                    $communication->contacts()->sync($data['recipients']);
+                }),
             Action::make('preview')
                 ->label(__('posts.lbl-preview'))
                 ->url(fn ($record): string => route('preview', ['post' => $record])),
-            Action::make('save')
+            Action::make('save_top')
+                ->action('save')
                 ->label(__('common.btn-save')),
             Action::make('cancel')
                 ->label(__('common.btn-cancel'))
@@ -40,6 +109,7 @@ class EditPost extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
+
         $record->update($data);
         $key = $record->getTable();
         Cache::forget("{$key}-{$record->slug}");

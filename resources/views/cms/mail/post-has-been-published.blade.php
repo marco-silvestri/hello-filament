@@ -1,0 +1,3 @@
+<div>
+{!!$communication->body!!}
+</div>
