@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('app:create-newsletter')->weekly();
         $schedule->command('delete:delete-orphan-files')->weekly();
+        $schedule->command('cms:pack-and-queue-communications')->everyFiveMinutes();
     }
 
     /**
