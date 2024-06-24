@@ -1,13 +1,14 @@
 @setup
-    $server = env('SERVER_IP');
-    $user = env('SERVER_USER');
+    $server = '5.189.177.205';
+    $user = 'vmi640658-060';
+    $demo = "$user@$server";
     $repository = 'git@bitbucket.org:lswr-group/hello-filament.git';
     $appDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament';
 @endsetup
 
-@servers(['demo' => "$user@$server"])
+@servers(['web' => [$demo]])
 
-@task('deploy', ['on' => 'demo'])
+@task('deploy', ['on' => 'web'])
     echo 'Starting deployment ({{ $release }})';
 
     cd {{ $appDir }}
