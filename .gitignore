@@ -18,3 +18,5 @@ yarn-error.log
 /.idea
 /.vscode
 wp_users_202401241131.json
+*.pem
+ssh_config
