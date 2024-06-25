@@ -6,7 +6,7 @@
     $repository = 'git@bitbucket.org:lswr-group/hello-filament.git';
     $appDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament';
     $bakDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament.bak';
-    $tempDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament.bak.temp';
+    $release = date('Ymdhis');
 @endsetup
 
 @servers(['web' => ["$demo -p 22 -F ./ssh_config"]])
@@ -16,12 +16,71 @@
     ls -la
 @endtask
 
-@task('deploy', ['on' => 'web'])
-    echo 'Moving current into temp'
-    mv {{$appDir}} {{$tempDir}}
+@story('restoreBackup', ['on' => 'web'])
+    promoting-backup
+    clear-cache
+    optimize
+@endstory
 
-    echo 'Starting deployment';
+@task('promoting-backup')
+    echo 'Removing current release';
+    rm -rf {{ $appDir }}
+
+    echo 'Promoting backup';
+    cp -r {{ $bakDir }} {{ $appDir }}
+@endtask
+
+@task('clear-cache')
+    echo 'Clearing cache';
     cd {{ $appDir }}
+    ~/.phpenv/shims/php artisan cache:clear
+    ~/.phpenv/shims/php artisan view:clear
+    ~/.phpenv/shims/php artisan route:clear
+@endtask
+
+@task('updating-packages')
+    echo 'Updating packages';
+    cd {{ $appDir }}
+    ~/.phpenv/shims/php /usr/local/psa/var/modules/composer/composer.phar install --no-interaction --verbose
+    ~/.nodenv/shims/npm install
+    ~/.nodenv/shims/npm run build
+@endtask
+
+@task('run-migrations')
+    echo 'Running migrations';
+    cd {{ $appDir }}
+    ~/.phpenv/shims/php artisan migrate --force
+@endtask
+
+@task('optimize')
+    echo 'Optimize';
+    cd {{ $appDir }}
+    ~/.phpenv/shims/php artisan optimize
+
+    echo 'Restaring queue';
+    ~/.phpenv/shims/php artisan queue:restart
+@endtask
+
+@task('refresh-backup')
+    echo 'Deleting previous backup'
+    rm -rf {{ $bakDir }}
+
+    echo 'Saving backup'
+    cp -r {{ $appDir }} {{ $bakDir }}
+@endtask
+
+@task('refresh-icons')
+    cd {{ $appDir }}
+    ~/.phpenv/shims/php artisan icons:clear
+    ~/.phpenv/shims/php artisan icons:cache
+@endtask
+
+@task('fetch-repo')
+    echo 'Starting deployment ({{ $release }})';
+    cd {{ $appDir }}
+
+    git reset --hard HEAD
+    git clean -df
 
     @if ($tag)
         git fetch
@@ -29,30 +88,13 @@
     @else
         git pull
     @endif
-
-    echo 'Clearing cache';
-    ~/.phpenv/shims/php artisan cache:clear
-    ~/.phpenv/shims/php artisan view:clear
-
-    echo 'Updating packages';
-    ~/.phpenv/shims/php /usr/local/psa/var/modules/composer/composer.phar install --no-interaction --verbose
-    ~/.nodenv/shims/npm install
-    ~/.nodenv/shims/npm run build
-
-    echo 'Running migrations';
-    ~/.phpenv/shims/php artisan migrate --force
-
-    echo 'Restaring queue';
-    ~/.phpenv/shims/php artisan queue:restart
-
-    echo 'Optimize';
-    ~/.phpenv/shims/php artisan optimize
-
-    echo 'Deleting previous backup'
-    rm -rf {{$bakDir}}
-
-    echo 'Saving backup'
-    mv {{$tempDir}} {{$bakDir}}
-
-    echo 'Done!';
 @endtask
+
+@story('deploy', ['on' => 'web'])
+    fetch-repo
+    updating-packages
+    run-migrations
+    clear-cache
+    optimize
+    refresh-backup
+@endstory
