@@ -5,13 +5,22 @@
     $demo = "$user@$server";
     $repository = 'git@bitbucket.org:lswr-group/hello-filament.git';
     $appDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament';
+    $bakDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament.bak';
+    $tempDir = '/var/www/vhosts/cmsquine.wdemo.it/httpdocs/hello-filament.bak.temp';
 @endsetup
 
 @servers(['web' => ["$demo -p 22 -F ./ssh_config"]])
 
-@task('deploy', ['on' => 'web'])
-    echo 'Starting deployment ({{ $release }})';
+@task('test', ['on' => 'web'])
+    rm -rf pippo
+    ls -la
+@endtask
 
+@task('deploy', ['on' => 'web'])
+    echo 'Moving current into temp'
+    mv {{$appDir}} {{$tempDir}}
+
+    echo 'Starting deployment';
     cd {{ $appDir }}
 
     @if ($tag)
@@ -38,6 +47,12 @@
 
     echo 'Optimize';
     ~/.phpenv/shims/php artisan optimize
+
+    echo 'Deleting previous backup'
+    rm -rf {{$bakDir}}
+
+    echo 'Saving backup'
+    mv {{$tempDir}} {{$bakDir}}
 
     echo 'Done!';
 @endtask
