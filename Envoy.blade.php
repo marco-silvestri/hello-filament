@@ -41,7 +41,7 @@
 @task('updating-packages')
     echo 'Updating packages';
     cd {{ $appDir }}
-    ~/.phpenv/shims/php /usr/local/psa/var/modules/composer/composer.phar install --no-interaction --verbose
+    ~/.phpenv/shims/php /usr/local/psa/var/modules/composer/composer.phar install --no-interaction --verbose --no-dev --optimize-autoloader
     ~/.nodenv/shims/npm install
     ~/.nodenv/shims/npm run build
 @endtask
