@@ -95,6 +95,7 @@
     updating-packages
     run-migrations
     clear-cache
+    refresh-icons
     optimize
     refresh-backup
 @endstory
