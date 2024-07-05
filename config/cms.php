@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'quine_key' => [
+        'base_address' => 'https://wscrm.lswr.it/api/Forms/',
+        'newsletter_form_route' => 'detail',
+        'newsletter_action' => 'detail',
+        'id' => env('QUINE_ID'),
+        'api_key' => env('QUINE_API_KEY'),
+    ],
     'newsletter' => 'internal',
     'newsletter_table' => 'newsletters',
     'newsletter_status_enum' => \App\Enums\Cms\InternalNewsletterStatusEnum::class,

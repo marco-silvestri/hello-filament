@@ -11,6 +11,9 @@ use App\Http\Controllers\Cms\ShowPostPreviewController;
 use App\Http\Controllers\Cms\ShowPostsByAuthorController;
 use App\Http\Controllers\Cms\ShowPostsBySearchController;
 use App\Http\Controllers\Cms\ShowPostsByCategoryController;
+use App\Livewire\Cms\NewsletterSubscription;
+
+Route::get('test', NewsletterSubscription::class);
 
 Route::get('/', HomePageController::class)->name('home');
 
