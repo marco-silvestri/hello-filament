@@ -81,6 +81,7 @@ class PostResource extends Resource
                             ->columnSpanFull()
                             ->addActionLabel(__('block-builder.add-block'))
                             ->reorderableWithButtons()
+                            ->requiresConfirmation(false)
                             ->collapsible()
                             ->blocks([
                                 // Block::make('heading')
@@ -215,12 +216,52 @@ class PostResource extends Resource
                             ->label(__('common.ent-categories'))
                             ->relationship(name: 'categories', titleAttribute: 'name')
                             ->multiple()
-                            ->searchable(),
+                            ->searchable()
+                            ->native(false)
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label(__('common.fld-name'))
+                                    ->required()
+                                    ->live(debounce: 500)
+                                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                                        $set('slug.name', Str::of($state)->slug());
+                                    })
+                                    ->maxLength(65535),
+                                Section::make()
+                                    ->relationship('slug')
+                                    ->schema([
+                                        TextInput::make('name')
+                                            ->label('slug')
+                                            ->required()
+                                            ->readonly()
+                                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                                    ]),
+                            ]),
                         Select::make('tags')
                             ->label(__('common.ent-tags'))
                             ->relationship(name: 'tags', titleAttribute: 'name')
                             ->multiple()
-                            ->searchable(),
+                            ->searchable()
+                            ->native(false)
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label(__('common.fld-name'))
+                                    ->required()
+                                    ->live(debounce: 500)
+                                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                                        $set('slug.name', Str::of($state)->slug());
+                                    })
+                                    ->maxLength(65535),
+                                Section::make()
+                                    ->relationship('slug')
+                                    ->schema([
+                                        TextInput::make('name')
+                                            ->label('slug')
+                                            ->required()
+                                            ->readonly()
+                                            ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
+                                    ]),
+                            ]),
                         Select::make('related_post')
                             ->label(__('posts.lbl-related-posts'))
                             ->relationship(name: 'relatedPosts', titleAttribute: 'title')
@@ -235,16 +276,16 @@ class PostResource extends Resource
                             ->options(PostStatusEnum::class)
                             ->live()
                             ->afterStateUpdated(function (Get $get, Set $set) {
-
-                                if ($get('status') == PostStatusEnum::PUBLISH->value) {
-
+                                if ($get('status') == PostStatusEnum::PUBLISH) {
                                     $set('published_at', now());
                                 }
                             }),
                         DateTimePicker::make('published_at')
                             ->label(__('posts.lbl-published-at'))
+                            ->displayFormat('d/m/Y H:i')
                             ->native(false)
-                            ->displayFormat('d/m/Y H:i:s')
+                            ->seconds(false)
+                            ->firstDayOfWeek(1)
                             ->required(),
                         Group::make()
                             ->label('Settings')
@@ -254,6 +295,7 @@ class PostResource extends Resource
                                     ->label(__('posts.lbl-accessible-for'))
                                     ->options(PostAccessEnum::class)
                                     ->default(PostAccessEnum::FREE)
+                                    ->hidden()
                                     ->required(),
                                 Checkbox::make('highlighted')
                                     ->label(__('posts.lbl-highlighted')),
