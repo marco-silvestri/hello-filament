@@ -62,7 +62,7 @@ class PostResource extends Resource
                             ->label(__('common.lbl-title'))
                             ->required()
                             ->unique(ignoreRecord: true)
-                            ->live(debounce: 500)
+                            ->live(debounce: 800)
                             ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
                                 $set('slug.name', Str::of($state)->slug());
                             })
@@ -73,7 +73,7 @@ class PostResource extends Resource
                                 TextInput::make('name')
                                     ->label('slug')
                                     ->required()
-                                    ->readonly()
+                                    ->dehydrateStateUsing(fn (string $state): string => Str::of($state)->slug())
                                     ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
                             ]),
                         Builder::make('json_content')
