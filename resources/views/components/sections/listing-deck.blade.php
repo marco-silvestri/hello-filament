@@ -6,12 +6,12 @@
                     @foreach ($section as $post)
                         <x-cards.simple-card :post="$post" />
                     @endforeach
-                    
+
                 </div>
                 @if ($section->total() > $section->perPage())
                 <div class="mb-4">
                     {{$section->onEachSide(1)->links()}}
-                 </div>
+                </div>
                 @endif
             </div>
             <div class="w-full md:w-1/4">
@@ -19,9 +19,9 @@
                     <x-sections.sponsor-deck />
                 </div>
                 <div class="w-full">
-                <x-cms-custom-navbar.search-sidebar-input :searchKey="$searchKey"/>
+                <x-cms-custom-navbar.search-sidebar-input :searchKey="$searchKey ?? ''"/>
                 </div>
-            
+
             </div>
         </div>
     </section>

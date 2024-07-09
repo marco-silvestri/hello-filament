@@ -17,6 +17,8 @@
 
     <x-sections.hero-deck :section="$header" />
     <x-sections.highlights-deck :section="$highlight" :title="__('home-page.highlights-title')" />
+
+    @if(isset($showcase['posts']) && count($showcase['posts'])>0)
     <div class="px-4 mx-auto my-8 max-w-7xl sm:px-6 lg:px-8">
         <x-elements.strip-title :title="__('home-page.showcase-title')" />
         <div class="justify-between md:flex md:flex-row">
@@ -29,6 +31,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <x-sections.cards-deck :section="$highlightedStrip" :isHighlighted="true" />
 
