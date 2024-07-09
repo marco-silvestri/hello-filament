@@ -81,7 +81,6 @@ class PostResource extends Resource
                             ->columnSpanFull()
                             ->addActionLabel(__('block-builder.add-block'))
                             ->reorderableWithButtons()
-                            ->requiresConfirmation(false)
                             ->collapsible()
                             ->blocks([
                                 // Block::make('heading')
