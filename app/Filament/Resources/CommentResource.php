@@ -71,7 +71,7 @@ class CommentResource extends Resource
                     ->modalContent(fn (Action $action, Comment $record): View => view(
                         'cms.filament.comment-moderation',
                         [
-                            'record' => $record->with('author')->first(),
+                            'record' => $record,
                             'action' => $action,
                         ],
                     ))
