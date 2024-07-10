@@ -56,7 +56,8 @@ class CommentResource extends Resource
                     ->label(__('common.fld-post')),
                 TextColumn::make('author.name')
                     ->sortable()
-                    ->label(__('common.fld-author')),
+                    ->label(__('common.fld-author'))
+                    ->state(fn($record) => $record->author ? $record->author->name : __('comments.lbl-anonymous')),
                 TextColumn::make('body')
                     ->limit(30)
                     ->label(__('common.fld-body')),
