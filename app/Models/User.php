@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
+use Filament\Panel;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Traits\Cms\HasSlug;
@@ -23,6 +25,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasAnyRole([
+            RoleEnum::SUPERADMIN,
+            RoleEnum::ADMIN,
+            RoleEnum::AUTHOR,
+            RoleEnum::EDITOR,
+        ]);
+    }
 
     public function posts(): HasMany
     {
