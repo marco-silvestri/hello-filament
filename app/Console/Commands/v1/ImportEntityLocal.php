@@ -243,7 +243,7 @@ class ImportEntityLocal extends Command
                             ]);
 
                             $slug = Slug::firstOrCreate([
-                                'name' => $legacyCategory->slug,
+                                'name' => $legacyCategory->slug ?? Str::slug($legacyCategory->name),
                                 'sluggable_type' => 'App\Models\Category',
                                 'sluggable_id' => $category->id
                             ]);
@@ -259,7 +259,7 @@ class ImportEntityLocal extends Command
                             ]);
 
                             $slug = Slug::firstOrCreate([
-                                'name' => $legacyTag->slug,
+                                'name' => $legacyTag->slug ?? Str::slug($legacyTag->name),
                                 'sluggable_type' => 'App\Models\Tag',
                                 'sluggable_id' => $tag->id
                             ]);
