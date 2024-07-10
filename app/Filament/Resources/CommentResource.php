@@ -13,14 +13,15 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 use App\Enums\Cms\CommentStatusEnum;
-use App\Tables\Columns\Cms\CommentStatusColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Notifications\Notification;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Tables\Columns\Cms\CommentStatusColumn;
 use App\Filament\Resources\CommentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CommentResource\RelationManagers;
-use Filament\Tables\Columns\ViewColumn;
 
 class CommentResource extends Resource
 {
@@ -61,10 +62,18 @@ class CommentResource extends Resource
                     ->label(__('common.fld-body')),
                 TextColumn::make('status')
                     ->badge()
+                    ->sortable()
                     ->label(__('common.fld-status')),
+                TextColumn::make('created_at')
+                    ->badge()
+                    ->sortable()
+                    ->dateTime()
+                    ->label(__('common.fld-created-at'))
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('status')
+                    ->options(array_flip(CommentStatusEnum::toArray()))
             ])
             ->actions([
                 Action::make('moderate-comment')
@@ -167,7 +176,8 @@ class CommentResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array
