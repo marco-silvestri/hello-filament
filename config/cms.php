@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'has_quine_newsletter' => env('HAS_QUINE_NEWSLETTER', false),
     'quine_key' => [
         'base_address' => 'https://wscrm.lswr.it/api/Forms/',
         'newsletter_form_route' => 'detail',

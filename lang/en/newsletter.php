@@ -7,4 +7,7 @@ return [
     "fld-name" => "Name",
     "fld-approve" => "Approve",
     "fld-send-to-draft" => "Mark as draft",
+    "btn-subscribe" => "Subscribe",
+    "btn-cancel" => "Cancel",
+    "btn-confirm" => "Confirm",
 ];

@@ -3,14 +3,17 @@
     'additionalLabel' => null,
 ])
 
-<div>
+<div class="flex-col items-center justify-center text-xs form__checkbox font-brand">
     @if($additionalLabel)
-    {!! $additionalLabel['label'] !!}
-    <label for="{{$data['name']}}">
+    <p class="mb-4">
+        {!! $additionalLabel['label'] !!}
+    </p>
+
+    <label class="mt-2" for="{{$data['name']}}">
         Si, acconsento
     </label>
     @else
-    <label for="{{$data['name']}}">
+    <label class="mt-2" for="{{$data['name']}}">
         {{$data['label']}}
     </label>
     @endif

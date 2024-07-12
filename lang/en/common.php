@@ -84,4 +84,5 @@ return [
     "lbl-yes" => "Yes",
     "lbl-no" => "No",
     "fld-company" => "Company",
+    "lbl-social-sharing-cta" => "Share it on:"
 ];

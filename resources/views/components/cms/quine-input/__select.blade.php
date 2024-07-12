@@ -2,7 +2,7 @@
     'data' => [],
 ])
 
-<div>
+<div class="form__field">
     <label for="{{$data['name']}}">
         {{$data['label']}}
     </label>

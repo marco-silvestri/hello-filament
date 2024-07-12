@@ -7,4 +7,7 @@ return [
     "fld-name" => "Nome",
     "fld-approve" => "Approva",
     "fld-send-to-draft" => "Metti in bozza",
+    "btn-subscribe" => "Iscriviti",
+    "btn-cancel" => "Annulla",
+    "btn-confirm" => "Conferma",
 ];

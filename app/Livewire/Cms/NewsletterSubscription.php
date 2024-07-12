@@ -15,11 +15,27 @@ class NewsletterSubscription extends Component
     public array $formData;
     public array $filledData = [];
     public string $email;
+    public bool $isModalOpen = false;
+    public array $privacyPolicy = [];
 
     public function mount()
     {
-        $this->formData = $this->buildForm();
         $this->extraFields = new HoneypotData();
+    }
+
+    public function openModal()
+    {
+        $this->formData = $this->buildForm();
+        $this->privacyPolicy = array_values(array_filter($this->formData['elements'], function($el){
+            return $el['type'] === 'html';
+        }))[0];
+        $this->isModalOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->reset('formData','privacyPolicy', 'filledData');
+        $this->isModalOpen = false;
     }
 
     public function rules()
@@ -96,10 +112,11 @@ class NewsletterSubscription extends Component
 
         if($res->successful())
         {
+            $this->closeModal();
             session()->flash('subscription-success', 'Success');
         }
             session()->flash('subscription-error', 'Error');
-            $this->redirect('/');
+            //$this->redirect('/');
     }
 
     public function getComponentName($el)
@@ -116,12 +133,8 @@ class NewsletterSubscription extends Component
             'select',
         ];
 
-        $privacyPolicy = array_values(array_filter($this->formData['elements'], function($el){
-            return $el['type'] === 'html';
-        }))[0];
-
         return view('livewire.cms.newsletter-subscription')
             ->with('allowedField', $allowedField)
-            ->with('privacyPolicy', $privacyPolicy);
+            ->with('privacyPolicy', $this->privacyPolicy);
     }
 }

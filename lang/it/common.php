@@ -84,4 +84,5 @@ return [
     "lbl-yes" => "Si",
     "lbl-no" => "No",
     "fld-company" => "Azienda",
+    "lbl-social-sharing-cta" => "Se l’articolo ti è piaciuto rimani in contatto con noi sui nostri canali social seguendoci su:"
 ];
