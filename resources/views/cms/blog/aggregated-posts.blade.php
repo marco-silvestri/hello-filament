@@ -1,4 +1,7 @@
 <x-layouts.app>
+    @section('title')
+    <title>{{ config('app.name') . ' - ' . $group->name }}</title>
+    @endsection
     <x-elements.blog-container>
         @section('menu')
             @if ($menu)

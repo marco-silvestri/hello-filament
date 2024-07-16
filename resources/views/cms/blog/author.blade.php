@@ -1,4 +1,7 @@
 <x-layouts.app>
+    @section('meta-tags')
+    <title>{{ $author->name }}</title>
+    @show
     <x-elements.blog-container>
         @section('menu')
             @if ($menu)
@@ -18,7 +21,7 @@
             </div>
             @endif
         </div>
-        <div class="font-bold mt-8 font-brand-alt text-lg">
+        <div class="mt-8 text-lg font-bold font-brand-alt">
             {{__('author.lbl-more-articles')}}
         </div>
         <x-sections.listing-deck :section="$posts" />

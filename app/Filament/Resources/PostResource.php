@@ -202,6 +202,12 @@ class PostResource extends Resource
                             ->required()
                             ->maxLength(16777215)
                             ->columnSpanFull(),
+                        Textarea::make('og_title')
+                            ->maxLength(16777215)
+                            ->columnSpanFull(),
+                        Textarea::make('og_description')
+                            ->maxLength(16777215)
+                            ->columnSpanFull(),
                     ]),
                 Section::make()
                     ->columnSpan(1)

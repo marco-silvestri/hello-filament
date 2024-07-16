@@ -1,4 +1,8 @@
 <x-layouts.app>
+    @section('title')
+    <title>{{ config('app.name') }}</title>
+    @endsection
+
     @if ($menu)
         <x-cms-custom-navbar.base :feMenu="$menu" :overrideMenu="true" />
     @endif
