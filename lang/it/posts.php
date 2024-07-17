@@ -34,5 +34,7 @@ return [
     "lbl-published-from"=>"Pubblicato da",
     "lbl-published-to"=>"Pubblicato a",
     "lbl-new-planning"=>"Nuova Pianificazione",
-    "lbl-scheduled-send"=>"Invio programmato"
+    "lbl-scheduled-send"=>"Invio programmato",
+    "lbl-og_title" => "Titolo SEO",
+    "lbl-og_description" => "Descrizione SEO",
 ];

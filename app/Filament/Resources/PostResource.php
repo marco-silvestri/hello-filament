@@ -202,16 +202,18 @@ class PostResource extends Resource
                             ->required()
                             ->maxLength(16777215)
                             ->columnSpanFull(),
-                        Textarea::make('og_title')
-                            ->maxLength(16777215)
-                            ->columnSpanFull(),
-                        Textarea::make('og_description')
-                            ->maxLength(16777215)
-                            ->columnSpanFull(),
                     ]),
                 Section::make()
                     ->columnSpan(1)
                     ->schema([
+                        Textarea::make('og_title')
+                            ->label(__('posts.lbl-og_title'))
+                            ->maxLength(16777215)
+                            ->columnSpanFull(),
+                        Textarea::make('og_description')
+                            ->label(__('posts.lbl-og_description'))
+                            ->maxLength(16777215)
+                            ->columnSpanFull(),
                         Select::make('author_id')
                             ->label(__('common.fld-author'))
                             ->relationship('author', 'name', fn (EloquentBuilder $query) => $query->role('author'),)

@@ -33,5 +33,7 @@ return [
     "lbl-published-from"=>"Published from",
     "lbl-published-to"=>"Published to",
     "lbl-new-planning"=>"New Planning",
-    "lbl-scheduled-send"=>"Scheduled E-mail"
+    "lbl-scheduled-send"=>"Scheduled E-mail",
+    "lbl-og_title" => "Seo Title",
+    "lbl-og_description" => "Seo Description",
 ];
