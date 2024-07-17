@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "title" => "",
+    "title" => config('app.name'),
     "description" => "",
     "image" => "",
 ];
