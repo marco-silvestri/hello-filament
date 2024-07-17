@@ -12,7 +12,7 @@
     <meta property="og:title" content="{{__('meta-tags.title')}}">
     <meta property="og:description" content="{{__('meta-tags.description')}}">
     <meta property="og:site_name" content="{{config('app.name')}}">
-    <meta property="og:image" content="">
+    <meta property="og:image" content="{{__('meta-tags.image')}}">
 
     @section('title')
     <title>{{ config('app.name') }}</title>
