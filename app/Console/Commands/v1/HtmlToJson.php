@@ -136,6 +136,13 @@ class HtmlToJson extends Command
             {
                 unset($payload[$key]);
             }
+
+            if(isset($el['data']['content'])
+                && (trim($el['data']['content']) === "<ul>"
+                || trim($el['data']['content']) === "</ul>"))
+            {
+                unset($payload[$key]);
+            }
         }
 
         return $payload;
