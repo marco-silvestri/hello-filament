@@ -14,7 +14,6 @@ use App\Http\Controllers\Cms\ShowPostsByCategoryController;
 use App\Livewire\Cms\NewsletterSubscription;
 
 Route::get('test', NewsletterSubscription::class);
-
 Route::get('/', HomePageController::class)->name('home');
 
 Route::group([], function () {

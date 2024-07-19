@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasAuthor;
 use App\Traits\Cms\HasVisits;
@@ -17,12 +19,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Post extends Model
+class Post extends Model implements Feedable
 {
     use HasFactory, HasVisits, SoftDeletes, HasSlug, HasAuthor, HasStringOperations;
 
@@ -139,5 +140,24 @@ class Post extends Model
             get: fn () =>
                 config('app.url')."/post/".$this->slug->name,
         );
+    }
+
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->title)
+            ->summary($this->excerpt)
+            ->updated($this->updated_at)
+            ->link(config('app.url').'/'.$this->slug->name)
+            ->authorName($this->author?->name ?? "Redazione");
+    }
+
+    public static function getAllFeedItems(){
+        return Post::query()
+            ->published()
+            ->limit(10)
+            ->orderByDesc('created_at')
+            ->get();
     }
 }
