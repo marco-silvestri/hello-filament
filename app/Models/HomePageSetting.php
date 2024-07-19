@@ -23,7 +23,7 @@ class HomePageSetting extends Model
     {
         return $this->groupable->posts()
             ->published()
-            ->with(['author','featuredImage'])
+            ->with(['author', 'featuredImage'])
             ->tap(function ($q) use ($limit) {
                 if ($limit > 0) {
                     return $q->limit($limit);

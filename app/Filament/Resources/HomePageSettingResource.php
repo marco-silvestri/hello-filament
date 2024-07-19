@@ -2,15 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\HomePageSetting;
 use Filament\Resources\Resource;
+use App\Enums\Cms\DisplayableAsEnum;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\MorphToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\HomePageSettingResource\Pages;
 use App\Filament\Resources\HomePageSettingResource\RelationManagers;
@@ -25,7 +30,21 @@ class HomePageSettingResource extends Resource
     {
         return $form
             ->schema([
-                //
+                MorphToSelect::make('groupable')
+                    ->types([
+                        MorphToSelect\Type::make(Category::class)
+                            ->titleAttribute('name')
+                            ->getOptionLabelFromRecordUsing(fn (Category $record): string
+                                => $record->name . "(" . $record->posts->count() .")"),
+                        MorphToSelect\Type::make(Tag::class)
+                            ->titleAttribute('name')
+                            ->getOptionLabelFromRecordUsing(fn (Tag $record): string
+                                => $record->name . "(" . $record->posts->count() .")"),
+                    ])->native(false)->searchable(),
+                Select::make('displayable_as')
+                    ->label(__('homepage_settings.lbl-displayable-as'))
+                    ->options(DisplayableAsEnum::toArray())
+                    ->default(DisplayableAsEnum::STRIP->value)->native(false),
             ]);
     }
 
