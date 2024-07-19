@@ -31,6 +31,7 @@ class HomePageSettingResource extends Resource
         return $form
             ->schema([
                 MorphToSelect::make('groupable')
+                ->label(__('homepage-settings.lbl-groupable'))
                     ->types([
                         MorphToSelect\Type::make(Category::class)
                             ->titleAttribute('name')
@@ -42,8 +43,8 @@ class HomePageSettingResource extends Resource
                                 => $record->name . "(" . $record->posts->count() .")"),
                     ])->native(false)->searchable(),
                 Select::make('displayable_as')
-                    ->label(__('homepage_settings.lbl-displayable-as'))
-                    ->options(DisplayableAsEnum::toArray())
+                    ->label(__('homepage-settings.lbl-displayable-as'))
+                    ->options(array_flip(DisplayableAsEnum::toArray()))
                     ->default(DisplayableAsEnum::STRIP->value)->native(false),
             ]);
     }
