@@ -152,7 +152,9 @@ class PostTest extends TestCase
         Post::factory(2)
             ->hasSlug()->hasAuthor()
             ->hasPlannings()
-            ->create();
+            ->create([
+                'status' => PostStatusEnum::PLANNED
+            ]);
 
         $this->assertCount(5, Post::published()->get());
         $this->assertCount(7, Post::get());

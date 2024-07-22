@@ -11,12 +11,14 @@ enum PostStatusEnum: string implements HasLabel
 
     case DRAFT = 'draft';
     case PUBLISH = 'publish';
+    case PLANNED = 'planned';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::DRAFT => __('posts.lbl-draft'),
-            self::PUBLISH => __('posts.lbl-publish')
+            self::PUBLISH => __('posts.lbl-publish'),
+            self::PLANNED => __('posts.lbl-planned')
         };
     }
 
@@ -24,7 +26,8 @@ enum PostStatusEnum: string implements HasLabel
     {
         return match ($this) {
             self::DRAFT => self::DRAFT->value,
-            self::PUBLISH => self::PUBLISH->value
+            self::PUBLISH => self::PUBLISH->value,
+            self::PLANNED =>  self::PLANNED->value
         };
     }
 

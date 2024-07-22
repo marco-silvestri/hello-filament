@@ -74,7 +74,7 @@ class CommentResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('status')
-                    ->options(array_flip(CommentStatusEnum::toArray()))
+                    ->options(CommentStatusEnum::class)
             ])
             ->actions([
                 Action::make('moderate-comment')

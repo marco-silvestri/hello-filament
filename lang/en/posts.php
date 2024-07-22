@@ -10,7 +10,7 @@
 return [
     "lbl-draft" => "Draft",
     "lbl-publish" => "Published",
-    "lbl-future" => "Future release",
+    "lbl-planned" => "Planned",
     "lbl-parameters" => "Parameters",
     "lbl-featured-image" => "Immagine di copertina",
     "lbl-published-at" => "Published at",

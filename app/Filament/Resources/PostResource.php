@@ -285,6 +285,8 @@ class PostResource extends Resource
                             ->afterStateUpdated(function (Get $get, Set $set) {
                                 if ($get('status') == PostStatusEnum::PUBLISH) {
                                     $set('published_at', now());
+                                } else {
+                                    $set('published_at', null);
                                 }
                             }),
                         DateTimePicker::make('published_at')
@@ -293,7 +295,7 @@ class PostResource extends Resource
                             ->native(false)
                             ->seconds(false)
                             ->firstDayOfWeek(1)
-                            ->required(),
+                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PUBLISH),
                         Group::make()
                             ->label('Settings')
                             ->relationship('settings')
@@ -308,6 +310,7 @@ class PostResource extends Resource
                                     ->label(__('posts.lbl-highlighted')),
                             ]),
                         Repeater::make('plannings')
+                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PLANNED)
                             ->relationship()
                             ->label(__('posts.lbl-plannings'))
                             ->defaultItems(0)

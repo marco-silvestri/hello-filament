@@ -44,7 +44,7 @@ class HomePageSettingResource extends Resource
                     ])->native(false)->searchable(),
                 Select::make('displayable_as')
                     ->label(__('homepage-settings.lbl-displayable-as'))
-                    ->options(array_flip(DisplayableAsEnum::toArray()))
+                    ->options(DisplayableAsEnum::class)
                     ->default(DisplayableAsEnum::STRIP->value)->native(false),
             ]);
     }

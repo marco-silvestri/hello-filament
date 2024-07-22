@@ -72,15 +72,16 @@ class Post extends Model implements Feedable
     public function scopePublished($query)
     {
         return $query
-            ->where('status', PostStatusEnum::PUBLISH)
-            ->where('published_at', '<=', now())
-            ->whereNotNull('published_at')
-            ->where(function(Builder $post) {
-                $post->doesntHave('plannings')
-                    ->orWhereHas('plannings', function (Builder $planning) {
+            ->where(function (Builder $q) {
+                $q->where('status', PostStatusEnum::PUBLISH)
+                    ->where('published_at', '<=', now())
+                    ->whereNotNull('published_at');
+            })->orWhere(function (Builder $q) {
+                $q->where('status', PostStatusEnum::PLANNED)
+                    ->whereHas('plannings', function (Builder $planning) {
                         $planning->where('start_at', '<=', now())
                             ->where('end_at', '>=', now());
-                });
+                    });
             });
     }
 
@@ -138,7 +139,7 @@ class Post extends Model implements Feedable
     {
         return Attribute::make(
             get: fn () =>
-                config('app.url')."/post/".$this->slug->name,
+            config('app.url') . "/post/" . $this->slug->name,
         );
     }
 
@@ -149,11 +150,12 @@ class Post extends Model implements Feedable
             ->title($this->title)
             ->summary($this->excerpt)
             ->updated($this->updated_at)
-            ->link(config('app.url').'/'.$this->slug->name)
+            ->link(config('app.url') . '/' . $this->slug->name)
             ->authorName($this->author?->name ?? "Redazione");
     }
 
-    public static function getAllFeedItems(){
+    public static function getAllFeedItems()
+    {
         return Post::query()
             ->published()
             ->limit(10)
