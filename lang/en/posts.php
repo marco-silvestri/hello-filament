@@ -16,7 +16,7 @@ return [
     "lbl-published-at" => "Published at",
     "lbl-related-posts" => "Related posts",
     "lbl-visits-count" => "Visits",
-    "lbl-importer-problem" => "Import problem",
+    "lbl-importer-problem" => "Imported correctly",
     "lbl-status" => "Status",
     "fl-summary" => "Summary",
     "fl-access-free" => "Free",

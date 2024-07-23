@@ -16,7 +16,7 @@ return [
     "lbl-published-at" => "Pubblicato il",
     "lbl-related-posts" => "Articoli correlati",
     "lbl-visits-count" => "Conteggio visite",
-    "lbl-importer-problem" => "Problemi d'importazione",
+    "lbl-importer-problem" => "Importato correttamente",
     "lbl-status" => "Stato",
     "fl-summary" => "Descrizione",
     "fl-access-free" => "Gratuito",
