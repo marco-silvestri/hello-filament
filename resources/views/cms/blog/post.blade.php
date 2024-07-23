@@ -54,9 +54,12 @@
         @section('deck')
             {{ Breadcrumbs::render('post', $post) }}
             <div class="flex justify-between">
-                <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->highlighted) bg-brand-50 @endif ">
+                <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->highlighted) bg-brand-50 @endif relative">
+                    <div class="absolute top-0 right-0 px-4 py-2 bg-brand-500">
+                        <p class="text-white">pippo</p>
+                    </div>
                     <x-elements.categories-deck :categories="$post->categories" />
-                    <div class="mt-4 mb-2">
+                    <div class="mt-2 mb-2">
                         <h1 class="mt-4 mb-6 post--title post--title__base">
                             {{ $post->title }}
                         </h1>
