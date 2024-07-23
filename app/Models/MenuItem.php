@@ -45,6 +45,11 @@ class MenuItem extends Model
             return route('tag', ['slug' => $slug]);
         }
 
+        if($this->type === MenuOptionsEnum::EXTERNAL_URL->getValue())
+        {
+            return $this->value;
+        }
+
         return null;
     }
 }
