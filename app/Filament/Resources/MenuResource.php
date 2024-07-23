@@ -72,7 +72,10 @@ class MenuResource extends Resource
                                 ->minValue(1)
                                 ->maxValue(function (Menu $record) {
                                     return ($record->items()->max('order') + 1);
-                                })->default(1),
+                                })
+                                ->default(function (Menu $record) {
+                                    return ($record->items()->max('order') + 1);
+                                }),
                             Toggle::make('has_submenu')
                                 ->label(__('common.lbl-has-submenu'))
                                 ->live()
