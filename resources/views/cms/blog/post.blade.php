@@ -54,7 +54,7 @@
         @section('deck')
             {{ Breadcrumbs::render('post', $post) }}
             <div class="flex justify-between">
-                <div class="w-4/4 md:w-3/4 mb-12 md:pr-4 @if ($post->settings?->highlighted) bg-brand-50 @endif ">
+                <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->highlighted) bg-brand-50 @endif ">
                     <x-elements.categories-deck :categories="$post->categories" />
                     <div class="mt-4 mb-2">
                         <h1 class="mt-4 mb-6 post--title post--title__base">
@@ -84,15 +84,12 @@
                             @endforeach
                         @endif
                     </div>
-                    <div>
-                        <x-cms.social-sharing :post="$post" />
-                    </div>
                 </div>
-                <div class="flex flex-row w-full mx-2 md:w-1/4">
+                <div class="flex flex-row w-full px-2 md:w-1/4">
                     <x-sections.sponsor-deck />
                 </div>
             </div>
-            </div>
+            <x-cms.social-sharing :post="$post" />
         @endsection
 
         @if (isset($prevPost) && isset($nextPost))

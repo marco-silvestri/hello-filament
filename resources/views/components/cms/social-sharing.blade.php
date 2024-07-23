@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full p-4 bg-display-50">
+<div class="p-4 mb-4 bg-display-50 w-4/4 md:w-3/4 md:pr-4">
     <p>
         {{ __('common.lbl-social-sharing-cta')}}
     </p>
