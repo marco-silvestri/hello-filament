@@ -1,6 +1,6 @@
 @props(['item'])
 
-<div x-data="{ open: false, subMenuOpen: false }" class="relative inline-flex items-center">
+<div x-cloak x-data="{ open: false, subMenuOpen: false }" class="relative inline-flex items-center">
     <!-- Dropdown menu -->
         <button @click="open = !open" type="button"
             class="inline-flex items-center menu-item">
