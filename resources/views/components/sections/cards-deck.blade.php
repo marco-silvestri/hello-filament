@@ -13,7 +13,8 @@
         bg-shade-500
         @endif">
         <div class="w-full px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <x-elements.strip-title :title="$section['title']"/>
+        <x-elements.strip-title :title="$section['title']"
+            anchor="{{config('app.url') .'/'. $section['groupable_type'] .'/'. $section['slug']}}"/>
             <x-elements.carousel :section="$section['posts']"/>
         </div>
     </div>
