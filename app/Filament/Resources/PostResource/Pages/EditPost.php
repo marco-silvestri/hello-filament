@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\RichEditor;
 use App\Enums\Cms\CommunicationStatusEnum;
+use App\Models\Cms\Sponsor;
 
 class EditPost extends EditRecord
 {
@@ -36,8 +37,8 @@ class EditPost extends EditRecord
                             $contacts = Contact::get();
                             $contacts = $contacts->map(function ($contact) {
                                 $label = "$contact->name ($contact->email)";
-                                if ($contact->company) {
-                                    $label = "$contact->company - $label";
+                                if ($contact->sponsor) {
+                                    $label = "{$contact->sponsor->name} - $label";
                                 };
 
                                 $contact->label = $label;
@@ -51,7 +52,10 @@ class EditPost extends EditRecord
                         ->createOptionForm([
                             TextInput::make('name')
                                 ->required(),
-                            TextInput::make('company')
+                            Select::make('company')
+                                ->options(Sponsor::select('name','id')
+                                    ->get()
+                                    ->pluck('name','id'))
                                 ->required(),
                             TextInput::make('email')
                                 ->required()
@@ -61,7 +65,7 @@ class EditPost extends EditRecord
                         ])->createOptionUsing(function (array $data) {
                             $contact = Contact::create([
                                 'name' => $data['name'],
-                                'company' => $data['company'],
+                                'sponsor_id' => $data['company'],
                                 'email' => $data['email'],
                             ]);
 
