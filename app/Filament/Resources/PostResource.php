@@ -295,7 +295,7 @@ class PostResource extends Resource
                             ->native(false)
                             ->seconds(false)
                             ->firstDayOfWeek(1)
-                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PUBLISH),
+                            ->required(fn (Get $get) => $get('status') == PostStatusEnum::PUBLISH),
                         Group::make()
                             ->label('Settings')
                             ->relationship('settings')
@@ -306,11 +306,19 @@ class PostResource extends Resource
                                     ->default(PostAccessEnum::FREE)
                                     ->hidden()
                                     ->required(),
-                                Checkbox::make('highlighted')
-                                    ->label(__('posts.lbl-highlighted')),
+                                Select::make('sponsor')
+                                    ->relationship('sponsor', 'name')
+                                    ->label(__('posts.lbl-highlighted'))
+                                    ->createOptionForm([
+                                        TextInput::make('name')
+                                            ->label(__('common.fld-name'))
+                                            ->required()
+                                            ->maxLength(65535)
+                                            ->unique(table: 'sponsors', column: 'name', ignoreRecord: true),
+                                    ]),
                             ]),
                         Repeater::make('plannings')
-                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PLANNED)
+                            ->required(fn (Get $get) => $get('status') == PostStatusEnum::PLANNED)
                             ->relationship()
                             ->label(__('posts.lbl-plannings'))
                             ->defaultItems(0)

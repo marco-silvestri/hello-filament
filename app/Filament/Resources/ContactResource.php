@@ -42,9 +42,16 @@ class ContactResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                TextInput::make('company')
-                    ->label(__('common.fld-company'))
-                    ->maxLength(255),
+                Select::make('sponsor')
+                    ->relationship('sponsor', 'name')
+                    ->label(__('posts.lbl-company'))
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->label(__('common.fld-name'))
+                            ->required()
+                            ->maxLength(65535)
+                            ->unique(table: 'sponsors', column: 'name', ignoreRecord: true),
+                    ]),
             ]);
     }
 
