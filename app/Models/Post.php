@@ -139,7 +139,7 @@ class Post extends Model implements Feedable
     {
         return Attribute::make(
             get: fn () =>
-            config('app.url') . "/post/" . $this->slug->name,
+            config('app.url') . '/' . $this->slug->name,
         );
     }
 
