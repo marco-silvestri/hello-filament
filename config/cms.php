@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'google_ads_key'=>env('GOOGLE_ADS_KEY',null),
     'has_quine_newsletter' => env('HAS_QUINE_NEWSLETTER', false),
     'quine_key' => [
         'base_address' => 'https://wscrm.lswr.it/api/Forms/',

@@ -6,7 +6,11 @@
         </div>
         <div class="w-1/3">
             @foreach ($section['posts'] as $post)
-            @if($loop->first)@else
+            @if($loop->first)
+            @else
+            @if($loop->index==2)
+            <x-ads.box :n="1"/>
+            @endif
             <x-cards.hero-aside-card :post="$post" :groupTitle="$section['title']" />
             @endif
             @endforeach

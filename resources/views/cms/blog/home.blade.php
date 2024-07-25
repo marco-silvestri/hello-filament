@@ -2,7 +2,7 @@
     @section('title')
     <title>{{ config('app.name') }}</title>
     @endsection
-
+    <x-ads.leaderboard/>
     @if ($menu)
         <x-cms-custom-navbar.base :feMenu="$menu" :overrideMenu="true" />
     @endif
@@ -18,29 +18,35 @@
             {{ session('subscription-error') }}
         </div>
     @endif
-
     <x-sections.hero-deck :section="$header" />
     <x-sections.highlights-deck :section="$highlight" :title="__('home-page.highlights-title')" />
-
+    <x-ads.masthead :n="1"/>
     @if(isset($showcase['posts']) && count($showcase['posts'])>0)
     <div class="px-4 mx-auto my-8 max-w-7xl sm:px-6 lg:px-8">
         <x-elements.strip-title :title="__('home-page.showcase-title')" />
         <div class="justify-between md:flex md:flex-row">
-            <div class="flex flex-row w-full md:w-3/4">
+            <div class="flex flex-col w-full md:w-3/4">
                 <x-sections.showcase-deck :section="$showcase" />
             </div>
             <div class="flex flex-col w-full md:w-1/4">
+                <x-widgets.magazine-subscription />
                 <x-sections.sponsor-deck />
                 <x-cms-custom-navbar.search-sidebar-input :searchKey="$searchKey" />
+                <x-ads.box :n="2"/>
             </div>
         </div>
     </div>
     @endif
-
+   
     <x-sections.cards-deck :section="$highlightedStrip" :isHighlighted="true" />
-
+    <x-ads.masthead :n="2"/>
+    <?php $hasAdsBox=true; ?>
     @foreach ($strips as $strip)
-        <x-sections.cards-deck :section="$strip" />
+        <x-sections.cards-deck :section="$strip" :hasAdsBox="$hasAdsBox" />
+        <?php $hasAdsBox=false; ?>
     @endforeach
+
+    <x-ads.masthead :n="3"/>
+    
     <x-footer />
 </x-layouts.app>

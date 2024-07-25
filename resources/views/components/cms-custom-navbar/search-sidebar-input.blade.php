@@ -1,5 +1,5 @@
 @props(['searchKey'])
-<form class="items-center max-w-lg bg-shade-500 p-4 rounded-lg" action='{{ route("search") }}' method="GET" autocomplete="off">  
+<form class="items-center max-w-lg bg-shade-500 p-4 rounded-lg mt-6" action='{{ route("search") }}' method="GET" autocomplete="off">  
     <span class="group--title group--title__base text-brand-500 font-bold">
     {{__('search.lbl-search')}}
     </span>

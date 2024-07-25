@@ -1,8 +1,13 @@
 @props([
 'section' => [],
-'skip' => 1
+'skip' => 1,
+'isHighlighted'=>false,
+'hasAdsBox'=>false
 ])
-
+@if(!$isHighlighted)
+<div class="flex">
+<div class="flex flex-col w-full md:w-3/4">
+@endif
 <div x-data="{
         skip: {{$skip}},
         atBeginning: false,
@@ -97,3 +102,12 @@
 
     </div>
 </div>
+@if(!$isHighlighted)
+</div>
+<div class="flex flex-col w-full md:w-1/4">
+    @if ($hasAdsBox)
+    <x-ads.box :n="3"/>
+    @endif
+</div>
+</div>
+@endif

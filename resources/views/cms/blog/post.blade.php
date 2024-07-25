@@ -92,8 +92,19 @@
                         @endif
                     </div>
                 </div>
-                <div class="flex flex-row w-full px-2 md:w-1/4">
+                <div class=" w-full mx-2 md:w-1/4">
+                    <div class="flex flex-col">
+                    <x-ads.box :n="1"/>
+                    </div>
+                    <div class="flex flex-col">
                     <x-sections.sponsor-deck />
+                    </div>
+                    <div class="flex flex-col">
+                    <x-ads.box :n="2"/>
+                    </div>
+                    <div class="flex flex-col">
+                    <x-ads.box :n="3"/>
+                    </div>
                 </div>
             </div>
             <x-cms.social-sharing :post="$post" />

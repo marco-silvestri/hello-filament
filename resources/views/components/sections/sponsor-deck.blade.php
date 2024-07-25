@@ -1,3 +1,4 @@
+@if (\App\Models\WdgSponsor::getAll()->count()>0)
 <section class="w-full ">
     <div class="space-between">
         <x-elements.group-title :title="__('home-page.sponsor-title')" />
@@ -10,3 +11,4 @@
         @endforeach
     </div>
 </section>
+@endif
