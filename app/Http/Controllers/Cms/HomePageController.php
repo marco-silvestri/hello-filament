@@ -63,7 +63,7 @@ class HomePageController extends Controller
                     'slug' => $strip->groupable->slug->name,
                     'groupable_type' => $strip->groupable->getHumanizedSluggableType(),])
                 ->values();
-                    //dd($strips);
+
             return [
                 'header' => $header,
                 'showcase' => $showcase,

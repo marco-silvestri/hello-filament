@@ -33,8 +33,10 @@ class TrackVisit implements ShouldQueue
                 $query->where('name', $slug);
             })->first();
             if ($post) {
+                $now = now();
                 $post->visits()->create([
                     'user_id' => $event->userId,
+                    'created_at' => $now,
                 ]);
             }
         } catch (Exception $e) {

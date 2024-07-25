@@ -37,4 +37,5 @@ return [
     "lbl-scheduled-send"=>"Invio programmato",
     "lbl-og_title" => "Titolo SEO",
     "lbl-og_description" => "Descrizione SEO",
+    "lbl-most-read" => "I più letti",
 ];

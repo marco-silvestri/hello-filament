@@ -36,4 +36,5 @@ return [
     "lbl-scheduled-send"=>"Scheduled E-mail",
     "lbl-og_title" => "Seo Title",
     "lbl-og_description" => "Seo Description",
+    "lbl-most-read" => "Most read",
 ];

@@ -32,12 +32,13 @@
                 <x-widgets.magazine-subscription />
                 <x-sections.sponsor-deck />
                 <x-cms-custom-navbar.search-sidebar-input :searchKey="$searchKey" />
+                <x-widgets.most-read />
                 <x-ads.box :n="2"/>
             </div>
         </div>
     </div>
     @endif
-   
+
     <x-sections.cards-deck :section="$highlightedStrip" :isHighlighted="true" />
     <x-ads.masthead :n="2"/>
     <?php $hasAdsBox=true; ?>
@@ -47,6 +48,6 @@
     @endforeach
 
     <x-ads.masthead :n="3"/>
-    
+
     <x-footer />
 </x-layouts.app>
