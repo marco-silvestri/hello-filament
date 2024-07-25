@@ -18,12 +18,11 @@
         @if (!$isHighlighted)
         <div class="md:w-3/4">
         @endif
-        <x-elements.strip-title :title="$section['title']"/>
+        <x-elements.strip-title :title="$section['title']" anchor="{{config('app.url') .'/'. $section['groupable_type'] .'/'. $section['slug']}}"/>
         @if (!$isHighlighted)
         </div>
         @endif
-            
-        <x-elements.strip-title :title="$section['title']" anchor="{{config('app.url') .'/'. $section['groupable_type'] .'/'. $section['slug']}}"/>
+
         <x-elements.carousel :section="$section['posts']" :isHighlighted="$isHighlighted" :hasAdsBox="$hasAdsBox"/>
         </div>
     </div>

@@ -68,6 +68,7 @@
                             {{ $post->title }}
                         </h1>
                         <x-elements.post-meta-info :post="$post" />
+                        
                     </div>
 
                     <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center"

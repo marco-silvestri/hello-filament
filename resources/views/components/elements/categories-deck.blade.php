@@ -3,9 +3,12 @@
 ])
 
 @if(count($categories) > 0)
-<div >
+<div class="flex">
     @foreach ($categories as $category)
-    <x-elements.group-title :title="$category->name" />
+    @if (!$loop->first)
+        <span class="mx-2 font-extrabold">|</span>
+    @endif
+    <x-elements.group-title :title="$category->name"/>
     @endforeach
 </div>
 @else
