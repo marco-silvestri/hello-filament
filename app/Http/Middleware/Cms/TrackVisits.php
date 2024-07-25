@@ -2,13 +2,9 @@
 
 namespace App\Http\Middleware\Cms;
 
-use App\Events\Cms\LandingOnContent;
 use Closure;
-use Exception;
-use App\Models\Post;
-use App\Models\Visit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Events\Cms\LandingOnContent;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackVisits

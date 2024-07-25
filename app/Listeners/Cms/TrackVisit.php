@@ -26,7 +26,6 @@ class TrackVisit implements ShouldQueue
      */
     public function handle(LandingOnContent $event): void
     {
-
         try {
             $slug = $event->slug;
 
