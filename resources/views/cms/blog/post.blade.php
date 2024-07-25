@@ -153,38 +153,40 @@
                 </div>
             @endsection
         @endif
-
-        @if (!isset($isPreview))
-            @section('comments-deck')
-                <div class="flex flex-col justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div class="w-3/4 mr-4 ">
-                        <div class="font-brand font-bold text-[22px] uppercase tracking-[1.1px] leading-8
-            mb-4">
-                            @if ($post->commentsCount == 0)
-                                {{ __('comments.lbl-nocomments') }}
-                            @else
-                                {{ $post->commentsCount }}
-                                @if ($post->commentsCount > 1)
-                                    {{ __('comments.lbl-comments') }}
+        @if(config('app.comments'))
+            @if (!isset($isPreview))
+                @section('comments-deck')
+                    <div class="flex flex-col justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                        <div class="w-3/4 mr-4 ">
+                            <div class="font-brand font-bold text-[22px] uppercase tracking-[1.1px] leading-8
+                mb-4">
+                                @if ($post->commentsCount == 0)
+                                    {{ __('comments.lbl-nocomments') }}
                                 @else
-                                    {{ __('comments.lbl-comment') }}
+                                    {{ $post->commentsCount }}
+                                    @if ($post->commentsCount > 1)
+                                        {{ __('comments.lbl-comments') }}
+                                    @else
+                                        {{ __('comments.lbl-comment') }}
+                                    @endif
                                 @endif
-                            @endif
-                            <x-elements.small-hr />
-                        </div>
+                                <x-elements.small-hr />
+                            </div>
 
-                        <div wire:ignore class="mb-8 border border-b-2 border-transparent border-b-display-50">
-                            @foreach ($post->comments as $comment)
-                                <div class="mb-4">
-                                    <livewire:cms.comment wire:ignore wire:key="{{ md5($comment->body) }}" :$comment />
-                                </div>
-                            @endforeach
-                        </div>
-                        <div>
-                            <livewire:cms.comment wire:ignore :postId="$post->id" />
+                            <div wire:ignore class="mb-8 border border-b-2 border-transparent border-b-display-50">
+                                @foreach ($post->comments as $comment)
+                                    <div class="mb-4">
+                                        <livewire:cms.comment wire:ignore wire:key="{{ md5($comment->body) }}" :$comment />
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div>
+                                <livewire:cms.comment wire:ignore :postId="$post->id" />
+                            </div>
                         </div>
                     </div>
                 @endsection
+            @endif
         @endif
         @isset($relatedPost)
             @section('related')

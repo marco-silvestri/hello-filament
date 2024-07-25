@@ -21,12 +21,13 @@ class ShowPostController extends Controller
 
         $post = Cache::remember("post-$slug", $this->getTtl(), function ()
         use ($slug) {
-            return Post::with([
-                'settings',
-                'categories',
-                'tags',
-                'comments' => fn ($query) => $query->approved()
-            ])
+            if(config('app.comments'))
+            {
+                $with = ['settings', 'categories', 'tags', 'comments' => fn ($query) => $query->approved()];
+            }else{
+                $with = ['settings', 'categories', 'tags'];
+            }
+            return Post::with($with)
                 ->published()
                 ->whereHas('slug', function (Builder $query)
                 use ($slug) {
@@ -55,7 +56,10 @@ class ShowPostController extends Controller
         $relatedPosts = $relatedPosts->shuffle();
         $relatedPosts = $relatedPosts->take(6);
 
-        $post->commentsCount = count($post->comments);
+        if(config('app.comments')){
+            $post->commentsCount = count($post->comments);
+            $post->comments = $this->buildHierarchyTree($post->comments);
+        }
 
         $prevPost = Cache::remember("prev-$slug", $this->getTtl(), function () use ($post) {
             return Post::with('slug')
@@ -71,7 +75,7 @@ class ShowPostController extends Controller
                 ->first();
         });
 
-        $post->comments = $this->buildHierarchyTree($post->comments);
+
         return view('cms.blog.post')
             ->with('menu', $menu)
             ->with('post', $post)
