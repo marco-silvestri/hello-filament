@@ -6,11 +6,11 @@ use Illuminate\Support\Collection;
 
 trait HasStringOperations
 {
-    protected function prepStringForQuery($rawSearchTerms, $addFuzzyness):array
+    protected function prepStringForQuery($rawSearchTerms, $addFuzzyness = false):array
     {
         $rawSearchTerms = $this->removeNonAlphaNumerics($rawSearchTerms);
         $rawSearchTerms = $this->filterStrings($rawSearchTerms);
-        
+
         if ($addFuzzyness) {
             $rawSearchTerms = $this->addFuzzyness($rawSearchTerms);
         }

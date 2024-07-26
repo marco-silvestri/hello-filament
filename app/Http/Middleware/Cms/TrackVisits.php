@@ -17,7 +17,11 @@ class TrackVisits
     public function handle(Request $request, Closure $next): Response
     {
         $userId = auth()->user() ? auth()->user()->id : null;
-        event(new LandingOnContent($request['slug'], $userId));
+
+        if(isset($request['slug']))
+        {
+            event(new LandingOnContent($request['slug'], $userId));
+        }
 
         return $next($request);
     }

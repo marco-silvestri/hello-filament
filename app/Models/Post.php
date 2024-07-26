@@ -12,6 +12,7 @@ use App\Enums\Cms\PostStatusEnum;
 use App\Models\Cms\PostPlannings;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Traits\Cms\HasStringOperations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -105,6 +106,32 @@ class Post extends Model implements Feedable
 
         $query = $query->orderByDesc('created_at');
 
+        return $query;
+    }
+
+    public function scopeFullTextSearch(
+        $query,
+        string $searchTerms,
+        array $columns = ['title', 'content'],
+    ) {
+        $searchTerms = $this->prepStringForQuery($searchTerms);
+        $termsString = implode(" ",$searchTerms);
+        $colsString = implode(", ",$columns);
+        $query = $query
+            ->selectRaw("*, MATCH($colsString) AGAINST('{$termsString}' IN NATURAL LANGUAGE MODE) as score")
+            ->whereRaw("MATCH($colsString) AGAINST(? IN NATURAL LANGUAGE MODE)",
+                [$termsString]);
+
+        foreach ($searchTerms as $searchTerm) {
+            $query = $query->orWhereHas('categories', function ($query) use ($searchTerm) {
+                    $query->where('name', $searchTerm);
+                })->orWhereHas('tags', function ($query) use ($searchTerm) {
+                    $query->where('name', $searchTerm);
+                });
+        }
+
+        $query = $query->orderByDesc('score');
+        //dd($query->toSql());
         return $query;
     }
 

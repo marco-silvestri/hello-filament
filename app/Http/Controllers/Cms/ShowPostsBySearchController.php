@@ -34,8 +34,10 @@ class ShowPostsBySearchController extends Controller
             ->with('categories')
             ->with('tags')
             ->published()
-            ->search($searchKey)
+            ->fullTextSearch($searchKey)
             ->paginate(18);
+
+        $posts->appends(['k' => $request->input('k')]);
 
         return view('cms.blog.search-posts')
         ->with('k', $searchKey)

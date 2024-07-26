@@ -5,10 +5,12 @@ namespace App\Filament\Resources\PostResource\Pages;
 use DOMDocument;
 use App\Models\Post;
 use App\Models\Contact;
+use App\Models\Cms\Sponsor;
 use Filament\Actions\Action;
 use App\Models\Communication;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
+use App\Traits\Cms\HasJsonOperations;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Cache;
 use Filament\Forms\Components\Textarea;
@@ -18,7 +20,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\RichEditor;
 use App\Enums\Cms\CommunicationStatusEnum;
-use App\Models\Cms\Sponsor;
 
 class EditPost extends EditRecord
 {
@@ -53,9 +54,9 @@ class EditPost extends EditRecord
                             TextInput::make('name')
                                 ->required(),
                             Select::make('company')
-                                ->options(Sponsor::select('name','id')
+                                ->options(Sponsor::select('name', 'id')
                                     ->get()
-                                    ->pluck('name','id'))
+                                    ->pluck('name', 'id'))
                                 ->required(),
                             TextInput::make('email')
                                 ->required()
@@ -73,18 +74,18 @@ class EditPost extends EditRecord
                         }),
                     TextInput::make('subject')
                         ->label(__('scheduled-send.lbl-subject'))
-                        ->default(fn(Post $record) =>
-                        __('scheduled-send.fl-default-subject',[
+                        ->default(fn (Post $record) =>
+                        __('scheduled-send.fl-default-subject', [
                             'title' => $record->title,
                         ]))
                         ->required(),
-                        RichEditor::make('body')
+                    RichEditor::make('body')
                         ->label(__('scheduled-send.lbl-body'))
-                        ->default(fn(Post $record) =>
-                            __('scheduled-send.fl-default-body',[
-                                'title' => $record->title,
-                                'link' => $record->encoded_url,
-                            ]))
+                        ->default(fn (Post $record) =>
+                        __('scheduled-send.fl-default-body', [
+                            'title' => $record->title,
+                            'link' => $record->encoded_url,
+                        ]))
                         ->required(),
                 ])
                 ->action(function (Post $record, array $data): void {
@@ -113,7 +114,7 @@ class EditPost extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-
+        $data['content'] = HasJsonOperations::extractMeaningfulContent($data['json_content']);
         $record->update($data);
         $key = $record->getTable();
         Cache::forget("{$key}-{$record->slug}");

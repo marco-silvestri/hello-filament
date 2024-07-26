@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\PostResource\Pages;
 
-use App\Filament\Resources\PostResource;
 use App\Models\Audio;
 use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use App\Traits\Cms\HasJsonOperations;
 use Illuminate\Database\Eloquent\Model;
+use App\Filament\Resources\PostResource;
+use Filament\Resources\Pages\CreateRecord;
 
 class CreatePost extends CreateRecord
 {
@@ -52,4 +53,10 @@ class CreatePost extends CreateRecord
     // {
     //     dd($data['json_content']);
     // }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['content'] = HasJsonOperations::extractMeaningfulContent($data['json_content']);
+        return $data;
+    }
 }
