@@ -187,4 +187,15 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Comments Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This value determines if the comments are enabled or not.
+    |
+    */
+
+    'comments' => env('COMMENTS', true),
 ];

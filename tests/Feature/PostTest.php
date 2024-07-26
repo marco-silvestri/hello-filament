@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Models\Slug;
 use App\Models\User;
 use Livewire\Livewire;
@@ -195,6 +196,82 @@ class PostTest extends TestCase
         $view->assertSee(__('posts.lbl-preview'))
             ->assertDontSee(__('comments.lbl-comments'));
     }
+
+    /**
+     * @test
+    */
+
+    public function can_see_post_comments()
+    {
+        // Set config value to true
+        config('app.comments', true);
+        $this->seed();
+        $admin = User::factory()->create();
+        $admin->assignRole(RoleEnum::SUPERADMIN->value);
+
+        $post = Post::factory()
+            ->hasSlug()
+            ->hasAuthor()
+            ->create();
+
+        // Manually create comments and associate them with the post
+        for ($i = 0; $i < 3; $i++) {
+            $comment = new Comment([
+                'post_id' => $post->id,
+                'body' => 'Sample comment content',
+            ]);
+            $comment->save();
+        }
+
+        $post->commentsCount = count($post->comments);
+
+        $this->actingAs($admin);
+        $view = $this->view('cms.blog.post', [
+            'menu' => [],
+            'post' => $post,
+        ]);
+
+        $view->assertSee($post->commentsCount);
+        $view->assertSee(__('comments.lbl-comments'));
+    }
+
+    /**
+     * @test
+    */
+
+    public function can_not_see_post_comments()
+    {
+        // Set config value to false
+        config('app.comments', false);
+
+        $this->seed();
+        $admin = User::factory()->create();
+        $admin->assignRole(RoleEnum::SUPERADMIN->value);
+
+        $post = Post::factory()
+        ->hasSlug()
+        ->hasAuthor()
+        ->create();
+
+        // Manually create comments and associate them with the post
+        for ($i = 0; $i < 3; $i++) {
+            $comment = new Comment([
+                'post_id' => $post->id,
+                'body' => 'Sample comment content',
+            ]);
+            $comment->save();
+        }
+
+        $this->actingAs($admin);
+        $view = $this->view('cms.blog.post', [
+            'menu' => [],
+            'post' => $post,
+        ]);
+
+        $view->assertDontSee(__('comments.lbl-comments'));
+    }
+
+
 
     private function create_content_for_builder()
     {
