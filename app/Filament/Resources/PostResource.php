@@ -304,7 +304,6 @@ class PostResource extends Resource
                                     ->label(__('posts.lbl-accessible-for'))
                                     ->options(PostAccessEnum::class)
                                     ->default(PostAccessEnum::FREE)
-                                    ->hidden()
                                     ->required(),
                                 Select::make('sponsor')
                                     ->relationship('sponsor', 'name')
