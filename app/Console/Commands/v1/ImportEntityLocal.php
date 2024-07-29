@@ -334,6 +334,9 @@ class ImportEntityLocal extends Command
                             'published_at' => Carbon::parse($publishedDate),
                             'commentable' => $commentable,
                             'feature_media_id' => isset($imgObj) ? $imgObj->id : null,
+                            'og_title' => htmlspecialchars_decode($rawPost->post_title),
+                            'og_description' => htmlspecialchars_decode($rawPost->post_excerpt) ??
+                                htmlspecialchars_decode($rawPost->post_title)
                         ]);
 
                         $slug = Slug::firstOrCreate([
