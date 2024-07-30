@@ -6,7 +6,9 @@
     <div class="flex flex-col">
         @foreach (\App\Models\WdgSponsor::getAll() as $sponsor)
             <div class="my-4">
-                <img class="w-full" src="{{ Storage::disk('public')->url($sponsor->src) }}" alt="{{ $sponsor->alt }}" />
+                <a href="{{$sponsor->json_content['href']}}" target="_blank">
+            <img class="w-[200px] h-[60px]" src="{{ Storage::disk('public')->url($sponsor->json_content['img']) }}" alt="{{ $sponsor->json_content['alt'] }}" />
+            </a>
             </div>
         @endforeach
     </div>

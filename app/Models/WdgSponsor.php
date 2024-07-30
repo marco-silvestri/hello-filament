@@ -29,7 +29,7 @@ class WdgSponsor extends Model
         );
     }
 
-    protected function src():Attribute
+    protected function img():Attribute
     {
         return Attribute::make(
             get: fn(mixed $value, array $attributes) => json_decode($attributes['json_content'])->img
