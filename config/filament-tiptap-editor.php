@@ -21,7 +21,8 @@ return [
             'bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'color', 'highlight', 'align-left', 'align-center', 'align-right', '|',
             'link', 'media', 'oembed', 'table', 'grid-builder', 'details', '|', 'code', 'code-block', 'source', 'blocks',
         ],
-        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', 'color', '|', 'bold', 'italic', 'lead', 'small', '|', 'link'],
+        //'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', 'color', '|', 'bold', 'italic', 'underline','lead', 'small', '|', 'link'],
+        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', 'color', '|', 'bold', 'italic', 'underline','lead', 'small', '|', 'link'],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list', 'color'],
         'none' => [],
     ],
@@ -81,8 +82,8 @@ return [
     'disable_bubble_menus' => false,
     'disable_toolbar_menus' => false,
 
-    'bubble_menu_tools' => ['bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'link'],
-    'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block', 'blocks'],
+    'bubble_menu_tools' => ['bold', 'italic', 'strike', 'underline', 'link'],
+    'floating_menu_tools' => ['media', 'oembed', 'code-block', 'blocks'],
 
     /*
     |--------------------------------------------------------------------------
