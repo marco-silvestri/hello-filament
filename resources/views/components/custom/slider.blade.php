@@ -1,11 +1,10 @@
 @props([
-'skip' => 1,
 'images' => [],
 'width' => 600,
 'height' => 300,
 ])
 <div x-data="{
-        skip: {{$skip}},
+        skip: 1,
         atBeginning: false,
         atEnd: false,
         next() {
