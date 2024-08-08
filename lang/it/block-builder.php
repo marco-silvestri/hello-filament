@@ -8,6 +8,7 @@ return [
     "heading" => "Intestazione",
     "paragraph" => "Paragrafo",
     "image" => "Immagine",
+    "slider" => "Slider",
     "related_posts" => "Post relazionati",
     "level" => "Livello",
     "color" => "Colore",

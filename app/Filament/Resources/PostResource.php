@@ -131,6 +131,23 @@ class PostResource extends Resource
                                         CuratorPicker::make('image')
                                             ->label(__('block-builder.image'))
                                     ]),
+                                Block::make('slider')
+                                    ->label(__('block-builder.slider'))
+                                    ->icon('heroicon-o-photo')
+                                    ->columns(2)
+                                    ->schema([
+                                        TextInput::make('width')
+                                        ->label(__('block-builder.width'))
+                                        ->columnSpan(1)
+                                        ->numeric(),
+                                        TextInput::make('height')
+                                        ->label(__('block-builder.height'))
+                                        ->columnSpan(1)
+                                        ->numeric(),
+                                        CuratorPicker::make('image')
+                                            ->label(__('block-builder.image'))
+                                            ->multiple()
+                                    ]),
                                 Block::make('video')
                                     ->icon('heroicon-o-video-camera')
                                     ->schema([

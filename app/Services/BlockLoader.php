@@ -44,6 +44,23 @@ class BlockLoader
         return Blade::render($blade);
     }
 
+    private static function composeSlider($data):string
+    {
+        $images = [];
+        foreach($data['image'] as $image){
+            $media = Media::findOrFail($image);
+            $alt = $media->alt ?? config('app.name');
+            $images[] = [
+                'media' => $image,
+                'alt' => $alt,
+                'caption' => $media->caption
+            ];
+        }
+        $blade = "<x-custom.slider :images='\$images' :width='\$width' :height='\$height' />";
+
+        return Blade::render($blade, ['images' => $images, 'width' => $data['width'], 'height' => $data['height']]);
+    }
+
     private static function composeVideo($data):string
     {
         $videoId = explode('/', $data['url']);
