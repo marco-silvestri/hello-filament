@@ -113,4 +113,17 @@
         @apply underline
     }
 
+    .bg-hero-deck{
+        background-image: url('/public/bg-hero-deck.webp');
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-size: cover; /* Resize the background image to cover the entire container */
+    }
+
+.shadow-y{
+    box-shadow: inset 0px 6px 9px rgb(0 0 0 / 0.16), 
+    inset 0px -6px 9px rgb(0 0 0 / 0.16);
+}
+ 
+
 }

@@ -1,5 +1,5 @@
 @if(isset($section['posts']) && count($section['posts'])>0)
-<section>
+<section class="bg-hero-deck">
     <div class="hidden md:flex px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="w-2/3">
             <x-cards.hero-huge-card :post="$section['posts'][0]" :groupTitle="$section['title']"/>

@@ -11,7 +11,7 @@
 <aside>
     <div class="w-full flex space-between py-4
         @if($isHighlighted)
-        bg-shade-500
+        bg-shade-500 shadow-y
         @endif">
      
         <div class="w-full px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
