@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23.455" height="13.422" viewBox="0 0 23.455 13.422" class="stroke-brand-500 hover:stroke-brand-700">
+  <g id="_" data-name="&lt;&gt;" transform="translate(-1424.477 -4972.527)">
+    <g id="Raggruppa_841" data-name="Raggruppa 841" transform="translate(1446.432 4983.828) rotate(180)">
+      <line id="Linea_183" data-name="Linea 183" x2="18.684" transform="translate(0 4.491)" fill="none"  stroke-linecap="round" stroke-width="3"/>
+      <line id="Linea_184" data-name="Linea 184" x1="4.491" y1="4.491" transform="translate(15.342 0)" fill="none"  stroke-linecap="round" stroke-width="3"/>
+      <line id="Linea_185" data-name="Linea 185" x1="4.381" y2="4.69" transform="translate(15.453 4.491)" fill="none"  stroke-linecap="round" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

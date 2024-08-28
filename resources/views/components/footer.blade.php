@@ -3,8 +3,7 @@
 ])
 <footer class="pb-4">
     <button id="to-top-button" onclick="goToTop()" title="Go To Top" class="absolute hidden ">
-        <img src="{{asset('up.svg')}}" title="Go To Top"
-            class="fixed z-50 text-lg font-semibold text-white transition-colors duration-300 border-0 shadow-md bottom-10 right-10 w-14 h-14">
+    <x-elements.up/>
         <span class="sr-only">Go to top</span>
     </button>
     @if ($hasSitemap)

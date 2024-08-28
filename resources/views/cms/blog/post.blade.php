@@ -123,7 +123,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <div class="flex space-x-2">
-                                    <img src="{{ asset('img/left-arrow.svg') }}" alt="left-arrow">
+                                <x-elements.left-arrow />
                                     <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
                                         {{ __('posts.lbl-prev-post') }} </span>
                                 </div>
@@ -138,7 +138,7 @@
                                 <div class="flex space-x-2">
                                     <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
                                         {{ __('posts.lbl-next-post') }} </span>
-                                    <img src="{{ asset('img/right-arrow.svg') }}" alt="left-arrow">
+                                    <x-elements.right-arrow />
                                 </div>
                                 <div class="font-brand font-bold text-[14px] tracking-[0.7px] leading-[16px]">
                                     {{ $nextPost->title }}</div>
