@@ -27,10 +27,13 @@
 </head>
 
 <body class="antialiased">
-    {!! $bodySnippets !!}
-    {{ $slot }}
-    @vite('resources/js/app.js')
+    <div class="w-[1280px] m-auto">
+        {!! $bodySnippets !!}
+        {{ $slot }}
+    </div>
 
+
+    @vite('resources/js/app.js')
     {!! $footerSnippets !!}
 </body>
 

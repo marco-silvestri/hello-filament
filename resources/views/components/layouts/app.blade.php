@@ -29,7 +29,10 @@
 </head>
 
 <body class="antialiased">
-    {{ $slot }}
+    <div class="w-[1280px] m-auto">
+        {{ $slot }}
+    </div>
+
     @filamentScripts
     @livewireScripts
     @vite('resources/js/app.js')
