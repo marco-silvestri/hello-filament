@@ -90,6 +90,11 @@
     @endif
 @endtask
 
+@task('link-storage')
+    cd {{ $appDir }}
+    ~/.phpenv/shims/php artisan storage:link
+@endtask
+
 @story('deploy', ['on' => 'web'])
     fetch-repo
     updating-packages
@@ -98,4 +103,5 @@
     refresh-icons
     optimize
     refresh-backup
+    link-storage
 @endstory
