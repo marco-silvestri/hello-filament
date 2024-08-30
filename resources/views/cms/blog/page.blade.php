@@ -1,7 +1,7 @@
 <x-layouts.public>
 
     @section('title')
-    <title>{{ $page->title }}</title>
+        <title>{{ $page->title }}</title>
     @endsection
 
     @isset($isPreview)
@@ -17,7 +17,9 @@
         @endsection
 
         @section('deck')
-            {{ Breadcrumbs::render('page', $page) }}
+            @if (config('cms.layout.has_breadcrumbs'))
+                {{ Breadcrumbs::render('page', $page) }}
+            @endif
             <div class="flex justify-between">
                 <div class="mb-12 w-4/4 md:w-3/4 md:pr-4">
                     <div class="mt-4 mb-2">

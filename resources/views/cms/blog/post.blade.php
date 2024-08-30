@@ -52,7 +52,9 @@
         @endsection
 
         @section('deck')
+        @if(config('cms.layout.has_breadcrumbs'))
             {{ Breadcrumbs::render('post', $post) }}
+            @endif
             <div class="flex flex-col justify-between md:flex-row">
                 <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->isSponsored) bg-brand-50 @endif relative">
                     @if ($post->settings?->isSponsored)
@@ -93,7 +95,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="w-full mx-2  md:w-1/4">
+                <div class="w-full mx-2 md:w-1/4">
                     <div class="flex flex-col">
                     <x-ads.box :n="1"/>
                     </div>

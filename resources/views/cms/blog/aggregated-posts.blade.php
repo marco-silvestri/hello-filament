@@ -1,6 +1,6 @@
 <x-layouts.app>
     @section('title')
-    <title>{{ config('app.name') . ' - ' . $group->name }}</title>
+        <title>{{ config('app.name') . ' - ' . $group->name }}</title>
     @endsection
     <x-elements.blog-container>
         @section('menu')
@@ -10,12 +10,14 @@
         @endsection
 
         @section('deck')
-            @if(get_class($group) == 'App\Models\Category')
-                {{ Breadcrumbs::render('category', $group) }}
-            @elseif(get_class($group) == 'App\Models\Tag')
-                {{ Breadcrumbs::render('tag', $group) }}
+            @if (config('cms.layout.has_breadcrumbs'))
+                @if (get_class($group) == 'App\Models\Category')
+                    {{ Breadcrumbs::render('category', $group) }}
+                @elseif(get_class($group) == 'App\Models\Tag')
+                    {{ Breadcrumbs::render('tag', $group) }}
+                @endif
             @endif
-        <x-sections.listing-deck :section="$posts" />
+            <x-sections.listing-deck :section="$posts" />
         @endsection
 
     </x-elements.blog-container>
