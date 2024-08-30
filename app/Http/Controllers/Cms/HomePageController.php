@@ -42,7 +42,7 @@ class HomePageController extends Controller
                 ->first();
             $showcase =  $groups
                 ->where('displayable_as', \App\Enums\Cms\DisplayableAsEnum::SHOWCASE->getValue())
-                ->map(fn($showcase)=>['posts'=>$showcase->getPosts(4)])
+                ->map(fn($showcase)=>['posts'=>$showcase->getPosts(8)])
                 ->first();
 
             $hStrip = $groups

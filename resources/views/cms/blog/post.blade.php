@@ -53,7 +53,7 @@
 
         @section('deck')
             {{ Breadcrumbs::render('post', $post) }}
-            <div class="flex justify-between">
+            <div class="flex flex-col md:flex-row justify-between">
                 <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->isSponsored) bg-brand-50 @endif relative">
                     @if ($post->settings?->isSponsored)
                     <div class="absolute top-0 right-0 px-4 py-2 bg-brand-500">

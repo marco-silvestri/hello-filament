@@ -29,7 +29,7 @@
 </head>
 
 <body class="antialiased">
-    <div class="w-[1280px] m-auto">
+    <div class="md:w-[1280px] m-auto">
         {{ $slot }}
     </div>
 

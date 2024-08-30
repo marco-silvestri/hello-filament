@@ -12,7 +12,7 @@ foreach($section as $post){
 @if($section)
     <section>
         <div class="justify-between md:flex md:flex-col">
-            <div class="flex flex-row">
+            <div class="flex flex-col md:flex-row">
                 <div class="flex flex-col w-full md:w-3/4">
                     <div class="grid grid-cols-1 md:grid-cols-3">
 
@@ -40,7 +40,7 @@ foreach($section as $post){
             @if (count($secondHalf)>0)
             <x-ads.masthead :n="1" />
             <?/************************* */?>
-            <div class="flex flex-row">
+            <div class="flex flex-col md:flex-row>
                 <div class="flex flex-col w-full md:w-3/4">
                     <div class="grid grid-cols-1 md:grid-cols-3">
 
@@ -59,7 +59,7 @@ foreach($section as $post){
                 </div>
             </div>
            @endif
-           <div class="flex flex-row">
+           <div class="flex flex-col md:flex-row">
            <div class="flex flex-col w-full md:w-3/4">
            @if ($section->total() > $section->perPage())
                 <div class="mb-4">
