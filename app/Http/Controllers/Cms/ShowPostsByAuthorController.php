@@ -22,9 +22,16 @@ class ShowPostsByAuthorController extends Controller
         $slug = $request->slug;
 
         $author = Cache::remember("author-$slug", $this->getTtl(), function () use ($slug) {
-            return User::whereHas('slug', function (Builder $query)  use ($slug) {
+            $user = User::whereHas('slug', function (Builder $query)  use ($slug) {
                 $query->where('name', $slug);
-            })->with(['profile'])->first();
+            });
+
+            if(config('cms.layout.has_profile_box'))
+            {
+                $user = $user->with(['profile']);
+            }
+
+            return $user->first();
         });
 
         abort_unless($author, Response::HTTP_NOT_FOUND);

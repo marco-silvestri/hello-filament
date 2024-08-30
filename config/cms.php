@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'layout' => [
+        'has_profile_box' => false,
+    ],
     'google_ads_key'=>env('GOOGLE_ADS_KEY',null),
     'has_quine_newsletter' => env('HAS_QUINE_NEWSLETTER', false),
     'quine_key' => [

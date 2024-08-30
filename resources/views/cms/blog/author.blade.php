@@ -12,7 +12,7 @@
         @section('deck')
         <div>
             <h2 class="strip--title strip--title__base">{{ __('common.fld-author') }}: {{$author->name}}</h2>
-            @if($author->profile)
+            @if(config('cms.layout.has_profile_box') === true && $author->profile)
             <div class="font-brand text-[14px]">
                 <p> {{$author->profile->description}} </p>
                 <div>
