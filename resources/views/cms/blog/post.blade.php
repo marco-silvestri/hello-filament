@@ -3,13 +3,13 @@
         <meta name="og:title" content="{{ $post->og_title ?? $post->title }}">
         <meta name="og:description" content="{{ $post->og_description ?? $post->excerpt }}">
         <meta property="og:type" content="article">
-        <meta property="og:url" content="{{config('app.url') .'/'. $post->slug->name}}">
-        <meta property="og:site_name" content="{{__('meta-tags.title')}}">
-        <meta property="og:image" content="{{$post->featuredImage?->url ?? ""}}">
-        <meta property="article:published_time" content="{{$post->published_at ?? $post->created_at}}">
-        <meta property="article:modified_time" content="{{$post->updated_at}}">
-        <meta property="article:section" content="{{$post->categories?->first()->name ?? ""}}">
-        <meta property="article:tag" content="{{$post->tags?->first()->name ?? ""}}">
+        <meta property="og:url" content="{{ config('app.url') . '/' . $post->slug->name }}">
+        <meta property="og:site_name" content="{{ __('meta-tags.title') }}">
+        <meta property="og:image" content="{{ $post->featuredImage?->url ?? '' }}">
+        <meta property="article:published_time" content="{{ $post->published_at ?? $post->created_at }}">
+        <meta property="article:modified_time" content="{{ $post->updated_at }}">
+        <meta property="article:section" content="{{ $post->categories?->first()->name ?? '' }}">
+        <meta property="article:tag" content="{{ $post->tags?->first()->name ?? '' }}">
 
         <script type="application/ld+json">
         {
@@ -34,9 +34,9 @@
     @endsection
 
     @section('title')
-    <title>{{ $post->title }}</title>
-    <meta name="description" content="{{$post->excerpt}}">
-    <link rel="canonical" href="{{config('app.url') .'/'. $post->slug->name}}">
+        <title>{{ $post->title }}</title>
+        <meta name="description" content="{{ $post->excerpt }}">
+        <link rel="canonical" href="{{ config('app.url') . '/' . $post->slug->name }}">
     @endsection
 
     @isset($isPreview)
@@ -52,17 +52,17 @@
         @endsection
 
         @section('deck')
-        @if(config('cms.layout.has_breadcrumbs'))
-            {{ Breadcrumbs::render('post', $post) }}
+            @if (config('cms.layout.has_breadcrumbs'))
+                {{ Breadcrumbs::render('post', $post) }}
             @endif
             <div class="flex flex-col justify-between md:flex-row">
                 <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->isSponsored) bg-brand-50 @endif relative">
                     @if ($post->settings?->isSponsored)
-                    <div class="absolute top-0 right-0 px-4 py-2 bg-brand-500">
-                        <p class="text-white uppercase font-brand">
-                            {{$post->settings->sponsor->name}}
-                        </p>
-                    </div>
+                        <div class="absolute top-0 right-0 px-4 py-2 bg-brand-500">
+                            <p class="text-white uppercase font-brand">
+                                {{ $post->settings->sponsor->name }}
+                            </p>
+                        </div>
                     @endif
                     <x-elements.categories-deck :categories="$post->categories" />
                     <div class="mt-2 mb-2">
@@ -97,16 +97,16 @@
                 </div>
                 <div class="w-full mx-2 md:w-1/4">
                     <div class="flex flex-col">
-                    <x-ads.box :n="1"/>
+                        <x-ads.box :n="1" />
                     </div>
                     <div class="flex flex-col">
-                    <x-sections.sponsor-deck />
+                        <x-sections.sponsor-deck />
                     </div>
                     <div class="flex flex-col">
-                    <x-ads.box :n="2"/>
+                        <x-ads.box :n="2" />
                     </div>
                     <div class="flex flex-col">
-                    <x-ads.box :n="3"/>
+                        <x-ads.box :n="3" />
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <div class="flex space-x-2">
-                                <x-elements.left-arrow />
+                                    <x-elements.left-arrow />
                                     <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
                                         {{ __('posts.lbl-prev-post') }} </span>
                                 </div>
@@ -155,12 +155,13 @@
                 </div>
             @endsection
         @endif
-        @if(config('app.comments'))
+        @if (config('app.comments'))
             @if (!isset($isPreview))
                 @section('comments-deck')
                     <div class="flex flex-col justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         <div class="w-3/4 mr-4 ">
-                            <div class="font-brand font-bold text-[22px] uppercase tracking-[1.1px] leading-8
+                            <div
+                                class="font-brand font-bold text-[22px] uppercase tracking-[1.1px] leading-8
                 mb-4">
                                 @if ($post->commentsCount == 0)
                                     {{ __('comments.lbl-nocomments') }}
