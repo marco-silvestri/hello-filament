@@ -86,4 +86,5 @@ return [
     "fld-company" => "Company",
     "lbl-social-sharing-cta" => "Share it on:",
     "fld-category" => "Category",
+    "lbl-search" => "Search",
 ];
