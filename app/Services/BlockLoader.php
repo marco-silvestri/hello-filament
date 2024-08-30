@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Post;
 use App\Models\Media;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Blade;
 use App\Enums\Cms\PostDataBlockTypeEnum;
 use Awcodes\Curator\View\Components\Glider;
@@ -19,18 +20,20 @@ class BlockLoader
             $methodName = "compose{$type}";
             return self::$methodName($dataBlock['data']);
         } catch (Exception $e) {
-            dd($e);
+            Log::error($e->getMessage());
         }
     }
 
-    private static function composeParagraph($data):string
+    private static function composeParagraph($data): string
     {
+        $content = strip_tags($data['content'],
+            ['<a>', '<ul>', '<li>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>']);
         return "<p class='font-brand
             text-display-500
-            my-4 tracking-[0.8px] leading-[22px]'>{$data['content']}</p>";
+            my-4 tracking-[0.8px] leading-[22px]'>{$content}</p>";
     }
 
-    private static function composeImage($data):string
+    private static function composeImage($data): string
     {
         $blade = "<x-custom.glider
             class='object-cover mx-auto my-1 rounded-md'
@@ -44,10 +47,10 @@ class BlockLoader
         return Blade::render($blade);
     }
 
-    private static function composeSlider($data):string
+    private static function composeSlider($data): string
     {
         $images = [];
-        foreach($data['image'] as $image){
+        foreach ($data['image'] as $image) {
             $media = Media::findOrFail($image);
             $alt = $media->alt ?? config('app.name');
             $images[] = [
@@ -61,14 +64,14 @@ class BlockLoader
         return Blade::render($blade, ['images' => $images, 'width' => $data['width'], 'height' => $data['height']]);
     }
 
-    private static function composeVideo($data):string
+    private static function composeVideo($data): string
     {
         $videoId = explode('/', $data['url']);
         $videoId = end($videoId);
         return "<iframe class='mx-auto' src='https://www.youtube.com/embed/{$videoId}'> </iframe>";
     }
 
-    private static function composeRelated_posts($data):string
+    private static function composeRelated_posts($data): string
     {
         $post = Post::find($data['related_posts']);
         $blade = "<a class='flex flex-row items-center my-2' href='{$post->slug->name}'>
@@ -79,15 +82,14 @@ class BlockLoader
         return Blade::render($blade);
     }
 
-    private static function composeIframe($data):string
+    private static function composeIframe($data): string
     {
         return "<iframe class='w-full my-4 aspect-video'  src='{$data['src']}'> </iframe>";
     }
 
-    private static function composeReview($data):string
+    private static function composeReview($data): string
     {
-        if(count($data['parameters']) === 0)
-        {
+        if (count($data['parameters']) === 0) {
             //TODO implement block
             return "";
         } else {

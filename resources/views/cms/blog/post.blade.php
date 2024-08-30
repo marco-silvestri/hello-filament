@@ -53,7 +53,7 @@
 
         @section('deck')
             {{ Breadcrumbs::render('post', $post) }}
-            <div class="flex flex-col md:flex-row justify-between">
+            <div class="flex flex-col justify-between md:flex-row">
                 <div class="w-4/4 md:w-3/4 md:pr-4 px-4 mb-4 @if ($post->settings?->isSponsored) bg-brand-50 @endif relative">
                     @if ($post->settings?->isSponsored)
                     <div class="absolute top-0 right-0 px-4 py-2 bg-brand-500">
@@ -68,12 +68,12 @@
                             {{ $post->title }}
                         </h1>
                         <x-elements.post-meta-info :post="$post" />
-                        
+
                     </div>
 
                     <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center"
                         format="webp" fallback="article_fallback" />
-                    <div>
+                    <div class="font-brand">
                         @if ($post->json_content)
                             @foreach ($post->json_content as $dataBlock)
                                 {!! \App\Services\BlockLoader::renderDataBlock($dataBlock) !!}
@@ -93,7 +93,7 @@
                         @endif
                     </div>
                 </div>
-                <div class=" w-full mx-2 md:w-1/4">
+                <div class="w-full mx-2  md:w-1/4">
                     <div class="flex flex-col">
                     <x-ads.box :n="1"/>
                     </div>
