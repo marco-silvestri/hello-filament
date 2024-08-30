@@ -1,4 +1,4 @@
-<div class="p-4 mb-4 bg-display-50 w-4/4 md:w-3/4 md:pr-4">
+<div class="p-8 mb-8 bg-display-50 w-4/4 md:w-3/4 md:pr-4">
     <p>
         {{ __('common.lbl-social-sharing-cta')}}
     </p>
