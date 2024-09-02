@@ -1,5 +1,5 @@
-<section>
-    <div class="flex flex-col w-full mt-4 mb-4 mr-4 ">
+<section class="p-2">
+    <div class="flex flex-col w-full py-12">
         @if($post->slug)
         <a href="{{ route('post', ['slug' => $post->slug->name]) }}">
         @else
@@ -14,6 +14,8 @@
                 <h2 class="pb-2 card--title card--title__large">
                     {{ $post->title }}
                 </h2>
+                
+                <p class=""> {{html_entity_decode(\Illuminate\Support\Str::limit(strip_tags($post->content), 200))}}</p>
             </div>
         </a>
     </div>

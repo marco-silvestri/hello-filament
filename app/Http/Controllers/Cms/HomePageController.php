@@ -25,7 +25,7 @@ class HomePageController extends Controller
                 ->filter(fn($el)=> $el->groupable)
                 ->map(fn($header)=> [
                     'title' => $header->groupable->name,
-                    'posts' => $header->getPosts(4),
+                    'posts' => $header->getPosts(3),
                     'slug' => $header->groupable->slug->name,
                     'groupable_type' => $header->groupable->getHumanizedSluggableType(),
                 ])
