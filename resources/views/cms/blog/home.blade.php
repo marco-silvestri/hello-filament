@@ -27,6 +27,7 @@
         <div class="justify-between md:flex md:flex-row">
             <div class="flex flex-col w-full md:w-3/4">
                 <x-sections.showcase-deck :section="$showcase" />
+                <x-sections.cards-deck :section="$highlightedStrip" :isHighlighted="true" />
             </div>
             <div class="flex flex-col w-full md:w-1/4">
                 <x-widgets.magazine-subscription />
@@ -39,7 +40,7 @@
     </div>
     @endif
 
-    <x-sections.cards-deck :section="$highlightedStrip" :isHighlighted="true" />
+  
     <x-ads.masthead :n="2"/>
     <?php $hasAdsBox=true; ?>
     @foreach ($strips as $strip)
