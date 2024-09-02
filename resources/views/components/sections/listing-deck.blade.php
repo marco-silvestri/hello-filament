@@ -40,7 +40,7 @@ foreach($section as $post){
             @if (count($secondHalf)>0)
             <x-ads.masthead :n="1" />
             <?/************************* */?>
-            <div class="flex flex-col md:flex-row>
+            <div class="flex flex-col md:flex-row">
                 <div class="flex flex-col w-full md:w-3/4">
                     <div class="grid grid-cols-1 md:grid-cols-3">
 
