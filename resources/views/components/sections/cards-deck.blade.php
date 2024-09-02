@@ -1,6 +1,5 @@
 @props([
     'isHighlighted' => false,
-    'hasAdsBox'=>false,
     'section' => [
         'title' => 'Untitled',
         'posts' => [],
@@ -16,7 +15,7 @@
      
         <div class="w-full px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">    
         <x-elements.strip-title :title="$section['title']" anchor="{{config('app.url') .'/'. $section['groupable_type'] .'/'. $section['slug']}}"/>
-        <x-elements.carousel :section="$section['posts']" :isHighlighted="$isHighlighted" :hasAdsBox="$hasAdsBox"/>
+        <x-elements.carousel :section="$section['posts']" :isHighlighted="$isHighlighted"/>
         </div>
     </div>
 </aside>

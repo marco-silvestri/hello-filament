@@ -1,12 +1,11 @@
 @props([
 'section' => [],
 'skip' => 1,
-'isHighlighted'=>false,
-'hasAdsBox'=>false
+'isHighlighted'=>false
 ])
 @if(!$isHighlighted)
 <div class="flex">
-<div class="flex flex-col w-full md:w-3/4">
+<div class="flex flex-col w-full ">
 @endif
 <div x-data="{
         skip: {{$skip}},
@@ -57,6 +56,7 @@
             },
         },
     }" class="flex w-full flex-col relative">
+    @if (count($section)>3)
     <div class="flex flex-row absolute container-arrows">
         <!-- Prev Button -->
         <div class="">
@@ -83,6 +83,7 @@
             </button>
         </div>
     </div>
+    @endif
     <div x-on:keydown.right="next" x-on:keydown.left="prev" tabindex="0" role="region" aria-labelledby="carousel-label" class="flex space-x-6">
         <h2 id="carousel-label" class="sr-only" hidden>Carousel</h2>
 
@@ -104,10 +105,6 @@
 </div>
 @if(!$isHighlighted)
 </div>
-<div class="flex flex-col w-full md:w-1/4">
-    @if ($hasAdsBox)
-    <x-ads.box :n="3"/>
-    @endif
-</div>
+
 </div>
 @endif
