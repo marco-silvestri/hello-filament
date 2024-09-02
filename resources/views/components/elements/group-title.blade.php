@@ -3,12 +3,13 @@
     'title' => null,
     'slug' => null,
     'groupType' => null,
-    'altTextColorClass' => null
+    'altTextColorClass' => null,
+    'routeName' => null,
 ])
 
 <div class="mb-2">
-    @if($slug)
-    <a href="{{route('')}}" class="group--title group--title__base @if($altTextColorClass) {{$altTextColorClass}} @endif">
+    @if($routeName && $slug)
+    <a href="{{route($routeName, ['slug'=>$slug])}}" class="group--title group--title__base @if($altTextColorClass) {{$altTextColorClass}} @endif">
         {{$title}}
     </a>
     @else
