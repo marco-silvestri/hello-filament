@@ -54,7 +54,7 @@
     }
 
     .container-arrows {
-        @apply top-[-35px] right-[35px];
+        @apply top-[-35px] right-0;
     }
 
     .arrow-carousel{
