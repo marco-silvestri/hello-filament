@@ -35,7 +35,7 @@
         disableNextAndPreviousButtons: {
             'x-intersect:enter.threshold.05'() {
                 let slideEls = this.$el.parentElement.children
- 
+
                 // If this is the first slide.
                 if (slideEls[0] === this.$el) {
                     this.atBeginning = true
@@ -46,7 +46,7 @@
             },
             'x-intersect:leave.threshold.05'() {
                 let slideEls = this.$el.parentElement.children
- 
+
                 // If this is the first slide.
                 if (slideEls[0] === this.$el) {
                     this.atBeginning = false
@@ -57,7 +57,7 @@
             },
         },
     }" class="flex w-full flex-col relative">
-    <div class="flex flex-row absolute containter-arrows">
+    <div class="flex flex-row absolute container-arrows">
         <!-- Prev Button -->
         <div class="">
             <button x-on:click="prev" class="text-6xl arrow-carousel" :aria-disabled="atBeginning" :tabindex="atEnd ? -1 : 0" :class="{ 'opacity-50 cursor-not-allowed': atBeginning }">

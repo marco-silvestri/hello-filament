@@ -53,8 +53,8 @@
         @apply uppercase font-medium hover:text-display-200 font-brand text-[12px] leading-[18px] tracking-[0.6px] text-display-950
     }
 
-    .containter-arrows{
-        @apply top-[-35px] right-0
+    .container-arrows {
+        @apply top-[-35px] right-[35px];
     }
 
     .arrow-carousel{
@@ -120,10 +120,8 @@
         background-size: cover; /* Resize the background image to cover the entire container */
     }
 
-.shadow-y{
-    box-shadow: inset 0px 6px 9px rgb(0 0 0 / 0.16), 
-    inset 0px -6px 9px rgb(0 0 0 / 0.16);
-}
- 
-
+    .shadow-y {
+        box-shadow: inset 0px 8px 9px -6px rgb(0 0 0 / 0.16),
+            inset 0px -8px 9px -6px rgb(0 0 0 / 0.16);
+    }
 }
