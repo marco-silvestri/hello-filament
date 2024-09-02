@@ -8,7 +8,7 @@
     @if (!$loop->first)
         <span class="mx-2 font-extrabold">|</span>
     @endif
-    <x-elements.group-title :title="$category->name"/>
+    <x-elements.group-title :title="$category->name" routeName="category" :slug="$category->slug->name"/>
     @endforeach
 </div>
 @else
