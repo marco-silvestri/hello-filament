@@ -39,6 +39,9 @@
                     {{ config('blog.footer.data_protection_officer_email') }}
                 </div>
             </div>
+            @if (config('cms.sharing.follow_footer_btn',true))
+            <x-cms.social-button />
+            @endif
             <div class="md:hidden">
                 <x-sitemap />
             </div>

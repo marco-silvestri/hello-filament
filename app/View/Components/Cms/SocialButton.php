@@ -7,10 +7,10 @@ use App\Models\Post;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class SocialSharing extends Component
+class SocialButton extends Component
 {
 
-    public $shareButtons = [];
+    public $socialButtons = [];
 
     /**
      * Create a new component instance.
@@ -19,18 +19,17 @@ class SocialSharing extends Component
     {
         foreach(config('cms.sharing.services') as $social => $settings)
         {
-            if ($settings['uri']!='') {
-                $shareText = $settings['text'] ? '&text=' . urlencode($post->title) : '';
-                $href = $settings['uri'] . $post->encoded_url . $shareText;
+            if ($settings['follow_url']!='') {
+                $href = $settings['follow_url'];
                 $icon = $settings['icon'];
                 $color = $settings['color'];
                 $name = ucfirst($social);
 
-                $this->shareButtons[] = [
+                $this->socialButtons[] = [
                     'href' => $href,
                     'icon' => $icon,
                     'color' => $color,
-                    'name' => $name,
+                    'name' => $name
                 ];
             }
         }
@@ -41,6 +40,6 @@ class SocialSharing extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.cms.social-sharing');
+        return view('components.cms.social-button');
     }
 }

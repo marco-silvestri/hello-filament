@@ -37,33 +37,46 @@ return [
     ],
     'default_alt' => env('APP_NAME', 'Blog News'),
     'sharing' => [
+        'follow_footer_btn' => env('FOLLOW_FOOTER_BTN', false),
         'services' => [
             'facebook' => [
                 'uri' => 'https://www.facebook.com/sharer/sharer.php?u=',
+                'follow_url' => env('FOLLOW_FB','https://www.facebook.com'),
                 'text' => false,
                 'icon' => 'bi-facebook',
                 'color' => '#3b5998',
             ],
             'x' => [
                 'uri' => 'https://x.com/intent/post?url=',
+                'follow_url' => env('FOLLOW_X','https://x.com/'),
                 'text' => true,
                 'icon' => 'bi-twitter-x',
                 'color' => '#000',
             ],
             'linkedin' => [
                 'uri' => 'https://www.linkedin.com/shareArticle?mini=true&url=',
+                'follow_url' => env('FOLLOW_LINKEDIN','https://it.linkedin.com/'),
                 'text' => false,
                 'icon' => 'bi-linkedin',
                 'color' => '#0e76a8',
             ],
             'pinterest' => [
                 'uri' => 'https://pinterest.com/pin/create/button/?url=',
+                'follow_url' => env('FOLLOW_PINTAREST',''),
                 'text' => false,
                 'icon' => 'bi-pinterest',
                 'color' => '#c8232c',
             ],
+            'youtube' => [
+                'uri' => '',
+                'follow_url' => env('FOLLOW_YOUTUBE','https://www.youtube.com/'),
+                'text' => false,
+                'icon' => 'bi-youtube',
+                'color' => '#c8232c',
+            ],
             'whatsapp' => [
                 'uri' => 'https://wa.me/?text=',
+                'follow_url' => '',
                 'text' => false,
                 'icon' => 'bi-whatsapp',
                 'color' => '#25d366',
