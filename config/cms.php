@@ -62,7 +62,7 @@ return [
             ],
             'pinterest' => [
                 'uri' => 'https://pinterest.com/pin/create/button/?url=',
-                'follow_url' => env('FOLLOW_PINTAREST',''),
+                'follow_url' => env('FOLLOW_PINTEREST',''),
                 'text' => false,
                 'icon' => 'bi-pinterest',
                 'color' => '#c8232c',
