@@ -1,4 +1,4 @@
-<div class="p-8 mb-8 md:pr-4 flex flex-row footer-info">
+<div class="flex flex-row">
     <div class="mr-4">
         <p>{{ __('common.lbl-social-button')}}</p>
     </div>
