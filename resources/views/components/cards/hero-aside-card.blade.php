@@ -1,6 +1,6 @@
 <section>
     @if($post->slug)
-    <a href="{{ route('post', ['slug' => $post->slug->name]) }}">
+    <a href="{{ $post->url() }}">
     @else
     <a href="{{route('home')}}">
     @endif

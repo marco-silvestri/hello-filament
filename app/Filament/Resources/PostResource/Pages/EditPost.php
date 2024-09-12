@@ -100,7 +100,8 @@ class EditPost extends EditRecord
                 }),
             Action::make('preview')
                 ->label(__('posts.lbl-preview'))
-                ->url(fn ($record): string => route('preview', ['post' => $record])),
+                ->url(fn ($record): string => route('preview', ['post' => $record]))
+                ->openUrlInNewTab(),
             Action::make('save_top')
                 ->action('save')
                 ->label(__('common.btn-save')),

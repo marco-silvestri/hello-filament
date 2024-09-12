@@ -15,27 +15,28 @@ use Symfony\Component\HttpFoundation\Response;
 class ShowPostController extends Controller
 {
     use HasPostsCaching, HasTree;
-    public function __invoke(Request $request)
-    {
-        $slug = $request->slug;
 
-        $post = Cache::remember("post-$slug", $this->getTtl(), function ()
-        use ($slug) {
-            if(config('app.comments'))
-            {
-                $with = ['settings', 'categories', 'tags', 'comments' => fn ($query) => $query->approved()];
-            }else{
-                $with = ['settings', 'categories', 'tags'];
+    public function __invoke($postId, $slug = null)
+    {
+        $post = Cache::remember("post-$postId", $this->getTtl(), function () use ($postId) {
+            $with = ['settings', 'categories', 'tags'];
+
+            if (config('app.comments')) {
+                $with = $with + ['comments' => fn($query) => $query->approved()];
             }
-            return Post::with($with)
+
+            return Post::query()
+                ->with($with)
                 ->published()
-                ->whereHas('slug', function (Builder $query)
-                use ($slug) {
-                    $query->where('name', $slug);
-                })->first();
+                ->find($postId);
         });
 
         abort_unless($post, Response::HTTP_NOT_FOUND);
+
+        // check real slug and redirect if different from $slug
+        if ($post->slug->name !== $slug) {
+            return redirect()->to($post->url(), Response::HTTP_MOVED_PERMANENTLY);
+        }
 
         $menu = Menu::where('name', 'home-page')
             ->where('is_active', 1)
@@ -56,7 +57,7 @@ class ShowPostController extends Controller
         $relatedPosts = $relatedPosts->shuffle();
         $relatedPosts = $relatedPosts->take(6);
 
-        if(config('app.comments')){
+        if (config('app.comments')) {
             $post->commentsCount = count($post->comments);
             $post->comments = $this->buildHierarchyTree($post->comments);
         }
@@ -74,7 +75,6 @@ class ShowPostController extends Controller
                 ->orderBy('id')
                 ->first();
         });
-
 
         return view('cms.blog.post')
             ->with('menu', $menu)

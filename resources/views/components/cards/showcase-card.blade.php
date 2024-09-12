@@ -1,7 +1,7 @@
 <section class=" mt-6 mr-8 mb-6 ">
     <div class="flex flex-col min-w-[220px] md:w-[375px]">
         @if($post->slug)
-        <a href="{{ route('post', ['slug' => $post->slug->name]) }}">
+        <a href="{{ $post->url() }}">
         @else
         <a href="{{route('home')}}">
         @endif
