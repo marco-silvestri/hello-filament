@@ -29,7 +29,7 @@ Breadcrumbs::for(
     'post',
     fn (BreadcrumbTrail $trail, Post $post) => $trail
         ->parent('home')
-        ->push($post->title, route('post', $post->slug->name))
+        ->push($post->title, $post->url())
 );
 
 Breadcrumbs::for(

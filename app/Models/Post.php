@@ -162,12 +162,14 @@ class Post extends Model implements Feedable
             });
     }
 
+    public function url($absolute = true): string
+    {
+        return route('post', ['postId' => $this->id, 'slug' => $this->slug->name], $absolute);
+    }
+
     protected function encodedUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () =>
-            config('app.url') . '/' . $this->slug->name,
-        );
+        return Attribute::get(fn() => urlencode($this->url()));
     }
 
     public function toFeedItem(): FeedItem
