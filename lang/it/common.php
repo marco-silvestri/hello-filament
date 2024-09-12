@@ -88,4 +88,5 @@ return [
     "lbl-social-button" => "Seguici su:",
     "fld-category" => "Categoria",
     "lbl-search" => "Cerca",
+    "lbl-visit-site" => "Visita sito",
 ];
