@@ -113,7 +113,7 @@ class PageTest extends TestCase
     {
         $record = Page::factory()->hasSlug()->create();
 
-        $res = $this->get("/page/{$record->slug->name}");
+        $res = $this->get("/pagina/{$record->slug->name}");
 
         $res->assertOk()->assertSee($record->title);
     }
