@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use App\Models\Tag;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 use App\Models\Post;
 use App\Models\Comment;
@@ -271,7 +272,19 @@ class PostTest extends TestCase
         $view->assertDontSee(__('comments.lbl-comments'));
     }
 
+    public function test_redirects_to_correct_post_slug()
+    {
+        $post = Post::factory()->hasSlug()->create();
 
+        $url = $post->url();
+
+        $wrong_url = $url . '-changed-slug';
+
+        $response = $this->get($wrong_url);
+
+        $response->assertStatus(Response::HTTP_MOVED_PERMANENTLY);
+        $response->assertRedirect($url);
+    }
 
     private function create_content_for_builder()
     {
