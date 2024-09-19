@@ -18,7 +18,7 @@ class ShowPostController extends Controller
 
     public function __invoke($postId, $slug = null)
     {
-        $post = Cache::remember("post-$postId", $this->getTtl(), function () use ($postId) {
+        $post = Cache::flexible("post-$postId", $this->getFlexibleTtl(), function () use ($postId) {
             $with = ['settings', 'categories', 'tags'];
 
             if (config('app.comments')) {
@@ -42,7 +42,7 @@ class ShowPostController extends Controller
             ->where('is_active', 1)
             ->first();
 
-        $relatedPosts = Cache::remember("related-$slug", $this->getTtl(), function () use ($post) {
+        $relatedPosts = Cache::flexible("related-$slug", $this->getFlexibleTtl(), function () use ($post) {
             return $post->categories()->limit(5)->get()->map(function ($category) {
                 return $category->posts()
                     ->published()
@@ -62,14 +62,14 @@ class ShowPostController extends Controller
             $post->comments = $this->buildHierarchyTree($post->comments);
         }
 
-        $prevPost = Cache::remember("prev-$slug", $this->getTtl(), function () use ($post) {
+        $prevPost = Cache::flexible("prev-$slug", $this->getFlexibleTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '<', $post->published_at)
                 ->orderByDesc('id')
                 ->first();
         });
 
-        $nextPost = Cache::remember("next-$slug", $this->getTtl(), function () use ($post) {
+        $nextPost = Cache::flexible("next-$slug", $this->getFlexibleTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '>', $post->published_at)
                 ->orderBy('id')

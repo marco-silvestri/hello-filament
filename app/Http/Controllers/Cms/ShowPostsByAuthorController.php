@@ -21,7 +21,7 @@ class ShowPostsByAuthorController extends Controller
     {
         $slug = $request->slug;
 
-        $author = Cache::remember("author-$slug", $this->getTtl(), function () use ($slug) {
+        $author = Cache::flexible("author-$slug", $this->getFlexibleTtl(), function () use ($slug) {
             $user = User::whereHas('slug', function (Builder $query)  use ($slug) {
                 $query->where('name', $slug);
             });

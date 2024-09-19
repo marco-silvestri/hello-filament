@@ -6,6 +6,7 @@ use Closure;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Visit;
+use App\Traits\Cms\HasPostsCaching;
 use Illuminate\View\Component;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Cache;
 
 class MostRead extends Component
 {
+    use HasPostsCaching;
+
     public $mostRead;
     /**
      * Create a new component instance.
@@ -21,9 +24,9 @@ class MostRead extends Component
     public function __construct()
     {
         $this->mostRead =
-            Cache::remember(
+            Cache::flexible(
                 'most-read-posts',
-                600,
+                $this->getFlexibleTtl(),
                 function(){
                 return Post::withCount(['visits' => function ($query) {
                     $query->where('created_at', '>', Carbon::now()->subDays(5));

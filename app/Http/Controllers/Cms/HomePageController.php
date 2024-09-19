@@ -17,7 +17,7 @@ class HomePageController extends Controller
     public function __invoke()
     {
         $menu = Menu::getNamedMenu('home-page');
-        $posts = Cache::remember("home-page-posts", 1, function (){
+        $posts = Cache::flexible("home-page-posts", $this->getFlexibleTtl(), function (){
             $groups = HomePageSetting::with(['groupable'])->orderBy('order_by')->get();
 
             $header =  $groups

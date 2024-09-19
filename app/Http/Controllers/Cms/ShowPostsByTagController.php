@@ -20,7 +20,7 @@ class ShowPostsByTagController extends Controller
         $slug = $request->slug;
         $tag = null;
 
-        $posts = Cache::remember("posts-tag-$slug", $this->getTtl(), function ()
+        $posts = Cache::flexible("posts-tag-$slug", $this->getFlexibleTtl(), function ()
         use ($slug, &$tag) {
             $tag = Tag::whereHas('slug', function (Builder $query)
             use ($slug) {

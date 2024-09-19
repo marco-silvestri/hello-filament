@@ -20,7 +20,7 @@ class ShowPostsByCategoryController extends Controller
         $slug = $request->slug;
         $category = null;
 
-        $posts = Cache::remember("posts-category-$slug", $this->getTtl(), function ()
+        $posts = Cache::flexible("posts-category-$slug", $this->getFlexibleTtl(), function ()
         use ($slug, &$category) {
             $category = Category::whereHas('slug', function (Builder $query)
             use ($slug) {

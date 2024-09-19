@@ -17,4 +17,16 @@ trait HasPostsCaching {
 
         return 0;
     }
+
+    protected function getFlexibleTtl():array
+    {
+        $postCachingEnabled = config('cms.post_caching.enabled');
+
+        if($postCachingEnabled)
+        {
+            return [600, 1200];
+        }
+
+        return [1,2];
+    }
 }
