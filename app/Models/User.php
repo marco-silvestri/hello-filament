@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -45,5 +46,9 @@ class User extends Authenticatable implements FilamentUser
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function searches():BelongsToMany{
+        return $this->belongsToMany(User::class);
     }
 }
