@@ -93,6 +93,7 @@
 @task('link-storage')
     cd {{ $appDir }}
     ~/.phpenv/shims/php artisan storage:link
+    ln -s ~/httpdocs/media/ {{$appDir}}/storage/app/public/media
 @endtask
 
 @story('deploy', ['on' => 'web'])
