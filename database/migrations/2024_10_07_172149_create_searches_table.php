@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('search_user', function (Blueprint $table) {
+        Schema::create('searches', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('search_id');
+            $table->unsignedBigInteger('term_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('search_id')
-                ->on('searches')
+            $table->foreign('term_id')
+                ->on('terms')
                 ->references('id');
 
             $table->foreign('user_id')
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('search_user');
+        Schema::dropIfExists('searches');
     }
 };

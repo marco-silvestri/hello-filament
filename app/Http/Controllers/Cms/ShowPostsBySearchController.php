@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Cms;
 
 use App\Models\Menu;
 use App\Models\Post;
+use App\Models\Term;
 use App\Models\Search;
 use App\Traits\Cms\HasTree;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Cms\HasPostsCaching;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 class ShowPostsBySearchController extends Controller
 {
@@ -53,15 +54,14 @@ class ShowPostsBySearchController extends Controller
     private function addSearchEntry(string $searchString):void
     {
         $userId = Auth::user() ? Auth::user()->id : null;
-        $storedTerm = Search::firstOrCreate(['term' => $searchString]);
+        $storedTerm = Term::firstOrCreate(['keyword' => $searchString]);
+        $storedTerm->increment('count');
 
-        DB::table('search_user')->insert([
-            'search_id' => $storedTerm->id,
+        Search::create([
+            'term_id' => $storedTerm->id,
             'user_id' => $userId,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        $storedTerm->increment('count');
     }
 }

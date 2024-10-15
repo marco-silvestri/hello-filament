@@ -48,7 +48,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(Profile::class);
     }
 
-    public function searches():BelongsToMany{
-        return $this->belongsToMany(User::class);
+    public function searches():HasMany{
+        return $this->hasMany(User::class);
     }
 }
