@@ -12,8 +12,10 @@
 @servers(['web' => ["$demo -p 22 -F ./ssh_config"]])
 
 @task('test', ['on' => 'web'])
-    rm -rf pippo
-    ls -la
+    echo 'pippo'
+    pwd
+    {{-- rm -rf pippo
+    ls -la --}}
 @endtask
 
 @story('restoreBackup', ['on' => 'web'])

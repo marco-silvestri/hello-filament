@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\TagResource\Pages;
 
-use App\Filament\Resources\TagResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Cache;
+use App\Filament\Resources\TagResource;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTag extends EditRecord
@@ -16,5 +18,12 @@ class EditTag extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        $record->update($data);
+        Cache::flush();
+        return $record;
     }
 }
