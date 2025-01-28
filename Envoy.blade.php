@@ -11,13 +11,6 @@
 
 @servers(['web' => ["$demo -p 22 -F ./ssh_config"]])
 
-@task('test', ['on' => 'web'])
-    echo 'pippo'
-    pwd
-    {{-- rm -rf pippo
-    ls -la --}}
-@endtask
-
 @story('restoreBackup', ['on' => 'web'])
     promoting-backup
     clear-cache
