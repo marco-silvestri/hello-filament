@@ -34,5 +34,5 @@ return [
     "lbl-leave-comment" => "Lascia un commento",
     "lbl-spam-detected" => "Rilevato potenziale spam: commento non inserito",
     "lbl-comment-success" => "Il commento è stato inserito e verrà presto moderato da un amministratore",
-    "lbl-comment-failure" => "Il comment non è stato inserito",
+    "lbl-comment-failure" => "Il commento non è stato inserito",
 ];
