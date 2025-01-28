@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Enums\Cms\MenuOptionsEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MenuItem extends Model
 {
@@ -35,14 +36,22 @@ class MenuItem extends Model
     {
         if($this->type === MenuOptionsEnum::CATEGORY->getValue())
         {
-            $slug = Category::find($this->value)->slug->name;
-            return route('category', ['slug' => $slug]);
+            $slug = Cache::remember("cat-{$this->value}-slug", 60*60*24, function(){
+                $cat = Category::find($this->value)->slug->name;
+                return route('category', ['slug' => $cat]);
+            });
+
+            return $slug;
         }
 
         if($this->type === MenuOptionsEnum::TAG->getValue())
         {
-            $slug = Tag::find($this->value)->slug->name;
-            return route('tag', ['slug' => $slug]);
+            $slug = Cache::remember("tag-{$this->value}-slug", 60*60*24, function(){
+                $tag = Tag::find($this->value)->slug->name;
+                return route('tag', ['slug' => $tag]);
+            });
+
+            return $slug;
         }
 
         if($this->type === MenuOptionsEnum::EXTERNAL_URL->getValue())
