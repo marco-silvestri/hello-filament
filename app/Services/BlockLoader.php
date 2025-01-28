@@ -27,10 +27,10 @@ class BlockLoader
     private static function composeParagraph($data): string
     {
         $content = strip_tags($data['content'],
-            ['<a>', '<ul>', '<li>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>']);
-        return "<p class='font-brand
+            ['<a>', '<ul>', '<li>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<p>', '<img>', '<span>', '<em>', '<u>', '<ol>', '<small>', '<div>', '<br>', '<hr>']);
+        return "<div class='font-brand
             text-display-500
-            my-4 tracking-[0.8px] leading-[22px]'>{$content}</p>";
+            my-4 tracking-[0.8px] leading-[22px]'>{$content}</div>";
     }
 
     private static function composeImage($data): string

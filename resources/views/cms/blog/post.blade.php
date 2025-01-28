@@ -75,7 +75,7 @@
 
                     <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center"
                         format="webp" fallback="article_fallback" />
-                    <div class="font-brand">
+                    <div id="post-content" class="font-brand">
                         @if ($post->json_content)
                             @foreach ($post->json_content as $dataBlock)
                                 {!! \App\Services\BlockLoader::renderDataBlock($dataBlock) !!}
