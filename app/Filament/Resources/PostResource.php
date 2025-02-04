@@ -390,9 +390,6 @@ class PostResource extends Resource
                             return implode(", ", $state);
                         }
                     }),
-                TextColumn::make('visits_count')
-                    ->label(__('posts.lbl-visits-count'))
-                    ->counts('visits'),
                 IconColumn::make('has_importer_problem')
                     ->label(__('posts.lbl-importer-problem'))
                     ->boolean()

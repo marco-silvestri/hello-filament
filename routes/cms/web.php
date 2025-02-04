@@ -17,14 +17,16 @@ Route::get('test', NewsletterSubscription::class);
 Route::get('/', HomePageController::class)->name('home');
 
 Route::middleware(TrackVisits::class)->group(function () {
-    Route::get('/cerca', ShowPostsBySearchController::class)->name('search');
     Route::get('/post/{postId}/{slug?}', ShowPostController::class)->name('post')
         ->where(['postId' => '[0-9]+', 'slug' => '.*']);
-    Route::get('/tag/{slug}', ShowPostsByTagController::class)->name('tag');
-    Route::get('/categoria/{slug}', ShowPostsByCategoryController::class)->name('category');
-    Route::get('/autore/{slug}', ShowPostsByAuthorController::class)->name('author');
-    Route::get('/pagina/{slug}', ShowPageController::class)->name('page');
 });
+
+Route::get('/cerca', ShowPostsBySearchController::class)->name('search');
+Route::get('/tag/{slug}', ShowPostsByTagController::class)->name('tag');
+Route::get('/categoria/{slug}', ShowPostsByCategoryController::class)->name('category');
+Route::get('/autore/{slug}', ShowPostsByAuthorController::class)->name('author');
+Route::get('/pagina/{slug}', ShowPageController::class)->name('page');
+
 
 Route::get('/admin/preview/{post}', ShowPostPreviewController::class)->name('preview')
     ->middleware(Authenticate::class);

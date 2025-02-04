@@ -3,15 +3,12 @@
 namespace App\View\Components\Widgets;
 
 use Closure;
-use Carbon\Carbon;
 use App\Models\Post;
-use App\Models\Visit;
-use App\Traits\Cms\HasPostsCaching;
 use Illuminate\View\Component;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Traits\Cms\HasPostsCaching;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
+use CyrildeWit\EloquentViewable\Support\Period;
 
 class MostRead extends Component
 {
@@ -28,11 +25,8 @@ class MostRead extends Component
                 'most-read-posts',
                 $this->getFlexibleTtl(),
                 function(){
-                return Post::withCount(['visits' => function ($query) {
-                    $query->where('created_at', '>', Carbon::now()->subDays(5));
-                }])
-                    ->orderBy('visits_count', 'desc')
-                    ->with('categories')
+                return Post::with('categories')
+                    ->orderByViews('desc', Period::pastDays(5))
                     ->limit(6)
                     ->get();
                 }

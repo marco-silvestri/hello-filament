@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Cms;
 
 use Closure;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Events\Cms\LandingOnContent;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +17,24 @@ class TrackVisits
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userId = auth()->user() ? auth()->user()->id : null;
+        return $next($request);
+    }
 
+    public function terminate(Request $request, Response $response): void
+    {
+        $slug = $request['slug'];
         if(isset($request['slug']))
         {
-            event(new LandingOnContent($request['slug'], $userId));
-        }
+            $post = Post::whereHas('slug', function ($query) use ($slug) {
+                $query->where('name', $slug);
+            })->first();
 
-        return $next($request);
+            if($post)
+            {
+                views($post)
+                    ->cooldown(1)
+                    ->record();
+            }
+        }
     }
 }

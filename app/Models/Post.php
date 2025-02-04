@@ -6,7 +6,6 @@ use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Traits\Cms\HasSlug;
 use App\Traits\Cms\HasAuthor;
-use App\Traits\Cms\HasVisits;
 use App\Models\Cms\PostSettings;
 use App\Enums\Cms\PostStatusEnum;
 use App\Models\Cms\PostPlannings;
@@ -23,10 +22,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
 
-class Post extends Model implements Feedable
+class Post extends Model implements Feedable, Viewable
 {
-    use HasFactory, HasVisits, SoftDeletes, HasSlug, HasAuthor, HasStringOperations;
+    use HasFactory, SoftDeletes, HasSlug, HasAuthor, HasStringOperations, InteractsWithViews;
 
     protected $guarded = ['id'];
 
