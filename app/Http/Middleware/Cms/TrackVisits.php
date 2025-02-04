@@ -22,9 +22,9 @@ class TrackVisits
 
     public function terminate(Request $request, Response $response): void
     {
-        $slug = $request['slug'];
         if(isset($request['slug']))
         {
+            $slug = $request['slug'];
             $post = Post::whereHas('slug', function ($query) use ($slug) {
                 $query->where('name', $slug);
             })->first();
