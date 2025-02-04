@@ -1,4 +1,4 @@
-<x-layouts.public>
+<x-layouts.app>
 
     @section('title')
         <title>{{ $page->title }}</title>
@@ -42,4 +42,4 @@
             </div>
         @endsection
     </x-elements.blog-container>
-</x-layouts.public>
+</x-layouts.app>
