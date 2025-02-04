@@ -23,12 +23,8 @@ class HomePageSetting extends Model
     {
         return $this->groupable->posts()
             ->published()
-            ->with(['author', 'featuredImage', 'slug'])
-            ->tap(function ($q) use ($limit) {
-                if ($limit > 0) {
-                    return $q->limit($limit);
-                }
-                return $q;
-            })->get();
+            ->with(['featuredImage', 'slug'])
+            ->when($limit > 0, fn($q) => $q->limit($limit))
+            ->select('posts.id', 'feature_media_id', 'title', 'published_at')->get();
     }
 }
