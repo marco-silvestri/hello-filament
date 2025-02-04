@@ -6,7 +6,7 @@
         <a href="{{route('home')}}">
         @endif
             <div class="pb-4 h-[200px] flex justify-center items-center">
-                <x-curator-glider class="object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center" height="167"
+                <x-curator-glider class="object-cover rounded-md" :media="$post->featuredImage" fit="crop-center" height="167"
                     width="241" format="webp" fallback="article_fallback" />
             </div>
             <div>

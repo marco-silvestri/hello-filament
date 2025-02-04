@@ -6,7 +6,7 @@
     @endif
     <div class="flex mt-4 mb-4 mr-4 ">
         <div class="pb-4 basis-[168px]  justify-left items-center">
-            <x-curator-glider class="object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center" format="webp"
+            <x-curator-glider class="object-cover rounded-md" :media="$post->featuredImage" fit="crop-center" format="webp"
                 width="168" height="150" fallback="article_fallback" />
         </div>
         <div class="basis-2/3 pl-2">

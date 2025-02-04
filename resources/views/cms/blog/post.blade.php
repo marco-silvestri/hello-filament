@@ -73,7 +73,7 @@
 
                     </div>
 
-                    <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage?->id" fit="crop-center"
+                    <x-curator-glider class="w-full h-[392px] object-cover rounded-md" :media="$post->featuredImage" fit="crop-center"
                         format="webp" fallback="article_fallback" />
                     <div id="post-content" class="font-brand">
                         @if ($post->json_content)

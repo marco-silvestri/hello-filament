@@ -12,7 +12,7 @@
                     {{ $post->title }}
                 </h3>
             </div>
-            <x-curator-glider class="object-cover rounded-lg" :media="$post->featuredImage?->id" fit="crop-center" format="webp"
+            <x-curator-glider class="object-cover rounded-lg" :media="$post->featuredImage" fit="crop-center" format="webp"
                 width="400" height="250" fallback="article_fallback" />
         </div>
     </div>
