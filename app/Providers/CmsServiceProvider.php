@@ -16,7 +16,7 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['components.layouts.public', 'components.layouts.app'], function ($view) {
+        View::composer(['components.layouts.app'], function ($view) {
             $snippets = Cache::remember("snippets", 1800,
                 fn () => Snippet::query()
                     ->select('payload', 'hook')

@@ -1,4 +1,4 @@
-<x-layouts.public>
+<x-layouts.app>
     @section('meta-tags')
         <meta name="og:title" content="{{ $post->og_title ?? $post->title }}">
         <meta name="og:description" content="{{ $post->og_description ?? $post->excerpt }}">
@@ -193,4 +193,4 @@
             @endsection
         @endisset
     </x-elements.blog-container>
-</x-layouts.public>
+</x-layouts.app>
