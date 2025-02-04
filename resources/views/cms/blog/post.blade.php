@@ -96,15 +96,15 @@
                     </div>
                     <x-cms.social-sharing :post="$post" />
                     @if (isset($prevPost) && isset($nextPost))
-                    <div class="flex items-center justify-between my-16">
+                    <div class="flex gap-2 justify-between my-16">
                         @if ($prevPost)
-                            <a href="{{ route('post',['postId'=>$prevPost->id, 'slug'=>$prevPost->slug->name]) }}" class="flex items-start w-1/2">
+                            <a href="{{ $prevPost->url() }}" class="flex items-start w-1/2">
                                 <div class="mr-4">
-                                    <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$prevPost->featuredImage?->id"
+                                    <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px] max-w-none" :media="$prevPost->featuredImage?->id"
                                         fit="crop-center" format="webp" width="170" height="170"
                                         fallback="article_fallback" />
                                 </div>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col gap-2">
                                     <div class="flex space-x-2">
                                         <x-elements.left-arrow />
                                         <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
@@ -116,8 +116,8 @@
                             </a>
                         @endif
                         @if ($nextPost)
-                            <a href="{{ route('post',['postId'=>$nextPost->id, 'slug'=>$nextPost->slug->name]) }}" class="flex items-start justify-end w-1/2">
-                                <div class="flex flex-col ml-2">
+                            <a href="{{ $nextPost->url() }}" class="flex items-start justify-end w-1/2">
+                                <div class="flex flex-col gap-2">
                                     <div class="flex space-x-2">
                                         <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
                                             {{ __('posts.lbl-next-post') }} </span>
@@ -127,7 +127,7 @@
                                         {{ $nextPost->title }}</div>
                                 </div>
                                 <div class="ml-4">
-                                    <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$nextPost->featuredImage?->id"
+                                    <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px] max-w-none" :media="$nextPost->featuredImage?->id"
                                         fit="crop-center" format="webp" width="170" height="170"
                                         fallback="article_fallback" />
                                 </div>
