@@ -3,11 +3,9 @@
 namespace App\Filament\Resources\SnippetResource\Pages;
 
 use Filament\Actions;
-use App\Services\SnippetService;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SnippetResource;
+use Illuminate\Support\Facades\Cache;
 
 class ListSnippets extends ListRecords
 {
@@ -17,10 +15,9 @@ class ListSnippets extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->after(
-                fn() => SnippetService::flushSnippetsCache(),
-                fn() => SnippetService::fillSnippetsCache()
-            ),
+                ->after(
+                    fn() => Cache::forget("snippets"),
+                ),
         ];
     }
 }

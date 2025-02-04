@@ -22,7 +22,6 @@ use Filament\Forms\Components\Actions\Action;
 use App\Filament\Resources\SnippetResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SnippetResource\RelationManagers;
-use App\Services\SnippetService;
 use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 
 class SnippetResource extends Resource
@@ -98,19 +97,17 @@ class SnippetResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                // ->after(
-                //     fn() => SnippetService::flushSnippetsCache(),
-                //     fn() => SnippetService::fillSnippetsCache()
-                // ),
                 Tables\Actions\DeleteAction::make()
-                // ->after(
-                //     fn() => SnippetService::flushSnippetsCache(),
-                //     fn() => SnippetService::fillSnippetsCache()
-                // ),
+                    ->after(
+                        fn() => Cache::forget("snippets"),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->after(
+                            fn() => Cache::forget("snippets"),
+                        ),
                 ]),
             ])
             ->reorderable('priority')

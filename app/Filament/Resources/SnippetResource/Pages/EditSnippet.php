@@ -3,9 +3,6 @@
 namespace App\Filament\Resources\SnippetResource\Pages;
 
 use Filament\Actions;
-use App\Enums\Cms\HookEnum;
-use App\Traits\Cms\HasCaching;
-use App\Services\SnippetService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
@@ -20,18 +17,17 @@ class EditSnippet extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
-            ->after(
-                fn() => SnippetService::flushSnippetsCache(),
-                fn() => SnippetService::fillSnippetsCache()
-            ),
+                ->after(
+                    fn() => Cache::forget("snippets"),
+                ),
         ];
     }
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        SnippetService::flushSnippetsCache($record->hook);
         $record->update($data);
-        SnippetService::fillSnippetsCache(HookEnum::from($data['hook']));
+
+        Cache::forget("snippets");
 
         return $record;
     }

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\Cms\HookEnum;
-use App\Services\SnippetService;
+use App\Models\Snippet;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
@@ -16,10 +16,24 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['components.layouts.public'], function ($view) {
-            $headSnippets = SnippetService::getStringedSnippets(HookEnum::HEAD);
-            $bodySnippets = SnippetService::getStringedSnippets(HookEnum::BODY);
-            $footerSnippets = SnippetService::getStringedSnippets(HookEnum::FOOTER);
+        View::composer(['components.layouts.public', 'components.layouts.app'], function ($view) {
+            $snippets = Cache::remember("snippets", 1800,
+                fn () => Snippet::query()
+                    ->select('payload', 'hook')
+                    ->where('status', true)
+                    ->orderBy('priority')
+                    ->get()
+            );
+
+            $headSnippets = $snippets->where('hook', HookEnum::HEAD)
+                ->pluck('payload')
+                ->implode(PHP_EOL);
+            $bodySnippets = $snippets->where('hook', HookEnum::BODY)
+                ->pluck('payload')
+                ->implode(PHP_EOL);
+            $footerSnippets = $snippets->where('hook', HookEnum::FOOTER)
+                ->pluck('payload')
+                ->implode(PHP_EOL);
 
             $view->with('headSnippets', $headSnippets);
             $view->with('bodySnippets', $bodySnippets);

@@ -98,7 +98,7 @@
                     @if (isset($prevPost) && isset($nextPost))
                     <div class="flex items-center justify-between my-16">
                         @if ($prevPost)
-                            <a href="{{ $prevPost->slug->name }}" class="flex items-start w-1/2">
+                            <a href="{{ route('post',['postId'=>$prevPost->id, 'slug'=>$prevPost->slug->name]) }}" class="flex items-start w-1/2">
                                 <div class="mr-4">
                                     <x-curator-glider class="object-cover rounded-full h-[85px] w-[85px]" :media="$prevPost->featuredImage?->id"
                                         fit="crop-center" format="webp" width="170" height="170"
@@ -116,7 +116,7 @@
                             </a>
                         @endif
                         @if ($nextPost)
-                            <a href="{{ $nextPost->slug->name }}" class="flex items-start w-1/2 justify-end">
+                            <a href="{{ route('post',['postId'=>$nextPost->id, 'slug'=>$nextPost->slug->name]) }}" class="flex items-start justify-end w-1/2">
                                 <div class="flex flex-col ml-2">
                                     <div class="flex space-x-2">
                                         <span class="text-display-500 text-[12px] leading-4 font-brand-alt">
