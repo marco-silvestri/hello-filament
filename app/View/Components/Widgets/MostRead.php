@@ -25,7 +25,7 @@ class MostRead extends Component
                 'most-read-posts',
                 $this->getFlexibleTtl(),
                 function(){
-                return Post::with('categories')
+                return Post::with('categories', 'author.slug', 'featuredImage', 'slug')
                     ->orderByViews('desc', Period::pastDays(5))
                     ->limit(6)
                     ->get();
