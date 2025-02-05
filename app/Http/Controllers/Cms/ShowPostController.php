@@ -65,14 +65,14 @@ class ShowPostController extends Controller
         $prevPost = Cache::flexible("prev-$slug", $this->getFlexibleTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '<', $post->published_at)
-                ->orderByDesc('id')
+                ->orderByDesc('published_at')
                 ->first();
         });
 
         $nextPost = Cache::flexible("next-$slug", $this->getFlexibleTtl(), function () use ($post) {
             return Post::with('slug')
                 ->where('published_at', '>', $post->published_at)
-                ->orderBy('id')
+                ->orderBy('published_at')
                 ->first();
         });
 
