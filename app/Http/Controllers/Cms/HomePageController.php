@@ -18,7 +18,10 @@ class HomePageController extends Controller
     {
         $menu = Menu::getNamedMenu('home-page');
         $posts = Cache::flexible("home-page-posts", $this->getFlexibleTtl(), function (){
-            $groups = HomePageSetting::with(['groupable'])->orderBy('order_by')->get();
+            $groups = HomePageSetting::with(['groupable'])
+                ->where('visibility', true)
+                ->orderBy('order_by')
+                ->get();
 
             $header =  $groups
                 ->where('displayable_as', \App\Enums\Cms\DisplayableAsEnum::HEADER->getValue())
