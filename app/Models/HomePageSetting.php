@@ -25,6 +25,8 @@ class HomePageSetting extends Model
             ->published()
             ->with(['featuredImage', 'slug'])
             ->when($limit > 0, fn($q) => $q->limit($limit))
-            ->select('posts.id', 'feature_media_id', 'title', 'published_at')->get();
+            ->select('posts.id', 'feature_media_id', 'title', 'published_at')
+            ->orderByDesc('published_at')
+            ->get();
     }
 }
