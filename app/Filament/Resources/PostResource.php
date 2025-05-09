@@ -73,7 +73,7 @@ class PostResource extends Resource
                                 TextInput::make('name')
                                     ->label('slug')
                                     ->required()
-                                    ->dehydrateStateUsing(fn (string $state): string => Str::of($state)->slug())
+                                    ->dehydrateStateUsing(fn(string $state): string => Str::of($state)->slug())
                                     ->unique(table: 'slugs', column: 'name', ignoreRecord: true),
                             ]),
                         Builder::make('json_content')
@@ -137,13 +137,13 @@ class PostResource extends Resource
                                     ->columns(2)
                                     ->schema([
                                         TextInput::make('width')
-                                        ->label(__('block-builder.width'))
-                                        ->columnSpan(1)
-                                        ->numeric(),
+                                            ->label(__('block-builder.width'))
+                                            ->columnSpan(1)
+                                            ->numeric(),
                                         TextInput::make('height')
-                                        ->label(__('block-builder.height'))
-                                        ->columnSpan(1)
-                                        ->numeric(),
+                                            ->label(__('block-builder.height'))
+                                            ->columnSpan(1)
+                                            ->numeric(),
                                         CuratorPicker::make('image')
                                             ->label(__('block-builder.image'))
                                             ->multiple()
@@ -163,7 +163,7 @@ class PostResource extends Resource
                                             ->native(false)
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm(fn (Form $form) => AudioResource::formForModal($form)),
+                                            ->createOptionForm(fn(Form $form) => AudioResource::formForModal($form)),
                                         TextInput::make('caption')
                                     ]),
                                 Block::make('review')
@@ -233,7 +233,7 @@ class PostResource extends Resource
                             ->columnSpanFull(),
                         Select::make('author_id')
                             ->label(__('common.fld-author'))
-                            ->relationship('author', 'name', fn (EloquentBuilder $query) => $query->role('author'),)
+                            ->relationship('author', 'name', fn(EloquentBuilder $query) => $query->role('author'),)
                             ->native(false)
                             ->required(),
                         Select::make('categories')
@@ -312,7 +312,7 @@ class PostResource extends Resource
                             ->native(false)
                             ->seconds(false)
                             ->firstDayOfWeek(1)
-                            ->required(fn (Get $get) => $get('status') == PostStatusEnum::PUBLISH),
+                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PUBLISH),
                         Group::make()
                             ->label('Settings')
                             ->relationship('settings')
@@ -334,7 +334,7 @@ class PostResource extends Resource
                                     ]),
                             ]),
                         Repeater::make('plannings')
-                            ->required(fn (Get $get) => $get('status') == PostStatusEnum::PLANNED)
+                            ->required(fn(Get $get) => $get('status') == PostStatusEnum::PLANNED)
                             ->relationship()
                             ->label(__('posts.lbl-plannings'))
                             ->defaultItems(0)
@@ -420,18 +420,17 @@ class PostResource extends Resource
                     ->multiple()
                     ->preload(),
                 Filter::make('has_importer_problem')
-                    ->query(fn (EloquentBuilder $query): EloquentBuilder => $query->where('has_importer_problem', true)),
+                    ->query(fn(EloquentBuilder $query): EloquentBuilder => $query->where('has_importer_problem', true)),
             ])
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
-                    Action::make('Post preview')
-                        ->modalContent(fn (Post $record): View => view(
-                            'filament.pages.actions.post-preview',
-                            ['record' => $record],
-                        ))
+                    Action::make('preview')
+                        ->label(__('posts.lbl-preview'))
+                        ->url(fn($record): string => route('preview', ['post' => $record]))
+                        ->openUrlInNewTab(),
                 ])
             ])
             ->bulkActions([
