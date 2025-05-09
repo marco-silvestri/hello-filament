@@ -26,8 +26,10 @@ class BlockLoader
 
     private static function composeParagraph($data): string
     {
-        $content = strip_tags($data['content'],
-            ['<a>', '<ul>', '<li>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<p>', '<img>', '<span>', '<em>', '<u>', '<ol>', '<small>', '<div>', '<br>', '<hr>']);
+        $content = strip_tags(
+            $data['content'],
+            ['<a>', '<ul>', '<li>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<p>', '<img>', '<span>', '<em>', '<u>', '<ol>', '<small>', '<div>', '<br>', '<hr>']
+        );
         return "<div class='font-brand
             text-display-500
             my-4 tracking-[0.8px] leading-[22px]'>{$content}</div>";
@@ -93,7 +95,23 @@ class BlockLoader
             //TODO implement block
             return "";
         } else {
-            return "";
+            $summary = "<div><span class='font-bold'>Totale:</span> {$data['total_score']}</div>";
+            $params = "";
+            foreach ($data['parameters'] as $param) {
+                $params .= "
+                <div>
+                <span class='font-bold'>{$param['key']}</span>
+                {$param['value']}
+                </div>
+                ";
+            }
+            return "<div class='my-8'> <span class='text-xl font-bold'>I nostri voti</span>
+            <div class='font-brand
+            text-display-500
+            my-4 tracking-[0.8px] leading-[22px]'>{$data['summary']}</div>
+            {$params}
+            {$summary}
+            </div>";
         }
     }
 }
